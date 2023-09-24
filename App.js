@@ -1,21 +1,28 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React, { useState } from "react";
+import * as Font from "expo-font"
 import Navigator from "./navigation/Navigator"
+import AppLoading from 'expo-app-loading';
 // import คอมโพเนนต์ที่จำเป็น
-
+const getFonts = () => Font.loadAsync({
+  'Jura': require('./assets/fonts/Jura-Bold.ttf'),
+  'JockeyOne': require('./assets/fonts/JockeyOne-Regular.ttf'),
+})
 
 export default function App() {
-  // เพิ่มโค้ดส่วนนี้ เพื่อจัดการ Stack Navigation
-  return (
-    <Navigator />
-  )
+  const [fontLoad, setFontLoad] = useState(false)
+  if (fontLoad) {
+    return (
+      <Navigator />
+    )
+  }
+  else {
+    return (
+      <AppLoading
+        startAsync={getFonts}
+        onFinish={() => setFontLoad(true)}
+        onError={console.warn}
+      />
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "blue",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

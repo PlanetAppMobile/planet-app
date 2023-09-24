@@ -4,11 +4,11 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { AntDesign, Ionicons } from "@expo/vector-icons";
 
+import MenuTab from "../components/MenuTab"
 import Homepage from "../screens/Homepage"
 import Dashboard from "../screens/Dashboard"
-import MenuTab from "../components/MenuTab"
+import TodoList from '../screens/TodoList';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
@@ -28,37 +28,38 @@ function MenuNavigator() {
             tabBarShowLabel: false,
             tabBarStyle: {
                 position: 'absolute',
-                left: 10,
-                right: 10,
-                bottom: 30,
+                width:'100%',
+                height:100,
+                paddingTop:10,
+                paddingHorizontal:5,
                 elevation: 0,
                 borderTopWidth: 0,
-                backgroundColor: 'transparant'
+                backgroundColor: '#FBF7F0'
             }
         }}>
             <BottomTabNavigator.Screen name="Dashboard" component={Dashboard} options={{
                 tabBarIcon: ({ focused }) => (
-                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/home-icon.svg`)} />
+                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/home-icon.png`)} />
                 )
             }} />
-            <BottomTabNavigator.Screen name="Todolist" component={Dashboard} options={{
+            <BottomTabNavigator.Screen name="Todolist" component={TodoList} options={{
                 tabBarIcon: ({ focused }) => (
-                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/todo-list-icon.svg`)} />
+                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/todo-list-icon.png`)} />
                 )
             }} />
             <BottomTabNavigator.Screen name="Project" component={Dashboard} options={{
                 tabBarIcon: ({ focused }) => (
-                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/project-icon.svg`)} />
+                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/project-icon.png`)} />
                 )
             }} />
             <BottomTabNavigator.Screen name="Note" component={Dashboard} options={{
                 tabBarIcon: ({ focused }) => (
-                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/note-icon.svg`)} />
+                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/note-icon.png`)} />
                 )
             }} />
             <BottomTabNavigator.Screen name="Profile" component={Dashboard} options={{
                 tabBarIcon: ({ focused }) => (
-                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/profile-icon.svg`)} />
+                    <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/profile-icon.png`)} />
                 )
             }} />
         </BottomTabNavigator.Navigator>
