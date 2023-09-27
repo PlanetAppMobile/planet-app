@@ -9,14 +9,17 @@ import MenuTab from "../components/MenuTab"
 import Homepage from "../screens/Homepage"
 import Dashboard from "../screens/Dashboard"
 import TodoList from '../screens/TodoList';
+import Login from '../screens/Login';
+import Register from '../screens/Register';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="System" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
             <MNavigator.Screen name="Homepage" component={Homepage} />
+            <MNavigator.Screen name="Login" component={Login} />
             <MNavigator.Screen name="System" component={MenuNavigator} />
         </MNavigator.Navigator>
     )
