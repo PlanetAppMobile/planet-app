@@ -1,6 +1,7 @@
 import { View, TextInput, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import BgLogin from "../assets/bg-login.png";
+import FormInput from "../components/TextInput";
 function Login() {
   return (
     <View
@@ -26,43 +27,8 @@ function Login() {
         >
           LOGIN
         </Text>
-        <Text
-          style={{
-            fontSize: 17,
-            fontFamily: "Jura",
-            color: "#768592",
-            marginBottom: 9,
-          }}
-        >
-          Username or Email
-        </Text>
-        <TextInput
-          style={{
-            borderWidth: 1,
-            padding: 6,
-            borderColor: "#768592",
-            borderRadius: 3,
-            marginBottom: 15,
-          }}
-        ></TextInput>
-        <Text
-          style={{
-            fontSize: 17,
-            fontFamily: "Jura",
-            color: "#768592",
-            marginBottom: 9,
-          }}
-        >
-          Password
-        </Text>
-        <TextInput
-          style={{
-            borderWidth: 1,
-            padding: 6,
-            borderColor: "#768592",
-            borderRadius: 3,
-          }}
-        ></TextInput>
+        <FormInput labelText={"Username or email"}/>
+        <FormInput labelText={"Password"}></FormInput>
         <TouchableOpacity
           style={{
             borderRadius: 5,
