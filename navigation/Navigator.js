@@ -23,7 +23,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Dashboard" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Todolist" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {

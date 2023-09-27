@@ -4,6 +4,7 @@ import Navigator from "./navigation/Navigator"
 import AppLoading from 'expo-app-loading';
 // import คอมโพเนนต์ที่จำเป็น
 const getFonts = () => Font.loadAsync({
+  'Jua': require('./assets/fonts/Jua-Regular.ttf'),
   'Jura': require('./assets/fonts/Jura-Bold.ttf'),
   'JockeyOne': require('./assets/fonts/JockeyOne-Regular.ttf'),
 })
