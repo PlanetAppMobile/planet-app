@@ -1,5 +1,3 @@
-# planet-app
-
 # WHEN CREATE NEW BRANCH
 -> CHECKOUT TO BRANCH MAIN
   git pull # to update latest commit
