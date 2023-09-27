@@ -1,8 +1,23 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Checkbox from '../components/Checkbox'
 
 function ListCheckBox() {
+    const [task, setTask] = useState({
+        todo1: { text: "Send email to meaw." },
+        todo2: { text: "Send email to meaw.1" },
+        todo3: { text: "Send email to meaw.2" },
+    });
+
+    const handleCheckboxChange = (newValue, item) => {
+        console.log("Checkbox changed:", newValue);
+        if (newValue) {
+            const updatedTask = { ...task };
+            delete updatedTask[item];
+            console.log("Updated task:", updatedTask);
+            setTask(updatedTask);
+        }
+    };
     return (
         <View style={styles.containerBox}>
             <View
@@ -14,9 +29,14 @@ function ListCheckBox() {
                     source={require("../assets/button.png")}
                 />
             </View>
-            <Checkbox />
-            <Checkbox />
-            <Checkbox />
+            {Object.keys(task).map((key, index) => (
+                <Checkbox
+                    key={index}
+                    item={task[key]}
+                    isChecked={false}
+                    onValueChange={handleCheckboxChange}
+                />
+            ))}
         </View>
     )
 }

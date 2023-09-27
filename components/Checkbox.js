@@ -2,8 +2,7 @@ import { View, Text } from 'react-native'
 import React, { useState } from 'react'
 import Checkbox from "expo-checkbox";
 
-function CustomCheckbox() {
-    const [isChecked, setChecked] = useState(false);
+function CustomCheckbox({ item, isChecked, onValueChange }) {
     return (
         <View
             style={{
@@ -17,10 +16,14 @@ function CustomCheckbox() {
             <Checkbox
                 style={{}}
                 value={isChecked}
-                onValueChange={setChecked}
+                onValueChange={(newValue) => {
+                    onValueChange(newValue, item);
+                }}
                 color={isChecked ? "blue" : undefined}
             />
-            <Text style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura" }}>ds</Text>
+            <Text style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura" }}>
+                {item.text}
+            </Text>
         </View>
     );
 }
