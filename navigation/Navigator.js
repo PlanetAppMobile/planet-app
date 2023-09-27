@@ -10,6 +10,7 @@ import Homepage from "../screens/Homepage"
 import Dashboard from "../screens/Dashboard"
 import TodoList from '../screens/TodoList';
 import Login from '../screens/Login';
+import Register from '../screens/Register';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
