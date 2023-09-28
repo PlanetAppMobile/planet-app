@@ -41,7 +41,7 @@ export default function Register() {
         <FormInput labelText={"Phone number"} />
         <FormInput labelText={"Password"} />
         <FormInput labelText={"Confirm Password"} />
-        <ButtonText buttonText={"Register"} />
+        <ButtonText buttonText={"REGISTER"} />
         <Text
           style={{
             color: "black",

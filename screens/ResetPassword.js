@@ -38,35 +38,9 @@ function ResetPassword() {
         </Text>
         <FormInput labelText={"Username or email"}/>
         <FormInput labelText={"Password"}/>
-        <ButtonText buttonText={"LOGIN"}/>
-        <TouchableOpacity>
-          <Text
-            style={{
-              color: "#848181",
-              fontSize: 17,
-              textAlign: "center",
-              marginTop: 18,
-              fontFamily: "Jura",
-              fontWeight: 100,
-            }}
-          >
-            Reset your password ?
-          </Text>
-        </TouchableOpacity>
-        <Text
-          style={{
-            color: "black",
-            fontSize: 17,
-            textAlign: "center",
-            marginTop: 120,
-            fontFamily: "Jura",
-          }}
-        >
-          Don’t have an account?{" "}
-          <TouchableOpacity>
-            <Text style={{ color: "#E5725D", fontWeight: 500 }}>SIGN UP</Text>
-          </TouchableOpacity>
-        </Text>
+        <FormInput labelText={"Confirm New Password"}/>
+        <ButtonText buttonText={"RESET PASSWORD"}/>
+        
       </View>
     </View>
   );
