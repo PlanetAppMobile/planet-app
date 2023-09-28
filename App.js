@@ -7,7 +7,7 @@ const getFonts = () => Font.loadAsync({
   'Jua': require('./assets/fonts/Jua-Regular.ttf'),
   'Jura': require('./assets/fonts/Jura-Bold.ttf'),
   'JockeyOne': require('./assets/fonts/JockeyOne-Regular.ttf'),
-  'Copper' : require('./assets/fonts/COPRGTB.TTF')
+  'Copper' : require('./assets/fonts/COPRGTB.ttf')
 })
 
 export default function App() {

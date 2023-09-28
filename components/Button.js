@@ -14,7 +14,7 @@ function Button({ buttonText }) {
             marginTop: 15,
           }}
         >
-          <Text style={{ fontSize: 18, color: "white" }}>{ buttonText }</Text>
+          <Text style={{ fontSize: 15, color: "white", fontFamily:'Copper' }}>{ buttonText }</Text>
         </TouchableOpacity>
     </View>
   )
