@@ -11,15 +11,18 @@ import Dashboard from "../screens/Dashboard"
 import TodoList from '../screens/TodoList';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
+import ResetPassword from '../screens/ResetPassword';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="Homepage" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="Register" screenOptions={{ headerShown: false }}>
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
+            <MNavigator.Screen name="Register" component={Register} />
+            <MNavigator.Screen name="ResetPassword" component={ResetPassword} />
             <MNavigator.Screen name="System" component={MenuNavigator} />
         </MNavigator.Navigator>
     )

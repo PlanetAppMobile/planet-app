@@ -3,7 +3,8 @@ import React from "react";
 import BgLogin from "../assets/bg-login.png";
 import FormInput from "../components/TextInput";
 import ButtonText from "../components/Button"
-function Login() {
+import BackIcon from "../assets/icons/back-icon.png";
+function ResetPassword() {
   return (
     <View
       style={{
@@ -16,7 +17,14 @@ function Login() {
         source={BgLogin}
         resizeMode="contain"
       ></Image>
-      <View style={{ padding: 25 }}>
+      <TouchableOpacity>
+        <Image
+          style={{ width: "100%", height: 40, left: -155, marginTop: 15 }}
+          source={BackIcon}
+          resizeMode="contain"
+        ></Image>
+      </TouchableOpacity>
+      <View style={{ paddingHorizontal: 25 }}>
         <Text
           style={{
             fontSize: 36,
@@ -26,7 +34,7 @@ function Login() {
             marginBottom: 9,
           }}
         >
-          LOGIN
+          Reset Password
         </Text>
         <FormInput labelText={"Username or email"}/>
         <FormInput labelText={"Password"}/>
@@ -63,4 +71,4 @@ function Login() {
     </View>
   );
 }
-export default Login;
+export default ResetPassword;
