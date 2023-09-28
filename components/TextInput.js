@@ -20,9 +20,10 @@ function FormInput({ labelText }) {
           padding: 6,
           borderColor: "#768592",
           borderRadius: 3,
-          marginBottom: 15,
+          marginBottom: 5,
         }}
       ></TextInput>
+      <Text style={{color:'#E5725D', fontSize:15, marginBottom: 8, fontFamily: "Jura",}}>Invalid { labelText }</Text>
     </View>
   );
 }
