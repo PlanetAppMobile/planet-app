@@ -12,13 +12,14 @@ import TodoList from '../screens/TodoList';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
 import ResetPassword from '../screens/ResetPassword';
+import AllNote from '../screens/AllNote';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="ResetPassword" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="System" screenOptions={{ headerShown: false }}>
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
             <MNavigator.Screen name="Register" component={Register} />
@@ -29,7 +30,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Todolist" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Note" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
@@ -58,7 +59,7 @@ function MenuNavigator() {
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/project-icon.png`)} />
                 )
             }} />
-            <BottomTabNavigator.Screen name="Note" component={Dashboard} options={{
+            <BottomTabNavigator.Screen name="Note" component={AllNote} options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/note-icon.png`)} />
                 )
