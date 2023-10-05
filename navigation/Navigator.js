@@ -13,6 +13,8 @@ import Login from '../screens/Login';
 import Register from '../screens/Register';
 import ResetPassword from '../screens/ResetPassword';
 import AllNote from '../screens/AllNote';
+import DetailsNote from '../screens/DetailsNote';
+import AddNote from '../screens/AddNote';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
@@ -59,7 +61,7 @@ function MenuNavigator() {
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/project-icon.png`)} />
                 )
             }} />
-            <BottomTabNavigator.Screen name="Note" component={AllNote} options={{
+            <BottomTabNavigator.Screen name="Note" component={DetailsNote} options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/note-icon.png`)} />
                 )
