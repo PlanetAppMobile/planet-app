@@ -14,6 +14,7 @@ import Register from '../screens/Register';
 import ResetPassword from '../screens/ResetPassword';
 import AllNote from '../screens/AllNote';
 import DetailsNote from '../screens/DetailsNote';
+import AddNote from '../screens/AddNote';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
