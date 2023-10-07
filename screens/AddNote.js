@@ -5,12 +5,13 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  TextArea
+  TextArea,
 } from "react-native";
 import React from "react";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import DeleteIcon from "../assets/icons/delete-icon.png";
+import Textarea from "react-native-textarea";
 export default function AddNote() {
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
@@ -70,34 +71,46 @@ export default function AddNote() {
                   >
                     01
                   </Text>
+
                   <TextInput
                     style={{
                       padding: 3,
                       outline: "none",
                       marginBottom: 5,
-                      color: "#B5B7B9",
+                      color: "#00213F",
                       fontSize: 17,
+                      fontFamily: "Jura",
                     }}
                     placeholder="Enter your topic here..."
+                    placeholderTextColor={"#B5B7B9"}
                   ></TextInput>
                 </View>
 
-                <TouchableOpacity style={{padding:10}}>
-                  <Text style={{ color:'#E5725D' , fontFamily:'Copper'}}>DONE</Text>
+                <TouchableOpacity style={{ padding: 10 }}>
+                  <Text style={{ color: "#E5725D", fontFamily: "Copper" }}>
+                    DONE
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={{ padding: 15 }}>
-            <TextInput
-                    style={{
-                      padding: 3,
-                      outline: "none",
-                      marginBottom: 5,
-                      color: "#B5B7B9",
-                      fontSize: 17,
-                    }}
-                    placeholder="Enter your topic here..."
-                  ></TextInput>
+              <Textarea
+                containerStyle={{
+                  height: 350,
+                }}
+                style={{
+                  padding: 3,
+                  outline: "none",
+                  marginBottom: 5,
+                  color: "#768592",
+                  fontSize: 17,
+                  fontFamily: "Jura",
+                  height: 570,
+                }}
+                placeholder="Enter your topic here..."
+                maxLength={500}
+                placeholderTextColor={"#B5B7B9"}
+              ></Textarea>
               <Text
                 style={{
                   marginTop: 45,
