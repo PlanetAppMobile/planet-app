@@ -1,10 +1,14 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import DeleteIcon from "../assets/icons/delete-icon.png";
 
 function DetailsNote() {
+  const [onEdit, setOnEdit] = useState(false);
+  function handleEdit() {
+    setOnEdit(true);
+  }
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
       <Image
@@ -33,6 +37,7 @@ function DetailsNote() {
             My Notes
           </Text>
           <TouchableOpacity
+            onPress={handleEdit}
             style={{
               borderColor: "#F08D6E",
               width: 100,
@@ -40,16 +45,17 @@ function DetailsNote() {
               borderWidth: 1,
               padding: 6,
               borderRadius: 3,
+              backgroundColor: onEdit ? "#F08D6E" : "transparent",
             }}
           >
             <Text
               style={{
-                color: "#F08D6E",
+                color: onEdit ? "#FBF7F0" : "#F08D6E",
                 textAlign: "center",
                 fontFamily: "Copper",
               }}
             >
-              EDIT
+              {onEdit ? "DONE" : "EDIT"}
             </Text>
           </TouchableOpacity>
         </View>
@@ -61,13 +67,21 @@ function DetailsNote() {
             marginTop: 25,
             borderWidth: 1,
             borderColor: "#D9DADA",
-            borderRadius:5
+            borderRadius: 5,
           }}
         >
           <View style={{}}>
             {" "}
-            <View style={{ borderBottomWidth: 1 , borderBottomColor:'#D9DADA'}}>
-              <View style={{ flexDirection: "row", padding:15, justifyContent:'space-between' }}>
+            <View
+              style={{ borderBottomWidth: 1, borderBottomColor: "#D9DADA" }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  padding: 15,
+                  justifyContent: "space-between",
+                }}
+              >
                 <View>
                   <Text
                     style={{
@@ -99,14 +113,32 @@ function DetailsNote() {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{padding:15}}>
-              <Text style={{color:'#768592', fontSize:16, fontFamily:'Jura', letterSpacing:1, lineHeight:23}}>
+            <View style={{ padding: 15 }}>
+              <Text
+                style={{
+                  color: "#768592",
+                  fontSize: 16,
+                  fontFamily: "Jura",
+                  letterSpacing: 1,
+                  lineHeight: 23,
+                }}
+              >
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
                 text ever since the 1500s, when an unknown printer took a galley
                 of type and scrambled it to make a type specimen book.
               </Text>
-              <Text style={{marginTop:45, color:'#B5B7B9', textAlign:'center', fontSize:15, fontFamily:'Jura'}}>26 Feb, 2022</Text>
+              <Text
+                style={{
+                  marginTop: 45,
+                  color: "#B5B7B9",
+                  textAlign: "center",
+                  fontSize: 15,
+                  fontFamily: "Jura",
+                }}
+              >
+                26 Feb, 2022
+              </Text>
             </View>
           </View>
         </View>
