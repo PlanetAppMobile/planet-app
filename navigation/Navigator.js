@@ -15,6 +15,7 @@ import ResetPassword from '../screens/ResetPassword';
 import AllNote from '../screens/AllNote';
 import DetailsNote from '../screens/DetailsNote';
 import AddNote from '../screens/AddNote';
+import Project from "../screens/Project"
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
@@ -32,7 +33,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Note" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Project" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
@@ -56,7 +57,7 @@ function MenuNavigator() {
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/todo-list-icon.png`)} />
                 )
             }} />
-            <BottomTabNavigator.Screen name="Project" component={Dashboard} options={{
+            <BottomTabNavigator.Screen name="Project" component={Project} options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/project-icon.png`)} />
                 )
