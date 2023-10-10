@@ -50,7 +50,6 @@ export default function AddNote() {
           }}
         >
           <View style={{}}>
-            {" "}
             <View
               style={{ borderBottomWidth: 1, borderBottomColor: "#D9DADA" }}
             >

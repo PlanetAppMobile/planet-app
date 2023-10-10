@@ -16,16 +16,18 @@ import AllNote from '../screens/AllNote';
 import DetailsNote from '../screens/DetailsNote';
 import AddNote from '../screens/AddNote';
 import Project from "../screens/Project"
+import CreateProject from "../screens/CreateProject"
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="System" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="CreateProject" screenOptions={{ headerShown: false }}>
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
             <MNavigator.Screen name="Register" component={Register} />
+            <MNavigator.Screen name="CreateProject" component={CreateProject} />
             <MNavigator.Screen name="ResetPassword" component={ResetPassword} />
             <MNavigator.Screen name="System" component={MenuNavigator} />
         </MNavigator.Navigator>

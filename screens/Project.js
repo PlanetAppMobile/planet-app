@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import HeaderPic from "../assets/header-page.png";
 import BoxProject from "../components/BoxProject";
-function AllNote() {
+function Project({route, navigation}) {
     return (
         <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
             <Image
@@ -20,6 +20,7 @@ function AllNote() {
                 >
                     <Text style={{ fontSize: 32, letterSpacing: 3, fontFamily: "JockeyOne" }}>My Project</Text>
                     <TouchableOpacity
+                    onPress={()=> navigation.navigate("Homepage")}
                         style={{
                             backgroundColor: "#F08D6E",
                             width: 100,
@@ -53,4 +54,4 @@ function AllNote() {
         </ScrollView>
     );
 }
-export default AllNote;
+export default Project;
