@@ -13,8 +13,8 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import PieChart from 'react-native-pie-chart'
 import TaskStatusItem from "../components/TaskStatusItem";
+import CalendarPiechart from "../components/CalendarPiechart";
 import Checkbox from "expo-checkbox";
 
 import HeaderPic from "../assets/header-page.png"
@@ -67,9 +67,7 @@ function GenerateCheckBox(props) {
 }
 
 function Dashboard() {
-    const widthAndHeight = 150
     const series = [14, 12, 18]
-    const sliceColor = ['#FFAA9B', "#CFCFAB", "#75C9A8"]
     return (
         <ScrollView
             bounces={false}
@@ -122,31 +120,7 @@ function Dashboard() {
                         paddingTop: 30,
                     }}
                 >
-                    <View style={{ position: "relative", justifyContent: "center", alignItems: "center" }}>
-                        <TouchableOpacity
-                            style={{
-                                position: "absolute",
-                                borderRadius: 999,
-                                borderWidth: 1,
-                                width: 35,
-                                height: 35,
-                                zIndex: 4,
-                                justifyContent: "center",
-                                alignItems: "center",
-                                borderColor: "#B5B7B9",
-                            }}
-                        >
-                            <Text style={{ fontSize: 18, color: "#8A97A0" }}>+</Text>
-                        </TouchableOpacity>
-                        <PieChart
-                            widthAndHeight={widthAndHeight}
-                            series={series}
-                            sliceColor={sliceColor}
-                            coverRadius={0.8}
-                            style={{ transform: 'rotate(-30deg)' }}
-
-                        />
-                    </View>
+                    <CalendarPiechart type={"Dashboard"} />
                     <View>
                         <TaskStatusItem color="#FFAA9B" title="TODO" count={series[0]} />
                         <TaskStatusItem color="#CFCFAB" title="IN PROGRESS" count={series[1]} />
