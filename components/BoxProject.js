@@ -45,7 +45,7 @@ function BoxProject({ obj }) {
                             </Text>
 
                         </View>
-                        <View style={{ position: "absolute", fontFamily: "Jura", bottom: 0, color: "#E5725D" }}><Text>26 Feb, 2022</Text></View>
+                        <View style={{ position: "absolute", bottom: 0 }}><Text style={{color: "#E5725D", fontFamily: "Jura", }}>26 Feb, 2022</Text></View>
                     </View>
                     <CalendarPiechart type={"Project"} />
                 </View>
