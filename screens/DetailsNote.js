@@ -18,7 +18,7 @@ function DetailsNote() {
       />
       <TouchableOpacity>
         <Image
-          style={{ width: "100%", height: 40, left: -155 }}
+          style={{ width: "100%", height: 40, left: -175 }}
           source={BackIcon}
           resizeMode="contain"
         ></Image>
