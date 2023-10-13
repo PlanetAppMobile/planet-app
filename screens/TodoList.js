@@ -52,7 +52,10 @@ function TodoList() {
                     ))}
                 </ScrollView>
             </View>
-            <ListCheckBox />
+            <View style={{ marginHorizontal: 25, }}>
+                <ListCheckBox />
+
+            </View>
         </ScrollView >
     )
 }

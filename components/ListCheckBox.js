@@ -10,7 +10,7 @@ function ListCheckBox() {
     });
 
     const handleCheckboxChange = (newValue, item) => {
-        console.log("Checkbox changed:", newValue);
+        console.log("Checkbox changed:", item);
         if (newValue) {
             const updatedTask = { ...task };
             delete updatedTask[item];
@@ -42,7 +42,7 @@ function ListCheckBox() {
 }
 const styles = StyleSheet.create({
     containerBox: {
-        marginHorizontal: 25,
+        
         borderWidth: 1,
         borderColor: "#D9DADA",
         borderRadius: 10,
