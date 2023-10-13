@@ -24,7 +24,7 @@ const BottomTabNavigator = createBottomTabNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="System" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="Homepage" screenOptions={{ headerShown: false }}>
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
             <MNavigator.Screen name="Register" component={Register} />
@@ -36,7 +36,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Project" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Dashboard" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
