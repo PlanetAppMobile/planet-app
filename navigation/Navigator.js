@@ -18,13 +18,15 @@ import AddNote from '../screens/AddNote';
 import Project from "../screens/Project"
 import CreateProject from "../screens/CreateProject"
 import TaskProject from "../screens/TaskProject"
+import Loading from "../screens/Loading"
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="Homepage" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="Loading" screenOptions={{ headerShown: false }}>
+            <MNavigator.Screen name="Loading" component={Loading} />
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
             <MNavigator.Screen name="Register" component={Register} />
