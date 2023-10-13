@@ -17,6 +17,7 @@ import DetailsNote from '../screens/DetailsNote';
 import AddNote from '../screens/AddNote';
 import Project from "../screens/Project"
 import CreateProject from "../screens/CreateProject"
+import TaskProject from "../screens/TaskProject"
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
@@ -59,15 +60,21 @@ function MenuNavigator() {
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/todo-list-icon.png`)} />
                 )
             }} />
-            <BottomTabNavigator.Screen name="Project" component={Project} options={{
+            <BottomTabNavigator.Screen name="Project" component={TaskProject} options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/project-icon.png`)} />
-                )
+                ),
             }} />
-            <BottomTabNavigator.Screen name="Note" component={DetailsNote} options={{
+            <BottomTabNavigator.Screen name="Note" component={AllNote} options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/note-icon.png`)} />
                 )
+            }} />
+            <BottomTabNavigator.Screen name="DetailNote" component={DetailsNote} options={{
+                tabBarButton: () => null,
+            }} />
+            <BottomTabNavigator.Screen name="DetailsNote" component={DetailsNote} options={{
+                tabBarButton: () => null,
             }} />
             <BottomTabNavigator.Screen name="Profile" component={Dashboard} options={{
                 tabBarIcon: ({ focused }) => (

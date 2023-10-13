@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 
-export default function BoxNote({ notesText }) {
+export default function BoxNote() {
   return (
     <View style={{ flexDirection: "row" }}>
       <View

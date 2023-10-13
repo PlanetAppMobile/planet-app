@@ -3,7 +3,7 @@ import React from "react";
 import Head from "../assets/head-homepage.png";
 import Right from "../assets/homepage-right.png";
 import Left from "../assets/homepage-left.png";
-function Homepage() {
+function Homepage({route, navigation}) {
   return (
     <ScrollView
       style={{
@@ -30,6 +30,7 @@ function Homepage() {
             alignItems: "center",
             backgroundColor: "#F08D6E",
           }}
+          onPress={()=> {navigation.navigate("Login")}}
         >
           <Text
             style={{
