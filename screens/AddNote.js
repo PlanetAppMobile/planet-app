@@ -12,7 +12,7 @@ import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import DeleteIcon from "../assets/icons/delete-icon.png";
 import Textarea from "react-native-textarea";
-export default function AddNote() {
+export default function AddNote({route, navigation}) {
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
       <Image
@@ -20,7 +20,8 @@ export default function AddNote() {
         source={HeaderPic}
         resizeMode="contain"
       />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>{navigation.navigate("Note")}}>
+        
         <Image
           style={{ width: "100%", height: 40, left: -155 }}
           source={BackIcon}

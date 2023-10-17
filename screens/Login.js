@@ -3,7 +3,7 @@ import React from "react";
 import BgLogin from "../assets/bg-login.png";
 import FormInput from "../components/TextInput";
 import ButtonText from "../components/Button"
-function Login() {
+function Login({route, navigation}) {
   return (
     <View
       style={{
@@ -30,8 +30,19 @@ function Login() {
         </Text>
         <FormInput labelText={"Username or email"}/>
         <FormInput labelText={"Password"}/>
-        <ButtonText buttonText={"LOGIN"}/>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{navigation.navigate("System")}}
+          style={{
+            borderRadius: 5,
+            height: 35,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F08D6E",
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "white", fontFamily:'Copper' }}>LOGIN</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{navigation.navigate("ResetPassword")}}>
           <Text
             style={{
               color: "#848181",
@@ -55,7 +66,7 @@ function Login() {
           }}
         >
           Don’t have an account?{" "}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate("Register")}}>
             <Text style={{ color: "#E5725D", fontWeight: 500 }}>SIGN UP</Text>
           </TouchableOpacity>
         </Text>

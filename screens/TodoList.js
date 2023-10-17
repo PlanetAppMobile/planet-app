@@ -26,7 +26,7 @@ function getDayObjects(year, month) {
 
     return dayObjects;
 }
-function TodoList() {
+function TodoList({route, navigation}) {
     // let date = new Date('2023-09-01');
     let date = new Date();
     let month = date.getMonth() + 1;

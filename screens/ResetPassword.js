@@ -4,7 +4,7 @@ import BgLogin from "../assets/bg-login.png";
 import FormInput from "../components/TextInput";
 import ButtonText from "../components/Button"
 import BackIcon from "../assets/icons/back-icon.png";
-function ResetPassword() {
+function ResetPassword({route, navigation}) {
   return (
     <View
       style={{
@@ -17,7 +17,7 @@ function ResetPassword() {
         source={BgLogin}
         resizeMode="contain"
       ></Image>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>{navigation.navigate("Login")}}>
         <Image
           style={{ width: "100%", height: 40, left: -155, marginTop: 15 }}
           source={BackIcon}
@@ -39,7 +39,18 @@ function ResetPassword() {
         <FormInput labelText={"Username or email"}/>
         <FormInput labelText={"Password"}/>
         <FormInput labelText={"Confirm New Password"}/>
-        <ButtonText buttonText={"RESET PASSWORD"}/>
+        <TouchableOpacity onPress={()=>{navigation.navigate("Login")}}
+          style={{
+            borderRadius: 5,
+            height: 35,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F08D6E",
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "white", fontFamily:'Copper' }}>RESET PASSWORD</Text>
+        </TouchableOpacity>
         
       </View>
     </View>

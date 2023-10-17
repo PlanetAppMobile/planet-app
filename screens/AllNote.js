@@ -25,6 +25,9 @@ function AllNote({ route, navigation }) {
           >My Notes</Text>
 
           <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("AddNote");
+            }}
             style={{
               backgroundColor: "#F08D6E",
               width: 100,
@@ -48,10 +51,14 @@ function AllNote({ route, navigation }) {
           Every notes you wrote.
         </Text>
         <View style={{ marginTop: 25 }}>
-          <TouchableOpacity onPress={() => { navigation.navigate("CreateProject") }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("DetailNote");
+            }}
+          >
             <BoxNote notesText={"eiei"}></BoxNote>
           </TouchableOpacity>
-          {/* <BoxNote>notesText={"eiei"}</BoxNote> */}
+          {/* <BoxNote notesText={"eiei"}></BoxNote> */}
         </View>
       </View>
     </ScrollView>
