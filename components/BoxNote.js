@@ -1,20 +1,28 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 
-export default function BoxNote({data, index}) {
+export default function BoxNote({ data, index }) {
+  function addLeadingZero(number) {
+    let strNumber = number.toString();
+    if (strNumber.length < 2) {
+      strNumber = '0' + strNumber;
+    }
+    return strNumber;
+  }
   function formatDate(inputDate) {
     const options = { year: "numeric", month: "short", day: "numeric" };
     const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
     return formattedDate;
-}
+  }
   return (
     <View style={{}}>
       <View
         style={{
           borderColor: "#D9DADA",
-          width: "50%",
+          width: 170,
           borderWidth: 2,
-          padding: 5,
+          paddingHorizontal: 5,
+          paddingVertical: 8,
           borderRadius: 3,
           justifyContent: "space-between",
         }}
@@ -24,7 +32,7 @@ export default function BoxNote({data, index}) {
             <Text
               style={{ fontSize: 50, fontFamily: "Jura", color: "#8A97A0" }}
             >
-              {index+1}
+              {addLeadingZero(index + 1)}
             </Text>
             <Text
               style={{

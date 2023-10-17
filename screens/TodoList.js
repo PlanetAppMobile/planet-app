@@ -37,7 +37,7 @@ function TodoList({ route, navigation }) {
     useEffect(() => {
         setTimeout(() => {
             if (scrollViewRef.current) {
-                scrollViewRef.current.scrollTo({ x: 75 * (currentDay - 3), animated: true });
+                scrollViewRef.current.scrollTo({ x: 75 * (currentDay - 2), animated: true });
             }
         });
     }, []);

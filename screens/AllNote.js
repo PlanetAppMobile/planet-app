@@ -60,10 +60,11 @@ function AllNote({ route, navigation }) {
         <Text style={{ color: "#848181", fontFamily: "Jura", fontSize: 16 }}>
           Every notes you wrote.
         </Text>
-        <View style={{ marginTop: 25 }}>
+        <View style={{ marginTop: 25,flexDirection:"row", justifyContent:'space-between', flexWrap:'wrap' }}>
           {note?.map((item, index) => {
             return (
               <TouchableOpacity key={index}
+              style={{marginBottom:20}}
                 onPress={() => {
                   navigation.navigate("DetailNote", {
                     noteId : item.note_id
