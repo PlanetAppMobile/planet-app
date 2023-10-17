@@ -1,22 +1,31 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity, Animated } from "react-native";
 import HeaderPic from "../assets/header-page.png";
 import BoxProject from "../components/BoxProject";
+import path from "../path";
+import axios from "axios";
 
 function Project({ route, navigation }) {
-    // Create an Animated.Value for tracking scroll position
+    const [project, setProject] = useState([])
     const scrollY = useRef(new Animated.Value(0)).current;
-
-    // Define the header height
     const headerHeight = 65;
 
-    // Calculate the header's translateY based on scroll position
     const headerTranslateY = scrollY.interpolate({
         inputRange: [0, headerHeight],
         outputRange: [0, -headerHeight],
         extrapolate: "clamp",
     });
-
+    async function getProject() {
+        await axios.get(`${path}/project`, {
+            user_id: 1,
+        }).then((res) => {
+            console.log(res.data)
+            setProject(res.data)
+        })
+    }
+    useEffect(() => {
+        getProject()
+    }, [])
     return (
         <View style={{ flex: 1 }}>
             <Image
@@ -25,7 +34,7 @@ function Project({ route, navigation }) {
                     height: headerHeight,
                     position: "absolute",
                     zIndex: 10,
-                    transform: [{ translateY: headerTranslateY }], // Apply translation
+                    transform: [{ translateY: headerTranslateY }],
                 }}
                 source={HeaderPic}
                 resizeMode="contain"
@@ -38,7 +47,6 @@ function Project({ route, navigation }) {
                 )}
             >
                 <View style={{ paddingVertical: 24, paddingHorizontal: 25 }}>
-                    {/* Rest of your content */}
                     <View
                         style={{
                             flexDirection: "row",
@@ -49,7 +57,7 @@ function Project({ route, navigation }) {
                         <Text style={{ fontSize: 32, letterSpacing: 3, fontFamily: "JockeyOne" }}>
                             My Project
                         </Text>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             onPress={() => navigation.navigate("CreateProject")}
                             style={{
                                 backgroundColor: "#F08D6E",
@@ -74,11 +82,11 @@ function Project({ route, navigation }) {
                         For managing your projects.
                     </Text>
                     <View style={{ marginTop: 25 }}>
-                        {/* Wait Implement API */}
-                        <BoxProject obj={{ title: "Test1", description: "dsadsadsadasd" }} />
-                        <BoxProject obj={{ title: "Test2", description: "uythjfgfhgfhfg" }} />
-                        <BoxProject obj={{ title: "Test3", description: "dsadjyncxcsa" }} />
-                        <BoxProject obj={{ title: "Tests4", description: "hgfhgffdsdsc" }} />
+                        {project?.map((item, index) => {
+                            return (
+                                <BoxProject key={index} data={item} />
+                            )
+                        })}
                     </View>
                 </View>
             </ScrollView>

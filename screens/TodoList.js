@@ -1,5 +1,5 @@
 import { View, ScrollView, Image, Text, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import HeaderPic from "../assets/header-page.png"
 import CalendarItem from '../components/CalendarItem'
@@ -26,18 +26,27 @@ function getDayObjects(year, month) {
 
     return dayObjects;
 }
-function TodoList({route, navigation}) {
+function TodoList({ route, navigation }) {
     // let date = new Date('2023-09-01');
     let date = new Date();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
 
+    const scrollViewRef = useRef(null);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (scrollViewRef.current) {
+                scrollViewRef.current.scrollTo({ x: 75 * (currentDay - 3), animated: true });
+            }
+        });
+    }, []);
     const [currentDay, setCurrentDay] = useState(date.getDate())
     const dayList = getDayObjects(year, month);
 
     const [focusedItemIndex, setFocusedItemIndex] = useState(null);
     const handleCalendarItemPress = (index) => {
-        setCurrentDay(index+1)
+        setCurrentDay(index + 1)
         if (focusedItemIndex === index) {
             setFocusedItemIndex(null);
         } else {
@@ -67,6 +76,7 @@ function TodoList({route, navigation}) {
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
+                    ref={scrollViewRef}
                     style={{
                         marginTop: 20,
                         flexDirection: "row",

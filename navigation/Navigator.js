@@ -33,6 +33,7 @@ function MainNavigator() {
             <MNavigator.Screen name="Register" component={Register} />
             <MNavigator.Screen name="CreateProject" component={CreateProject} />
             <MNavigator.Screen name="ResetPassword" component={ResetPassword} />
+            <MNavigator.Screen name="TaskProject" component={TaskProject} />
             <MNavigator.Screen name="System" component={MenuNavigator} />
         </MNavigator.Navigator>
     )

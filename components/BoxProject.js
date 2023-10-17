@@ -2,8 +2,22 @@ import { View, Text } from "react-native";
 import React from "react";
 import CalendarPiechart from "./CalendarPiechart";
 
-function BoxProject({ obj }) {
-    const {title, description} = obj
+function formatDate(inputDate) {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
+    return formattedDate;
+}
+
+function BoxProject({ data }) {
+    const {
+        project_name,
+        project_description,
+        project_deadline,
+        project_start_date,
+        project_end_date,
+        project_status,
+        assigned_to
+    } = data
     return (
         <View style={{ flexDirection: "row", marginBottom: 20 }}>
             <View
@@ -29,10 +43,10 @@ function BoxProject({ obj }) {
                                     fontWeight: "bold",
                                 }}
                             >
-                                {title}
+                                {project_name}
                             </Text>
                         </View>
-                        <View style={{width:150}}>
+                        <View style={{ width: 150 }}>
                             <Text
                                 style={{
                                     fontSize: 15,
@@ -41,11 +55,11 @@ function BoxProject({ obj }) {
                                     marginTop: 6,
                                 }}
                             >
-                                {description}
+                                {project_description}
                             </Text>
 
                         </View>
-                        <View style={{ position: "absolute", bottom: 0 }}><Text style={{color: "#E5725D", fontFamily: "Jura", }}>26 Feb, 2022</Text></View>
+                        <View style={{ position: "absolute", bottom: 0 }}><Text style={{ color: "#E5725D", fontFamily: "Jura", }}>{formatDate(project_end_date)}</Text></View>
                     </View>
                     <CalendarPiechart type={"Project"} />
                 </View>
