@@ -6,6 +6,8 @@ import DeleteIcon from "../assets/icons/delete-icon.png";
 
 function DetailsNote({route, navigation}) {
   const [onEdit, setOnEdit] = useState(false);
+  const {noteId} = route.params
+  // console.log(noteId)
   function handleEdit() {
     setOnEdit(!onEdit);
   }
