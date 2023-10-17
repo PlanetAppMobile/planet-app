@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 
-export default function BoxNote() {
+export default function BoxNote({notesText}) {
   return (
     <View style={{ flexDirection: "row" }}>
       <View
@@ -29,7 +29,7 @@ export default function BoxNote() {
                 fontWeight: "bold",
               }}
             >
-              Send email to ijon&igae.
+              {notesText}
             </Text>
           </View>
           <Text

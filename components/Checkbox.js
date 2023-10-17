@@ -15,14 +15,14 @@ function CustomCheckbox({ item, isChecked, onValueChange }) {
         >
             <Checkbox
                 style={{}}
-                value={isChecked}
+                value={item.todo_checked}
                 onValueChange={(newValue) => {
                     onValueChange(newValue, item);
                 }}
-                color={isChecked ? "blue" : undefined}
+                color={item.todo_checked ? "blue" : undefined}
             />
             <Text style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura" }}>
-                {item.text}
+                {item.todo_desc}
             </Text>
         </View>
     );

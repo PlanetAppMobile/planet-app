@@ -178,26 +178,26 @@ function Dashboard({route, navigation}) {
 }
 
 const styles = StyleSheet.create({
-  containerBox: {
-    marginHorizontal: 25,
-    borderWidth: 1,
-    borderColor: "#D9DADA",
-    borderRadius: 10,
-  },
-  headerBox: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 18,
-    paddingVertical: 13,
-    borderColor: "#D9DADA",
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: "semibold",
-    fontFamily: "JockeyOne",
-    letterSpacing: 3,
-  },
+    containerBox: {
+        marginHorizontal: 25,
+        borderWidth: 1,
+        borderColor: "#D9DADA",
+        borderRadius: 10,
+    },
+    headerBox: {
+        justifyContent: "space-between",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 18,
+        paddingVertical: 13,
+        borderColor: "#D9DADA",
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'semibold',
+        fontFamily: "JockeyOne",
+        letterSpacing: 3
+    }
 });
 
 export default Dashboard;

@@ -1,48 +1,88 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
-import Checkbox from '../components/Checkbox'
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Checkbox from '../components/Checkbox';
+import Checkboxs from "expo-checkbox";
+import path from "../path"
 
-function ListCheckBox() {
-    const [task, setTask] = useState({
-        todo1: { text: "Send email to meaw." },
-        todo2: { text: "Send email to meaw.1" },
-        todo3: { text: "Send email to meaw.2" },
-    });
+function addLeadingZero(number) {
+    let strNumber = number.toString();
+    if (strNumber.length < 2) {
+        strNumber = '0' + strNumber;
+    }
+    return strNumber;
+}
 
-    const handleCheckboxChange = (newValue, item) => {
-        console.log("Checkbox changed:", item);
-        if (newValue) {
-            const updatedTask = { ...task };
-            delete updatedTask[item];
-            console.log("Updated task:", updatedTask);
-            setTask(updatedTask);
-        }
+function ListCheckBox({ numDay, numMonth }) {
+    const [tasks, setTasks] = useState([]);
+    const [addChecked, setAddChecked] = useState(false)
+    useEffect(() => {
+        axios.post(`${path}/todolist/searchByDate`, {
+            todo_date: `2023-${addLeadingZero(numMonth)}-${addLeadingZero(numDay)}`,
+            user_id: 1,
+        }).then((res) => {
+            console.log(res.data)
+            setTasks(res.data)
+        })
+    }, [numDay])
+    const handleCheckboxChange = (taskId) => {
+        const updatedTasks = tasks.map((task) => {
+            if (task.id === taskId) {
+                return { ...task, todo_checked: !task.todo_checked };
+            }
+            return task;
+        });
+        setTasks(updatedTasks);
     };
+    function onPressCreateToDO() {
+        setAddChecked(true)
+    }
     return (
         <View style={styles.containerBox}>
-            <View
-                style={styles.headerBox}
-            >
+            <View style={styles.headerBox}>
                 <Text style={styles.headerText}>Today</Text>
-                <Image
-                    style={{ width: 30, height: 30 }}
-                    source={require("../assets/button.png")}
-                />
+                <TouchableOpacity onPress={onPressCreateToDO}>
+                    {!addChecked ? (<Image
+                        style={{ width: 30, height: 30 }}
+                        source={require("../assets/button.png")}
+                    />) : <Text>Done</Text>}
+                </TouchableOpacity>
             </View>
-            {Object.keys(task).map((key, index) => (
+            {tasks?.map((task) => (
                 <Checkbox
-                    key={index}
-                    item={task[key]}
-                    isChecked={false}
-                    onValueChange={handleCheckboxChange}
+                    key={task.todo_id}
+                    item={task}
+                    onValueChange={() => handleCheckboxChange(task.todo_id)}
                 />
             ))}
+            {
+                addChecked &&
+                (<View
+                    style={{
+                        borderColor: "#D9DADA",
+                        borderTopWidth: 1,
+                        padding: 24,
+                        flexDirection: "row",
+                        alignItems: "center",
+                    }}
+                >
+                    <View style={{ flexDirection: "row" }}>
+                        <Checkboxs
+                            style={{}}
+                        />
+
+                        <TextInput placeholder='Enter Your task here...' style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura" }}>
+                        </TextInput>
+
+                    </View>
+                </View>)
+            }
         </View>
-    )
+    );
 }
+
 const styles = StyleSheet.create({
     containerBox: {
-        
         borderWidth: 1,
         borderColor: "#D9DADA",
         borderRadius: 10,
@@ -59,7 +99,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'semibold',
         fontFamily: "JockeyOne",
-        letterSpacing: 3
-    }
+        letterSpacing: 3,
+    },
 });
+
 export default ListCheckBox;
