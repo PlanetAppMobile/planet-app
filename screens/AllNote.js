@@ -3,8 +3,16 @@ import React, { useEffect, useState } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BoxNote from "../components/BoxNote";
 import axios from "axios";
-import path from "../path"
+import path from "../path";
 function AllNote({ route, navigation }) {
+  useEffect(() => {
+    axios.get(`${path}/note/1`).then((res) => {
+      console.log(res.data);
+      setNote(res.data);
+    });
+  }, []);
+  const [note, setNote] = useState([]);
+  
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
       <Image
@@ -22,7 +30,9 @@ function AllNote({ route, navigation }) {
         >
           <Text
             style={{ fontSize: 32, letterSpacing: 3, fontFamily: "JockeyOne" }}
-          >My Notes</Text>
+          >
+            My Notes
+          </Text>
 
           <TouchableOpacity
             onPress={() => {
@@ -51,13 +61,19 @@ function AllNote({ route, navigation }) {
           Every notes you wrote.
         </Text>
         <View style={{ marginTop: 25 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("DetailNote");
-            }}
-          >
-            <BoxNote notesText={"eiei"}></BoxNote>
-          </TouchableOpacity>
+          {note?.map((item, index) => {
+            return (
+              <TouchableOpacity key={index}
+                onPress={() => {
+                  navigation.navigate("DetailNote", {
+                    noteId : item.note_id
+                  });
+                }}
+              >
+                <BoxNote key={index} index={index} data={item}></BoxNote>
+              </TouchableOpacity>
+            );
+          })}
           {/* <BoxNote notesText={"eiei"}></BoxNote> */}
         </View>
       </View>

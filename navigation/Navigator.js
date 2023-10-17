@@ -39,7 +39,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Dashboard" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Note" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {

@@ -1,9 +1,14 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 
-export default function BoxNote({notesText}) {
+export default function BoxNote({data, index}) {
+  function formatDate(inputDate) {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
+    return formattedDate;
+}
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View style={{}}>
       <View
         style={{
           borderColor: "#D9DADA",
@@ -19,7 +24,7 @@ export default function BoxNote({notesText}) {
             <Text
               style={{ fontSize: 50, fontFamily: "Jura", color: "#8A97A0" }}
             >
-              01
+              {index+1}
             </Text>
             <Text
               style={{
@@ -29,7 +34,7 @@ export default function BoxNote({notesText}) {
                 fontWeight: "bold",
               }}
             >
-              {notesText}
+              {data.topic}
             </Text>
           </View>
           <Text
@@ -40,7 +45,7 @@ export default function BoxNote({notesText}) {
               marginTop: 26,
             }}
           >
-            26 Feb, 2022
+            {formatDate(data.updated_at)}
           </Text>
         </View>
       </View>
