@@ -3,15 +3,8 @@ import React, { useEffect, useState } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BoxNote from "../components/BoxNote";
 import axios from "axios";
-import path from "../path";
+import path from "../path"
 function AllNote({ route, navigation }) {
-  const [user, setUser] = useState();
-  useEffect(() => {
-    axios.get(`${path}/user/1`).then((res) => {
-      setUser(res.data.users);
-      console.log(res.data.users);
-    });
-  }, []);
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
       <Image
@@ -27,18 +20,9 @@ function AllNote({ route, navigation }) {
             alignItems: "center",
           }}
         >
-          {user && (
-            <Text
-              style={{
-                fontSize: 32,
-                letterSpacing: 3,
-                fontFamily: "JockeyOne",
-              }}
-            >
-              {" "}
-              {user.user_id}
-            </Text>
-          )}
+          <Text
+            style={{ fontSize: 32, letterSpacing: 3, fontFamily: "JockeyOne" }}
+          >My Notes</Text>
 
           <TouchableOpacity
             onPress={() => {
