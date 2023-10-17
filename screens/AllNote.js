@@ -3,15 +3,15 @@ import React, { useEffect, useState } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BoxNote from "../components/BoxNote";
 import axios from "axios";
-import path from "../path"
-function AllNote({route, navigation}) {
-  const [user, setUser] = useState()
-  useEffect(()=>{
-    axios.get(`${path}/user/1`).then((res)=>{
-      setUser(res.data.users)
-      console.log(res.data.users)
-    })
-  },[])
+import path from "../path";
+function AllNote({ route, navigation }) {
+  const [user, setUser] = useState();
+  useEffect(() => {
+    axios.get(`${path}/user/1`).then((res) => {
+      setUser(res.data.users);
+      console.log(res.data.users);
+    });
+  }, []);
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
       <Image
@@ -27,11 +27,23 @@ function AllNote({route, navigation}) {
             alignItems: "center",
           }}
         >
-          {user && <Text
-            style={{ fontSize: 32, letterSpacing: 3, fontFamily: "JockeyOne" }}
-          > {user.user_id}</Text> }
-          
+          {user && (
+            <Text
+              style={{
+                fontSize: 32,
+                letterSpacing: 3,
+                fontFamily: "JockeyOne",
+              }}
+            >
+              {" "}
+              {user.user_id}
+            </Text>
+          )}
+
           <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("AddNote");
+            }}
             style={{
               backgroundColor: "#F08D6E",
               width: 100,
@@ -55,10 +67,14 @@ function AllNote({route, navigation}) {
           Every notes you wrote.
         </Text>
         <View style={{ marginTop: 25 }}>
-          <TouchableOpacity onPress={()=>{navigation.navigate("CreateProject")}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("DetailNote");
+            }}
+          >
             <BoxNote notesText={"eiei"}></BoxNote>
           </TouchableOpacity>
-          {/* <BoxNote>notesText={"eiei"}</BoxNote> */}
+          {/* <BoxNote notesText={"eiei"}></BoxNote> */}
         </View>
       </View>
     </ScrollView>

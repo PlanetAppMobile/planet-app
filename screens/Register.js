@@ -4,7 +4,7 @@ import BgRegister from "../assets/bg-register.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import FormInput from "../components/TextInput";
 import ButtonText from "../components/Button";
-export default function Register() {
+export default function Register({ route, navigation }) {
   return (
     <View
       style={{
@@ -17,7 +17,11 @@ export default function Register() {
         source={BgRegister}
         resizeMode="contain"
       ></Image>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Login");
+        }}
+      >
         <Image
           style={{ width: "100%", height: 40, left: -155 }}
           source={BackIcon}
@@ -41,7 +45,18 @@ export default function Register() {
         <FormInput labelText={"Phone number"} />
         <FormInput labelText={"Password"} />
         <FormInput labelText={"Confirm Password"} />
-        <ButtonText buttonText={"REGISTER"} />
+        <TouchableOpacity onPress={()=>{navigation.navigate("Login")}}
+          style={{
+            borderRadius: 5,
+            height: 35,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F08D6E",
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "white", fontFamily:'Copper' }}>REGISTER</Text>
+        </TouchableOpacity>
         <Text
           style={{
             color: "black",
@@ -52,7 +67,11 @@ export default function Register() {
           }}
         >
           Already have any account?{" "}
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
+          >
             <Text style={{ color: "#E5725D", fontWeight: 500 }}>SIGN IN</Text>
           </TouchableOpacity>
         </Text>

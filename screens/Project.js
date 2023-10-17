@@ -49,8 +49,8 @@ function Project({ route, navigation }) {
                         <Text style={{ fontSize: 32, letterSpacing: 3, fontFamily: "JockeyOne" }}>
                             My Project
                         </Text>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate("Homepage")}
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate("CreateProject")}
                             style={{
                                 backgroundColor: "#F08D6E",
                                 width: 100,

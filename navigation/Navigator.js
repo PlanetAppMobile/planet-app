@@ -39,7 +39,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Profile" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Dashboard" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
@@ -63,7 +63,7 @@ function MenuNavigator() {
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/todo-list-icon.png`)} />
                 )
             }} />
-            <BottomTabNavigator.Screen name="Project" component={TaskProject} options={{
+            <BottomTabNavigator.Screen name="Project" component={Project} options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/project-icon.png`)} />
                 ),
@@ -76,7 +76,7 @@ function MenuNavigator() {
             <BottomTabNavigator.Screen name="DetailNote" component={DetailsNote} options={{
                 tabBarButton: () => null,
             }} />
-            <BottomTabNavigator.Screen name="DetailsNote" component={DetailsNote} options={{
+            <BottomTabNavigator.Screen name="AddNote" component={AddNote} options={{
                 tabBarButton: () => null,
             }} />
             <BottomTabNavigator.Screen name="Profile" component={Profile} options={{
