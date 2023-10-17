@@ -18,6 +18,8 @@ import AddNote from '../screens/AddNote';
 import Project from "../screens/Project"
 import CreateProject from "../screens/CreateProject"
 import TaskProject from "../screens/TaskProject"
+import Loading from "../screens/Loading"
+import Profile from "../screens/Profile"
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
@@ -25,6 +27,7 @@ const BottomTabNavigator = createBottomTabNavigator();
 function MainNavigator() {
     return (
         <MNavigator.Navigator initialRouteName="System" screenOptions={{ headerShown: false }}>
+            <MNavigator.Screen name="Loading" component={Loading} />
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
             <MNavigator.Screen name="Register" component={Register} />
@@ -36,7 +39,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Project" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Profile" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
@@ -76,7 +79,7 @@ function MenuNavigator() {
             <BottomTabNavigator.Screen name="DetailsNote" component={DetailsNote} options={{
                 tabBarButton: () => null,
             }} />
-            <BottomTabNavigator.Screen name="Profile" component={Dashboard} options={{
+            <BottomTabNavigator.Screen name="Profile" component={Profile} options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/profile-icon.png`)} />
                 )
