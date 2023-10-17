@@ -3,26 +3,28 @@ import React from "react";
 import Head from "../assets/head-homepage.png";
 import Right from "../assets/homepage-right.png";
 import Left from "../assets/homepage-left.png";
-function Homepage({route, navigation}) {
+function Homepage({ route, navigation }) {
   return (
-    <ScrollView
+    <View
       style={{
-        flex:1,
+        flex: 1,
         backgroundColor: "#FBF7F0",
       }}
     >
-      <View style={{
-        backgroundColor:"red",
-        justifyContent: "center",
+      <View
+        style={{
+          justifyContent: "center",
           alignItems: "center",
-      }}>
+        }}
+      >
         <Image
-          style={{ width: "100%", height: 130, marginTop:150 }}
+          style={{ width: "100%", height: 140, marginTop: 230 }}
           source={Head}
           resizeMode="contain"
         />
         <TouchableOpacity
           style={{
+            marginTop:50,
             borderRadius: 5,
             width: 150,
             height: 38,
@@ -30,7 +32,9 @@ function Homepage({route, navigation}) {
             alignItems: "center",
             backgroundColor: "#F08D6E",
           }}
-          onPress={()=> {navigation.navigate("Login")}}
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
         >
           <Text
             style={{
@@ -44,43 +48,49 @@ function Homepage({route, navigation}) {
           </Text>
         </TouchableOpacity>
         <Text
-            style={{
-                fontSize:18,
-                color:"#00213F",
-                letterSpacing: 2,
-            }}
+          style={{
+            marginTop:120,
+            fontSize: 18,
+            color: "#00213F",
+            letterSpacing: 2,
+          }}
         >
-        I never dreamed about success.
+          I never dreamed about success.
         </Text>
         <Text
-            style={{
-                fontSize:18,
-                color:"#00213F",
-                letterSpacing: 2,
-            }}
-        >I worked for it.</Text>
+          style={{
+            fontSize: 18,
+            color: "#00213F",
+            letterSpacing: 2,
+          }}
+        >
+          I worked for it.
+        </Text>
       </View>
-      <Text>dfdfdf</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          height: 45,
-          width: "100%",
-          justifyContent: "space-between",
-        }}
-      >
-        <Image
-          style={{ width: 160, height: 145 }}
-          source={Left}
-          resizeMode="contain"
-        />
-        <Image
-          style={{ width: 160, height: 145 }}
-          source={Right}
-          resizeMode="contain"
-        />
+      
+        <View
+          style={{
+            // backgroundColor: "red",
+            flexDirection: "row",
+            height:170,
+            width: "100%",
+            position: "absolute",
+            bottom: 0,
+            justifyContent: "space-between",
+          }}
+        >
+          <Image
+            style={{ width: 160, height: 165 }}
+            source={Left}
+            resizeMode="contain"
+          />
+          <Image
+            style={{ width: 160, height: 165 }}
+            source={Right}
+            resizeMode="contain"
+          />
+        </View>
       </View>
-    </ScrollView>
   );
 }
 
