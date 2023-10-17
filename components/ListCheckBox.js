@@ -13,29 +13,59 @@ function addLeadingZero(number) {
     return strNumber;
 }
 
-function ListCheckBox({ numDay, numMonth }) {
+function ListCheckBox({ numDay, numMonth, numYear }) {
     const [tasks, setTasks] = useState([]);
     const [addChecked, setAddChecked] = useState(false)
+    const [input, setInput] = useState('')
     useEffect(() => {
         axios.post(`${path}/todolist/searchByDate`, {
-            todo_date: `2023-${addLeadingZero(numMonth)}-${addLeadingZero(numDay)}`,
+            todo_date: `${numYear}-${addLeadingZero(numMonth)}-${addLeadingZero(numDay)}`,
             user_id: 1,
         }).then((res) => {
             console.log(res.data)
             setTasks(res.data)
         })
-    }, [numDay])
-    const handleCheckboxChange = (taskId) => {
+    }, [numDay, numMonth, numYear])
+    function handleCheckboxChange(taskId) {
         const updatedTasks = tasks.map((task) => {
-            if (task.id === taskId) {
+            if (task.todo_id === taskId) {
+                axios.put(`${path}/todolist/${task.todo_id}`, {
+                    todo_checked: !task.todo_checked
+                }).then((res) => {
+                    console.log("result:", res.data)
+                })
                 return { ...task, todo_checked: !task.todo_checked };
             }
             return task;
         });
         setTasks(updatedTasks);
     };
-    function onPressCreateToDO() {
-        setAddChecked(true)
+    async function handleRemove(todoId) {
+        console.log(todoId, "test")
+        try {
+            await axios.delete(`${path}/todolist/${todoId}`);
+            setTasks((prevTasks) => prevTasks.filter((todo) => todo.todo_id !== todoId));
+        } catch (error) {
+            console.error("Error removing task:", error);
+        }
+    }
+    async function onPressCreateToDO() {
+        if (addChecked && input != '') {
+            try {
+                let data = {
+                    todo_desc: input,
+                    todo_date: `${numYear}-${addLeadingZero(numMonth)}-${addLeadingZero(numDay)}`,
+                    user_id: 1,
+                }
+                await axios.post(`${path}/todolist`, data).then((res) => {
+                    setTasks((prevTasks) => [...prevTasks, res.data]);
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        setInput('')
+        setAddChecked(!addChecked)
     }
     return (
         <View style={styles.containerBox}>
@@ -45,14 +75,15 @@ function ListCheckBox({ numDay, numMonth }) {
                     {!addChecked ? (<Image
                         style={{ width: 30, height: 30 }}
                         source={require("../assets/button.png")}
-                    />) : <Text>Done</Text>}
+                    />) : <Text style={{ fontFamily: 'copper', color: "#E5725D" }}>Done</Text>}
                 </TouchableOpacity>
             </View>
-            {tasks?.map((task) => (
+            {tasks?.map((todoItem, _) => (
                 <Checkbox
-                    key={task.todo_id}
-                    item={task}
-                    onValueChange={() => handleCheckboxChange(task.todo_id)}
+                    key={todoItem.todo_id}
+                    item={todoItem}
+                    onValueChange={() => handleCheckboxChange(todoItem.todo_id)}
+                    onRemove={()=> handleRemove(todoItem.todo_id)}
                 />
             ))}
             {
@@ -67,11 +98,12 @@ function ListCheckBox({ numDay, numMonth }) {
                     }}
                 >
                     <View style={{ flexDirection: "row" }}>
-                        <Checkboxs
-                            style={{}}
-                        />
-
-                        <TextInput placeholder='Enter Your task here...' style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura" }}>
+                        <Checkboxs />
+                        <TextInput
+                            value={input}
+                            onChangeText={(val) => setInput(val)}
+                            placeholder='Enter Your task here...'
+                            style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura", padding: '4px 10px', }}>
                         </TextInput>
 
                     </View>

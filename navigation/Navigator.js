@@ -39,7 +39,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Profile" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Todolist" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {

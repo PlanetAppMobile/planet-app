@@ -16,6 +16,8 @@ const DatePicker = (props) => {
 
     const [date, setDate] = useState(new Date(defaultDate))
     const [show, setShow] = useState(false)
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 100);
 
     const onChange = (e, selectedDate) => {
         setDate(new Date(selectedDate))
@@ -46,6 +48,7 @@ const DatePicker = (props) => {
                     value={new Date(date)}
                     mode='date'
                     minimumDate={new Date()}
+                    maximumDate={maxDate}  
                     onChange={Platform.OS === 'ios' ? onChange : onAndroidChange}
                 />
             </>

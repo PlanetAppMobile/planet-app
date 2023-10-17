@@ -4,14 +4,7 @@ import HeaderPic from "../assets/header-page.png";
 import BoxNote from "../components/BoxNote";
 import axios from "axios";
 import path from "../path"
-function AllNote({route, navigation}) {
-  const [user, setUser] = useState()
-  useEffect(()=>{
-    axios.get(`${path}/user/1`).then((res)=>{
-      setUser(res.data.users)
-      console.log(res.data.users)
-    })
-  },[])
+function AllNote({ route, navigation }) {
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
       <Image
@@ -27,10 +20,10 @@ function AllNote({route, navigation}) {
             alignItems: "center",
           }}
         >
-          {user && <Text
+          <Text
             style={{ fontSize: 32, letterSpacing: 3, fontFamily: "JockeyOne" }}
-          > {user.user_id}</Text> }
-          
+          >My Notes</Text>
+
           <TouchableOpacity
             style={{
               backgroundColor: "#F08D6E",
@@ -55,7 +48,7 @@ function AllNote({route, navigation}) {
           Every notes you wrote.
         </Text>
         <View style={{ marginTop: 25 }}>
-          <TouchableOpacity onPress={()=>{navigation.navigate("CreateProject")}}>
+          <TouchableOpacity onPress={() => { navigation.navigate("CreateProject") }}>
             <BoxNote notesText={"eiei"}></BoxNote>
           </TouchableOpacity>
           {/* <BoxNote>notesText={"eiei"}</BoxNote> */}

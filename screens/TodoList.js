@@ -84,13 +84,10 @@ function TodoList() {
                 </ScrollView>
             </View>
             <View style={{ marginHorizontal: 25, }}>
-                <ListCheckBox numDay={currentDay} numMonth={month}/>
+                <ListCheckBox numDay={currentDay} numMonth={month} numYear={year} />
 
             </View>
         </ScrollView >
     )
 }
-const styles = StyleSheet.create({
-
-})
 export default TodoList

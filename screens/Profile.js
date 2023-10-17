@@ -1,18 +1,14 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import Textarea from "react-native-textarea";
 import HeaderPic from "../assets/header-page.png";
 import Profile from "../assets/profile.png";
-import TextField from "../components/TextInput";
-import BackIcon from "../assets/icons/back-icon.png";
-import DatePicker from "../components/DatePicker";
 import FormInput from "../components/TextInput";
 
 function CreateProject({ route, navigation }) {
   const [date, setDate] = useState(new Date());
   const [onEdit, setOnEdit] = useState(false);
   function handleEdit() {
-    setOnEdit(true);
+    setOnEdit(!onEdit);
   }
   return (
     <View style={{ flex: 1, backgroundColor: "#FBF7F0" }}>
