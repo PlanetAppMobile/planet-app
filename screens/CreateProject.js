@@ -15,7 +15,7 @@ function CreateProject({ route, navigation }) {
                 source={HeaderPic}
                 resizeMode="contain"
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{navigation.navigate("Project")}}>
                 <Image
                     style={{ width: "100%", height: 40, left: -155 }}
                     source={BackIcon}
@@ -81,7 +81,7 @@ function CreateProject({ route, navigation }) {
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <View style={{ width: '50%' }}>
-                        <TouchableOpacity
+                        <TouchableOpacity onPress={()=>{navigation.navigate("Project")}}
                             style={{
                                 borderRadius: 5,
                                 height: 35,
@@ -96,7 +96,7 @@ function CreateProject({ route, navigation }) {
                         </TouchableOpacity>
                     </View>
                     <View style={{ width: '50%' }}>
-                        <TouchableOpacity
+                        <TouchableOpacity onPress={()=>{navigation.navigate("Project")}}
                             style={{
                                 borderRadius: 5,
                                 height: 35,

@@ -68,7 +68,7 @@ function GenerateCheckBox(props) {
   );
 }
 
-function Dashboard({route, navigation}) {
+function Dashboard({ route, navigation }) {
   const series = [14, 12, 18];
   return (
     <ScrollView
@@ -112,11 +112,13 @@ function Dashboard({route, navigation}) {
               source={NotificationIcon}
               resizeMode="contain"
             />
-            <Image
-              style={{ width: 45, height: 45, marginLeft: 15 }}
-              source={UserIcon}
-              resizeMode="contain"
-            />
+            <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
+              <Image
+                style={{ width: 45, height: 45, marginLeft: 15 }}
+                source={UserIcon}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -150,7 +152,11 @@ function Dashboard({route, navigation}) {
       <View style={styles.containerBox}>
         <View style={styles.headerBox}>
           <Text style={styles.headerText}>Today</Text>
-          <TouchableOpacity onPress={()=>{navigation.navigate("CreateProject")}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Todolist");
+            }}
+          >
             <Image
               style={{ width: 25, height: 25 }}
               source={require("../assets/button.png")}
@@ -165,10 +171,16 @@ function Dashboard({route, navigation}) {
       <View style={{ marginTop: 30, ...styles.containerBox }}>
         <View style={styles.headerBox}>
           <Text style={styles.headerText}>Note</Text>
-          <Image
-            style={{ width: 25, height: 25 }}
-            source={require("../assets/button.png")}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Note");
+            }}
+          >
+            <Image
+              style={{ width: 25, height: 25 }}
+              source={require("../assets/button.png")}
+            />
+          </TouchableOpacity>
         </View>
         <GenerateEdit color={"#4630EB"} text={"I burb foodie."} />
         <GenerateEdit color={"#4630EB"} text={"Chun rak mama."} />
@@ -178,26 +190,26 @@ function Dashboard({route, navigation}) {
 }
 
 const styles = StyleSheet.create({
-    containerBox: {
-        marginHorizontal: 25,
-        borderWidth: 1,
-        borderColor: "#D9DADA",
-        borderRadius: 10,
-    },
-    headerBox: {
-        justifyContent: "space-between",
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 18,
-        paddingVertical: 13,
-        borderColor: "#D9DADA",
-    },
-    headerText: {
-        fontSize: 20,
-        fontWeight: 'semibold',
-        fontFamily: "JockeyOne",
-        letterSpacing: 3
-    }
+  containerBox: {
+    marginHorizontal: 25,
+    borderWidth: 1,
+    borderColor: "#D9DADA",
+    borderRadius: 10,
+  },
+  headerBox: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 18,
+    paddingVertical: 13,
+    borderColor: "#D9DADA",
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "semibold",
+    fontFamily: "JockeyOne",
+    letterSpacing: 3,
+  },
 });
 
 export default Dashboard;

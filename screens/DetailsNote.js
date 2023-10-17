@@ -4,10 +4,10 @@ import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import DeleteIcon from "../assets/icons/delete-icon.png";
 
-function DetailsNote() {
+function DetailsNote({route, navigation}) {
   const [onEdit, setOnEdit] = useState(false);
   function handleEdit() {
-    setOnEdit(true);
+    setOnEdit(!onEdit);
   }
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
@@ -16,7 +16,7 @@ function DetailsNote() {
         source={HeaderPic}
         resizeMode="contain"
       />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={()=>{navigation.navigate("Note")}}>
         <Image
           style={{ width: "100%", height: 40, left: -175 }}
           source={BackIcon}
