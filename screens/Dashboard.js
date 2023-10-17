@@ -164,12 +164,12 @@ function Dashboard() {
 
 const styles = StyleSheet.create({
     containerBox: {
-        marginHorizontal: 25, 
-        borderWidth: 1, 
-        borderColor: "#D9DADA", 
+        marginHorizontal: 25,
+        borderWidth: 1,
+        borderColor: "#D9DADA",
         borderRadius: 10,
     },
-    headerBox:{
+    headerBox: {
         justifyContent: "space-between",
         flexDirection: "row",
         alignItems: "center",
@@ -177,10 +177,10 @@ const styles = StyleSheet.create({
         paddingVertical: 13,
         borderColor: "#D9DADA",
     },
-    headerText:{
-        fontSize: 20, 
-        fontWeight: 'semibold', 
-        fontFamily: "JockeyOne", 
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'semibold',
+        fontFamily: "JockeyOne",
         letterSpacing: 3
     }
 });

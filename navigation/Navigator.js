@@ -36,7 +36,7 @@ function MainNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Project" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Todolist" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
@@ -71,9 +71,6 @@ function MenuNavigator() {
                 )
             }} />
             <BottomTabNavigator.Screen name="DetailNote" component={DetailsNote} options={{
-                tabBarButton: () => null,
-            }} />
-            <BottomTabNavigator.Screen name="DetailsNote" component={DetailsNote} options={{
                 tabBarButton: () => null,
             }} />
             <BottomTabNavigator.Screen name="Profile" component={Dashboard} options={{

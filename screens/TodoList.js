@@ -6,9 +6,38 @@ import CalendarItem from '../components/CalendarItem'
 import ListCheckBox from '../components/ListCheckBox'
 
 
+
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+}
+function getDayObjects(year, month) {
+    const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+    const dayObjects = [];
+    const numDays = daysInMonth(month, year);
+
+    for (let day = 1; day <= numDays; day++) {
+        const date = new Date(year, month - 1, day); // month - 1 because months are zero-indexed
+        const dayOfWeek = date.getDay();
+        const dayName = daysOfWeek[dayOfWeek];
+
+        dayObjects.push({ month: month, title: dayName, numDay: day.toString() });
+    }
+
+    return dayObjects;
+}
 function TodoList() {
+    // let date = new Date('2023-09-01');
+    let date = new Date();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    const [currentDay, setCurrentDay] = useState(date.getDate())
+    const dayList = getDayObjects(year, month);
+
     const [focusedItemIndex, setFocusedItemIndex] = useState(null);
     const handleCalendarItemPress = (index) => {
+        setCurrentDay(index+1)
         if (focusedItemIndex === index) {
             setFocusedItemIndex(null);
         } else {
@@ -43,9 +72,11 @@ function TodoList() {
                         flexDirection: "row",
                         overflow: "scroll",
                     }}>
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
+                    {dayList.map((item, index) => (
                         <CalendarItem
+                            isChecked={currentDay}
                             key={index}
+                            data={item}
                             onPress={() => handleCalendarItemPress(index)}
                             focused={focusedItemIndex === index}
                         />
@@ -53,7 +84,7 @@ function TodoList() {
                 </ScrollView>
             </View>
             <View style={{ marginHorizontal: 25, }}>
-                <ListCheckBox />
+                <ListCheckBox numDay={currentDay} numMonth={month}/>
 
             </View>
         </ScrollView >

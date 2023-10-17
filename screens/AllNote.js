@@ -56,7 +56,7 @@ function AllNote({route, navigation}) {
         </Text>
         <View style={{ marginTop: 25 }}>
           <TouchableOpacity onPress={()=>{navigation.navigate("CreateProject")}}>
-            <BoxNote>notesText={"eiei"}</BoxNote>
+            <BoxNote notesText={"eiei"}></BoxNote>
           </TouchableOpacity>
           {/* <BoxNote>notesText={"eiei"}</BoxNote> */}
         </View>
