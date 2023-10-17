@@ -33,13 +33,14 @@ function MainNavigator() {
             <MNavigator.Screen name="Register" component={Register} />
             <MNavigator.Screen name="CreateProject" component={CreateProject} />
             <MNavigator.Screen name="ResetPassword" component={ResetPassword} />
+            <MNavigator.Screen name="TaskProject" component={TaskProject} />
             <MNavigator.Screen name="System" component={MenuNavigator} />
         </MNavigator.Navigator>
     )
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Dashboard" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Project" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {

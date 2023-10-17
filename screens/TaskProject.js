@@ -42,7 +42,7 @@ function DetailsNote() {
                     Every notes you wrote.
                 </Text>
                 <View style={{width:'100%',marginTop:20}}>
-                    {/* <ListCheckBox /> */}
+                    <ListCheckBox />
                 </View>
             </View>
         </ScrollView>

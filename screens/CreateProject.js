@@ -1,13 +1,43 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from "react-native";
 import React, { useState } from "react";
 import Textarea from "react-native-textarea";;
 import HeaderPic from "../assets/header-page.png"
 import TextField from "../components/TextInput";
 import BackIcon from "../assets/icons/back-icon.png";
 import DatePicker from '../components/DatePicker';
+import axios from "axios";
+import path from "../path";
 
 function CreateProject({ route, navigation }) {
     const [date, setDate] = useState(new Date())
+    const [inputValue, setInputValue] = useState("")
+    const [description, setDescription] = useState('')
+
+    const handleInputChange = (text) => {
+        console.log(inputValue)
+        setInputValue(text);
+    };
+    function onSubmitCreateProject() {
+        if (inputValue != '') {
+            axios.post(`${path}/project`, {
+                name: inputValue,
+                description: description,
+                deadline: date,
+                start_date: date,
+                end_date: date,
+                status: "On going",
+                assigned_to: 1,
+            }).then((res) => {
+                console.log(res.data)
+                navigation.navigate("Project")
+            })
+        }
+        else {
+            Alert.alert(
+                'Please Input Title Project',
+            )
+        }
+    }
     return (
         <View style={{ flex: 1, backgroundColor: "#FBF7F0" }}>
             <Image
@@ -15,7 +45,7 @@ function CreateProject({ route, navigation }) {
                 source={HeaderPic}
                 resizeMode="contain"
             />
-            <TouchableOpacity onPress={()=>{navigation.navigate("Project")}}>
+            <TouchableOpacity onPress={() => { navigation.navigate("Project") }}>
                 <Image
                     style={{ width: "100%", height: 40, left: -155 }}
                     source={BackIcon}
@@ -36,7 +66,7 @@ function CreateProject({ route, navigation }) {
                     For manage your project.
                 </Text>
                 <View style={{ marginTop: 30 }}>
-                    <TextField labelText={"Title"} />
+                    <TextField labelText={"Title"} value={inputValue} handleChange={handleInputChange} />
                     <Text
                         style={{
                             fontSize: 17,
@@ -46,6 +76,8 @@ function CreateProject({ route, navigation }) {
                         }}
                     >Description</Text>
                     <Textarea
+                        value={description}
+                        onChangeText={(value) => { setDescription(value) }}
                         containerStyle={{
                             padding: 5,
                             borderWidth: 1,
@@ -81,7 +113,7 @@ function CreateProject({ route, navigation }) {
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <View style={{ width: '50%' }}>
-                        <TouchableOpacity onPress={()=>{navigation.navigate("Project")}}
+                        <TouchableOpacity onPress={onSubmitCreateProject}
                             style={{
                                 borderRadius: 5,
                                 height: 35,
@@ -96,7 +128,7 @@ function CreateProject({ route, navigation }) {
                         </TouchableOpacity>
                     </View>
                     <View style={{ width: '50%' }}>
-                        <TouchableOpacity onPress={()=>{navigation.navigate("Project")}}
+                        <TouchableOpacity onPress={() => { navigation.navigate("Project") }}
                             style={{
                                 borderRadius: 5,
                                 height: 35,
