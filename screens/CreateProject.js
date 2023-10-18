@@ -14,7 +14,6 @@ function CreateProject({ route, navigation }) {
     const [description, setDescription] = useState('')
 
     const handleInputChange = (text) => {
-        console.log(inputValue)
         setInputValue(text);
     };
     function onSubmitCreateProject() {
