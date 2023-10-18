@@ -84,7 +84,13 @@ function Project({ route, navigation }) {
                     <View style={{ marginTop: 25 }}>
                         {project?.map((item, index) => {
                             return (
-                                <BoxProject key={index} data={item} />
+                                <TouchableOpacity key={index} onPress={()=>{
+                                    navigation.navigate("TaskProject", {
+                                        projectId: item.project_id
+                                    })
+                                }}>
+                                    <BoxProject data={item} />
+                                </TouchableOpacity>
                             )
                         })}
                     </View>

@@ -95,6 +95,7 @@ export default function AddNote({route, navigation}) {
             </View>
             <View style={{ padding: 15 }}>
               <Textarea
+                
                 containerStyle={{
                   height: 350,
                 }}

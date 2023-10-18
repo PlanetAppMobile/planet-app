@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Checkbox from '../components/Checkbox';
+import Checkbox from '../components/CheckboxTodo';
 import Checkboxs from "expo-checkbox";
 import path from "../path"
 

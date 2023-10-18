@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import DeleteIcon from "../assets/icons/delete-icon.png";
-import ListCheckBox from "../components/ListCheckBox";
+import ListCheckBoxTask from "../components/ListCheckBoxTask";
 
-function DetailsNote() {
+function DetailsNote({route, navigation}) {
     const [onEdit, setOnEdit] = useState(false);
+    const projectId = route.params.projectId
     function handleEdit() {
         setOnEdit(true);
     }
@@ -17,7 +18,9 @@ function DetailsNote() {
                 source={HeaderPic}
                 resizeMode="contain"
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
+                navigation.navigate("Project")
+            }}>
                 <Image
                     style={{ width: "100%", height: 40, left: -175 }}
                     source={BackIcon}
@@ -42,7 +45,7 @@ function DetailsNote() {
                     Every notes you wrote.
                 </Text>
                 <View style={{width:'100%',marginTop:20}}>
-                    <ListCheckBox />
+                    <ListCheckBoxTask projectId={projectId} />
                 </View>
             </View>
         </ScrollView>

@@ -1,10 +1,23 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, {useState} from "react";
 import BgRegister from "../assets/bg-register.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import FormInput from "../components/TextInput";
 import ButtonText from "../components/Button";
 export default function Register({ route, navigation }) {
+  const [fullName, setFullName] = useState("")
+  const [email, setEmail] = useState("")
+
+  const handleInputChange = (labelText, value) => {
+    if (labelText == 'Full name'){
+      setFullName(value)
+      console.log(fullName)
+    }
+    if (labelText == 'Email'){
+      setEmail(value)
+      console.log(email)
+    }
+  };
   return (
     <View
       style={{
@@ -39,13 +52,13 @@ export default function Register({ route, navigation }) {
         >
           REGISTER
         </Text>
-        <FormInput labelText={"Full name"} />
+        <FormInput handleChange={handleInputChange} value={fullName} labelText={"Full name"} />
         {/* <Text style={{color:'red'}}>Please enter your full namme</Text> */}
-        <FormInput labelText={"Email"} />
-        <FormInput labelText={"Phone number"} />
+        <FormInput handleChange={handleInputChange} value={email} labelText={"Email"} />
+        {/* <FormInput labelText={"Phone number"} />
         <FormInput labelText={"Password"} />
-        <FormInput labelText={"Confirm Password"} />
-        <TouchableOpacity onPress={()=>{navigation.navigate("Login")}}
+        <FormInput labelText={"Confirm Password"} /> */}
+        <TouchableOpacity onPress={() => { navigation.navigate("Login") }}
           style={{
             borderRadius: 5,
             height: 35,
@@ -55,7 +68,7 @@ export default function Register({ route, navigation }) {
             marginTop: 15,
           }}
         >
-          <Text style={{ fontSize: 15, color: "white", fontFamily:'Copper' }}>REGISTER</Text>
+          <Text style={{ fontSize: 15, color: "white", fontFamily: 'Copper' }}>REGISTER</Text>
         </TouchableOpacity>
         <Text
           style={{
