@@ -6,16 +6,11 @@ import Checkboxs from "expo-checkbox";
 import path from "../path"
 
 
-function ListCheckBox({ projectId, type, title }) {
-    const [tasks, setTasks] = useState([]);
+function ListCheckBox({ data, type, title }) {
+    const [tasks, setTasks] = useState(data);
     const [addChecked, setAddChecked] = useState(false)
     const [input, setInput] = useState('')
-    useEffect(() => {
-        axios.get(`${path}/task/${projectId}`).then((res) => {
-            setTasks(res.data)
-        })
-    }, [])
-
+    console.log("data:", data)
     function handleCheckboxChange(taskId, taskStatus) {
         const updatedTasks = tasks.map((task) => {
             if (task.task_id === taskId) {

@@ -5,7 +5,7 @@ import HeaderPic from "../assets/header-page.png";
 import BoxProject from "../components/BoxProject";
 import path from "../path";
 import axios from "axios";
-import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 
 function Project({ route, navigation }) {
     const [project, setProject] = useState([])
@@ -22,17 +22,13 @@ function Project({ route, navigation }) {
         await axios.get(`${path}/project`, {
             user_id: 1,
         }).then((res) => {
-            console.log(res.data)
             setProject(res.data)
         })
     }
+    const isFocused = useIsFocused()
     useEffect(() => {
-        if (route.params.change){
-            console.log(1);
-            setIsChange(true)
-        }
         getProject()
-    },[isChange])
+    },[isFocused])
 
     return (
         <View style={{ flex: 1 }}>
@@ -90,7 +86,7 @@ function Project({ route, navigation }) {
                         For managing your projects.
                     </Text>
                     <View style={{ marginTop: 25 }}>
-                        {project?.map((item, index) => {
+                        {isFocused && project?.map((item, index) => {
                             return (
                                 <TouchableOpacity key={index} onPress={() => {
                                     try {
