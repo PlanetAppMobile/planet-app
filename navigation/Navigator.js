@@ -26,7 +26,7 @@ const BottomTabNavigator = createBottomTabNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="Register" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
             <MNavigator.Screen name="Loading" component={Loading} />
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
