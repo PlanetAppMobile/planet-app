@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Checkbox from '../components/Checkbox';
+import CheckboxTask from './CheckBoxTask';
 import Checkboxs from "expo-checkbox";
 import path from "../path"
 
@@ -13,25 +13,23 @@ function addLeadingZero(number) {
     return strNumber;
 }
 
-function ListCheckBox({ numDay, numMonth, numYear }) {
+function ListCheckBox({ projectId }) {
     const [tasks, setTasks] = useState([]);
     const [addChecked, setAddChecked] = useState(false)
     const [input, setInput] = useState('')
-    // useEffect(() => {
-    //     axios.post(`${path}/todolist/searchByDate`, {
-    //         todo_date: `${numYear}-${addLeadingZero(numMonth)}-${addLeadingZero(numDay)}`,
-    //         user_id: 1,
-    //     }).then((res) => {
-    //         console.log(res.data)
-    //         setTasks(res.data)
-    //     })
-    // }, [numDay, numMonth, numYear])
+    useEffect(() => {
+        axios.get(`${path}/task/${projectId}`).then((res) => {
+            console.log("task:", res.data)
+            setTasks(res.data)
+        })
+    }, [])
     
     function handleCheckboxChange(taskId) {
+        console.log(1)
         const updatedTasks = tasks.map((task) => {
-            if (task.todo_id === taskId) {
-                axios.put(`${path}/todolist/${task.todo_id}`, {
-                    todo_checked: !task.todo_checked
+            if (task.task_id === taskId) {
+                axios.put(`${path}/task/${task.task_id}`, {
+                    task_status: task.task_status
                 }).then((res) => {
                     console.log("result:", res.data)
                 })
@@ -54,9 +52,9 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
         if (addChecked && input != '') {
             try {
                 let data = {
-                    todo_desc: input,
-                    todo_date: `${numYear}-${addLeadingZero(numMonth)}-${addLeadingZero(numDay)}`,
-                    user_id: 1,
+                    task_name: input,
+                    task_status: "todo",
+                    project_id: p,
                 }
                 await axios.post(`${path}/todolist`, data).then((res) => {
                     setTasks((prevTasks) => [...prevTasks, res.data]);
@@ -71,7 +69,7 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
     return (
         <View style={styles.containerBox}>
             <View style={styles.headerBox}>
-                <Text style={styles.headerText}>Today</Text>
+                <Text style={styles.headerText}>Todo</Text>
                 <TouchableOpacity onPress={onPressCreateToDO}>
                     {!addChecked ? (<Image
                         style={{ width: 30, height: 30 }}
@@ -79,12 +77,13 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
                     />) : <Text style={{ fontFamily: 'copper', color: "#E5725D" }}>Done</Text>}
                 </TouchableOpacity>
             </View>
-            {tasks?.map((todoItem, _) => (
-                <Checkbox
-                    key={todoItem.todo_id}
-                    item={todoItem}
-                    onValueChange={() => handleCheckboxChange(todoItem.todo_id)}
-                    onRemove={()=> handleRemove(todoItem.todo_id)}
+            {tasks?.map((item, _) => (
+                <CheckboxTask
+                    key={item.project_id}
+                    item={item}
+                    type={"todo"}
+                    onValueChange={() => handleCheckboxChange(item.task_status)}
+                    onRemove={()=> handleRemove(todoItem.project_id)}
                 />
             ))}
             {

@@ -16,7 +16,7 @@ import Textarea from "react-native-textarea";
 import axios from "axios";
 import path from "../path";
 
-export default function AddNote({route, navigation}) {
+export default function AddNote({ route, navigation }) {
   const [topicValue, setTopicValue] = useState("")
   const [descValue, setDescValue] = useState("")
   function formatDate(inputDate) {
@@ -26,23 +26,23 @@ export default function AddNote({route, navigation}) {
   }
   function onSubmitCreateNote() {
     if (topicValue != '') {
-        axios.post(`${path}/note`, {
-            topic: topicValue,
-            description: descValue,
-            created_at : new Date(),
-            updated_at : new Date(),
-            user_id : 1
-        }).then((res) => {
-            console.log(res.data)
-            navigation.navigate("Note")
-        })
+      axios.post(`${path}/note`, {
+        topic: topicValue,
+        description: descValue,
+        created_at: new Date(),
+        updated_at: new Date(),
+        user_id: 1
+      }).then((res) => {
+        console.log(res.data)
+        navigation.navigate("Note")
+      })
     }
     else {
-        Alert.alert(
-            'Please Input Topic or description Project',
-        )
+      Alert.alert(
+        'Please Input Topic or description Project',
+      )
     }
-}
+  }
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
       <Image
@@ -50,8 +50,8 @@ export default function AddNote({route, navigation}) {
         source={HeaderPic}
         resizeMode="contain"
       />
-      <TouchableOpacity onPress={()=>{navigation.navigate("Note")}}>
-        
+      <TouchableOpacity onPress={() => { navigation.navigate("Note") }}>
+
         <Image
           style={{ width: "100%", height: 40, left: -155 }}
           source={BackIcon}
@@ -103,8 +103,8 @@ export default function AddNote({route, navigation}) {
                   </Text>
 
                   <TextInput
-                  onChangeText={(value)=>{setTopicValue(value)}}
-                  value={topicValue}
+                    onChangeText={(value) => { setTopicValue(value) }}
+                    value={topicValue}
                     style={{
                       padding: 3,
                       outline: "none",
@@ -127,8 +127,8 @@ export default function AddNote({route, navigation}) {
             </View>
             <View style={{ padding: 15 }}>
               <Textarea
-              onChangeText={(value)=>{setDescValue(value)}}
-              value={descValue}
+                onChangeText={(value) => { setDescValue(value) }}
+                value={descValue}
                 containerStyle={{
                   height: 350,
                 }}

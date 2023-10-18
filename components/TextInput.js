@@ -23,7 +23,7 @@ function FormInput({ labelText, handleChange, value }) {
           marginBottom: 5,
         }}
         value={value} // Pass the value to the TextInput
-        onChangeText={(text) => handleChange(text)} // Capture changes and call handleChange
+        onChangeText={(value) => handleChange(labelText, value)} // Capture changes and call handleChange
       ></TextInput>
       <Text style={{ color: '#E5725D', fontSize: 15, marginBottom: 8, fontFamily: "Jura" }}>
         Invalid {labelText}
