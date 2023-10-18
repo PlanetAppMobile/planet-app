@@ -1,23 +1,96 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, {useState} from "react";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import React, { useState } from "react";
 import BgRegister from "../assets/bg-register.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import FormInput from "../components/TextInput";
 import ButtonText from "../components/Button";
+import axios from "axios";
+import path from "../path";
+
 export default function Register({ route, navigation }) {
-  const [fullName, setFullName] = useState("")
-  const [email, setEmail] = useState("")
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+
+  const [validFullName, setValidName] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
+  const [validPhoneNumber, setValidPhone] = useState(false);
+  const [validPassword, setValidPass] = useState(false);
+  const [validConfirm, setValidConfirm] = useState(false);
 
   const handleInputChange = (labelText, value) => {
-    if (labelText == 'Full name'){
-      setFullName(value)
-      console.log(fullName)
+    if (labelText == "Full name") {
+      setFullName(value);
+      setValidName(false);
     }
-    if (labelText == 'Email'){
-      setEmail(value)
-      console.log(email)
+    if (labelText == "Email") {
+      if (!isEmailValid(value)) {
+        setValidEmail(true);
+      } else {
+        setValidEmail(false);
+      }
+      setEmail(value);
+    }
+    if (labelText == "Phone number") {
+      if(!isPhoneNumberValid(value)){
+        setValidPhone(true)
+      }else{
+        setValidPhone(false)
+      }
+      setPhone(value);
+    }
+    if (labelText == "Password") {
+      setPassword(value);
+      setValidPass(false)
+    }
+    if (labelText == "Confirm Password") {
+      if(value == password){
+        setValidConfirm(false)
+      }else{
+        setValidConfirm(true)
+      }
+      setConfirm(value);
     }
   };
+  function isEmailValid(email) {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailRegex.test(email);
+  }
+  function isPhoneNumberValid(phoneNumber) {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phoneNumber.replace(/\D/g, ""));
+  }
+  function onSubmitCreateUser() {
+    if (!fullName && !email && !password && !phoneNumber) {
+      setValidName(true);
+      setValidEmail(true);
+      setValidPass(true);
+      setValidPhone(true);
+      setValidConfirm(true);
+      Alert.alert("Please enter all required information.");
+    } else if (!fullName) {
+      setValidName(true);
+    } else if (!isEmailValid(email)) {
+      setValidEmail(true);
+    } else if (password != confirm) {
+      setValidConfirm(true);
+    } else if (!phoneNumber) {
+      setValidPhone(true);
+    } else {
+      axios
+        .post(`${path}/user`, {
+          fullName,
+          email,
+          password,
+          phoneNumber,
+        })
+        .then((res) => {
+          navigation.navigate("Login");
+        });
+    }
+  }
   return (
     <View
       style={{
@@ -52,13 +125,39 @@ export default function Register({ route, navigation }) {
         >
           REGISTER
         </Text>
-        <FormInput handleChange={handleInputChange} value={fullName} labelText={"Full name"} />
+        <FormInput
+          handleChange={handleInputChange}
+          value={fullName}
+          labelText={"Full name"}
+          valid={validFullName}
+        />
         {/* <Text style={{color:'red'}}>Please enter your full namme</Text> */}
-        <FormInput handleChange={handleInputChange} value={email} labelText={"Email"} />
-        {/* <FormInput labelText={"Phone number"} />
-        <FormInput labelText={"Password"} />
-        <FormInput labelText={"Confirm Password"} /> */}
-        <TouchableOpacity onPress={() => { navigation.navigate("Login") }}
+        <FormInput
+          handleChange={handleInputChange}
+          value={email}
+          labelText={"Email"}
+          valid={validEmail}
+        />
+        <FormInput
+          handleChange={handleInputChange}
+          value={phoneNumber}
+          labelText={"Phone number"}
+          valid={validPhoneNumber}
+        />
+        <FormInput
+          handleChange={handleInputChange}
+          value={password}
+          labelText={"Password"}
+          valid={validPassword}
+        />
+        <FormInput
+          handleChange={handleInputChange}
+          value={confirm}
+          labelText={"Confirm Password"}
+          valid={validConfirm}
+        />
+        <TouchableOpacity
+          onPress={onSubmitCreateUser}
           style={{
             borderRadius: 5,
             height: 35,
@@ -68,7 +167,9 @@ export default function Register({ route, navigation }) {
             marginTop: 15,
           }}
         >
-          <Text style={{ fontSize: 15, color: "white", fontFamily: 'Copper' }}>REGISTER</Text>
+          <Text style={{ fontSize: 15, color: "white", fontFamily: "Copper" }}>
+            REGISTER
+          </Text>
         </TouchableOpacity>
         <Text
           style={{

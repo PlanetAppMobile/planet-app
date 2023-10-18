@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 
-function FormInput({ labelText, handleChange, value }) {
+function FormInput({ labelText, handleChange, value, valid }) {
   return (
     <View>
       <Text
@@ -25,9 +25,9 @@ function FormInput({ labelText, handleChange, value }) {
         value={value} // Pass the value to the TextInput
         onChangeText={(value) => handleChange(labelText, value)} // Capture changes and call handleChange
       ></TextInput>
-      <Text style={{ color: '#E5725D', fontSize: 15, marginBottom: 8, fontFamily: "Jura" }}>
+      {valid && (<Text style={{ color: '#E5725D', fontSize: 15, marginBottom: 8, fontFamily: "Jura" }}>
         Invalid {labelText}
-      </Text>
+      </Text>)}
     </View>
   );
 }
