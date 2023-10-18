@@ -1,6 +1,8 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CalendarPiechart from "./CalendarPiechart";
+import axios from "axios";
+import path from "../path";
 
 function formatDate(inputDate) {
     const options = { year: "numeric", month: "short", day: "numeric" };
@@ -9,15 +11,25 @@ function formatDate(inputDate) {
 }
 
 function BoxProject({ data }) {
+    async function getTaskInProject() {
+        await axios.get(`${path}/task/${project_id}`, {
+            user_id: 1,
+        }).then((res) => {
+            setTaskProject(res.data)
+        })
+    }
+    const [taskProject, setTaskProject] = useState([])
     const {
+        project_id,
         project_name,
         project_description,
-        project_deadline,
-        project_start_date,
         project_end_date,
         project_status,
         assigned_to
     } = data
+    useEffect(()=>{
+        getTaskInProject()
+    },[])
     return (
         <View style={{ flexDirection: "row", marginBottom: 20 }}>
             <View
@@ -61,7 +73,7 @@ function BoxProject({ data }) {
                         </View>
                         <View style={{ position: "absolute", bottom: 0 }}><Text style={{ color: "#E5725D", fontFamily: "Jura", }}>{formatDate(project_end_date)}</Text></View>
                     </View>
-                    <CalendarPiechart type={"Project"} />
+                    <CalendarPiechart data={taskProject} type={"Project"} />
                 </View>
             </View>
         </View>

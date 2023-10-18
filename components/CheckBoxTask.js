@@ -28,9 +28,9 @@ function CustomCheckbox({ item, onValueChange, onRemove, type }) {
                     onValueChange={(newValue) => {
                         onValueChange(newValue, item);
                     }}
-                    color={item.todo_checked ? "#FFAA9B" : undefined}
+                    color={item.task_status == "done" ? "#FFAA9B" : undefined}
                 />
-                <Text style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura", textDecorationLine: item.todo_checked ? 'line-through' : 'none' }}>
+                <Text style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura", textDecorationLine: item.task_status == "done" ? 'line-through' : 'none' }}>
                     {item.task_name}
                 </Text>
             </View>

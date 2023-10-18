@@ -6,9 +6,9 @@ import DeleteIcon from "../assets/icons/delete-icon.png";
 import axios from "axios";
 import path from "../path";
 import Textarea from "react-native-textarea/src/Textarea";
-function DetailsNote({route, navigation}) {
+function DetailsNote({ route, navigation }) {
   const [onEdit, setOnEdit] = useState(false);
-  const {noteId} = route.params
+  const { noteId } = route.params
   useEffect(() => {
     axios.get(`${path}/note/1/${noteId}`).then((res) => {
       console.log(res.data);
@@ -39,7 +39,7 @@ function DetailsNote({route, navigation}) {
         source={HeaderPic}
         resizeMode="contain"
       />
-      <TouchableOpacity onPress={()=>{navigation.navigate("Note")}}>
+      <TouchableOpacity onPress={() => { navigation.navigate("Note") }}>
         <Image
           style={{ width: "100%", height: 40, left: -175 }}
           source={BackIcon}
@@ -94,7 +94,6 @@ function DetailsNote({route, navigation}) {
           }}
         >
           <View style={{}}>
-            {" "}
             <View
               style={{ borderBottomWidth: 1, borderBottomColor: "#D9DADA" }}
             >
@@ -113,7 +112,7 @@ function DetailsNote({route, navigation}) {
                       color: "#8A97A0",
                     }}
                   >
-                    {addLeadingZero(noteId-1)}
+                    {addLeadingZero(noteId - 1)}
                   </Text>
                   <Text
                     style={{

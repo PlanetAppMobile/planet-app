@@ -2,22 +2,28 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
     TouchableOpacity,
-    ScrollView,
-    TextInput,
-    useWindowDimensions,
-    Dimensions,
-    FlatList,
-    LogBox,
+    AsyncStorage
 } from "react-native";
 import PieChart from 'react-native-pie-chart'
 import React from 'react'
 
-function CalendarPiechart({ type }) {
+function CalendarPiechart({ data, type }) {
+    const todoTask = data.filter((task) => task.task_status === "todo")
+    const inprogressTask = data.filter((task) => task.task_status === "inprogress")
+    const doneTask = data.filter((task) => task.task_status === "done")
     const widthAndHeight = type == "Dashboard" ? 150 : 140
-    const series = [14, 12, 18]
-    const sliceColor = ['#FFAA9B', "#CFCFAB", "#75C9A8"]
+    let sliceColor
+    let series
+    if (todoTask.length + inprogressTask.length + doneTask.length == 0){
+        sliceColor = ["#B5B7B9"]
+        series = [1]
+    }
+    else{
+        sliceColor = ['#FFAA9B', "#CFCFAB", "#75C9A8"]
+        series = [todoTask.length, inprogressTask.length, doneTask.length]
+    }
+    const donePercentage = Math.round((doneTask.length / (todoTask.length + inprogressTask.length + doneTask.length)) * 100) || 0;
     return (
         <View style={{ position: "relative", justifyContent: "center", alignItems: "center" }}>
             {type == "Dashboard" && (
@@ -48,7 +54,7 @@ function CalendarPiechart({ type }) {
                         alignItems: "center",
                     }}
                 >
-                    <Text style={{color:"#75C9A8", fontFamily:"JockeyOne", fontSize:28}}>43%</Text>
+                    <Text style={{color: donePercentage == 0 ? '#8A97A0' : "#75C9A8", fontFamily:"JockeyOne", fontSize:28}}>{donePercentage}%</Text>
                 </View>)}
             <PieChart
                 widthAndHeight={widthAndHeight}

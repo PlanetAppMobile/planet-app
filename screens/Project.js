@@ -1,12 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity, Animated } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderPic from "../assets/header-page.png";
 import BoxProject from "../components/BoxProject";
 import path from "../path";
 import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
 
 function Project({ route, navigation }) {
     const [project, setProject] = useState([])
+    const [isChange, setIsChange] = useState(false)
     const scrollY = useRef(new Animated.Value(0)).current;
     const headerHeight = 65;
 
@@ -24,8 +27,13 @@ function Project({ route, navigation }) {
         })
     }
     useEffect(() => {
+        if (route.params.change){
+            console.log(1);
+            setIsChange(true)
+        }
         getProject()
-    }, [])
+    },[isChange])
+
     return (
         <View style={{ flex: 1 }}>
             <Image
@@ -84,9 +92,19 @@ function Project({ route, navigation }) {
                     <View style={{ marginTop: 25 }}>
                         {project?.map((item, index) => {
                             return (
-                                <TouchableOpacity key={index} onPress={()=>{
+                                <TouchableOpacity key={index} onPress={() => {
+                                    try {
+                                        const itemString = JSON.stringify(item);
+                                        AsyncStorage.setItem(
+                                            '@ProjectLatest:active',
+                                            itemString,
+                                        );
+                                    } catch (error) {
+                                        console.log(error)
+                                    }
                                     navigation.navigate("TaskProject", {
-                                        projectId: item.project_id
+                                        projectId: item.project_id,
+                                        projectName: item.project_name
                                     })
                                 }}>
                                     <BoxProject data={item} />

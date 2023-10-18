@@ -14,8 +14,9 @@ import {
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import TaskStatusItem from "../components/TaskStatusItem";
-import CalendarPiechart from "../components/CalendarPiechart";
+import CalendarPiechart from "../components/PiechartDashboard";
 import Checkbox from "expo-checkbox";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HeaderPic from "../assets/header-page.png";
 import NotificationIcon from "../assets/icons/notification-icon.png";
@@ -70,6 +71,21 @@ function GenerateCheckBox(props) {
 
 function Dashboard({ route, navigation }) {
   const series = [14, 12, 18];
+  const [items, setItem] = useState([])
+  const getItemFromStorage = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@ProjectLatest:active');
+      if (value !== null) {
+        setItem([JSON.parse(value)]);
+        console.log(JSON.parse(value))
+      }
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
+  useEffect(() => {
+    getItemFromStorage()
+  }, [])
   return (
     <ScrollView
       bounces={false}
@@ -112,7 +128,7 @@ function Dashboard({ route, navigation }) {
               source={NotificationIcon}
               resizeMode="contain"
             />
-            <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
+            <TouchableOpacity onPress={() => { navigation.navigate("Profile") }}>
               <Image
                 style={{ width: 45, height: 45, marginLeft: 15 }}
                 source={UserIcon}
@@ -130,7 +146,7 @@ function Dashboard({ route, navigation }) {
             paddingTop: 30,
           }}
         >
-          <CalendarPiechart type={"Dashboard"} />
+          <CalendarPiechart type={"Dashboard"} data={items} />
           <View>
             <TaskStatusItem color="#FFAA9B" title="TODO" count={series[0]} />
             <TaskStatusItem
