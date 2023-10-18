@@ -11,17 +11,20 @@ import { useState } from "react";
 function TaskProject({ route, navigation }) {
     const projectId = route.params.projectId
     const projectName = route.params.projectName
-    const [tasks, setTasks] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [tasks, setTasks] = useState()
     async function getTask() {
         await axios.get(`${path}/task/${projectId}`).then((res) => {
             setTasks(res.data)
-            setLoading(true)
         })
     }
     useEffect(() => {
         getTask()
     }, [])
+    async function handleEndTask(){
+        await axios.put(`${path}/endTask/${projectId}`).then((res)=>{
+            getTask()
+        })
+    }
     return (
         <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
             <Image
@@ -30,10 +33,8 @@ function TaskProject({ route, navigation }) {
                 resizeMode="contain"
             />
             <TouchableOpacity onPress={() => {
-                navigation.navigate("Project", {
-                    change: true
-                })
-
+                navigation.navigate("Project")
+                
             }}>
                 <Image
                     style={{ width: "100%", height: 40, left: -175 }}
@@ -58,15 +59,16 @@ function TaskProject({ route, navigation }) {
                 <Text style={{ color: "#848181", fontFamily: "Jura", fontSize: 16 }}>
                     Every notes you wrote.
                 </Text>
-                {loading && (
+                {tasks && (
                     <View style={{ width: '100%', marginTop: 20 }}>
-                        <ListCheckBoxTask data={tasks} type={"todo"} title={"To do"} />
-                        <ListCheckBoxTask data={tasks} type={"inprogress"} title={"In progress"} />
-                        <ListCheckBoxTask data={tasks} type={"done"} title={"Done"} />
+                        <ListCheckBoxTask data={tasks} projectId={projectId} getTask={getTask} type={"todo"} title={"To do"} />
+                        <ListCheckBoxTask data={tasks} projectId={projectId} getTask={getTask} type={"inprogress"} title={"In progress"} />
+                        <ListCheckBoxTask data={tasks} projectId={projectId} getTask={getTask} type={"done"} title={"Done"} />
                     </View>
                 )}
                 <View>
                     <TouchableOpacity
+                    onPress={handleEndTask}
                         style={{
                             borderRadius: 5,
                             height: 35,

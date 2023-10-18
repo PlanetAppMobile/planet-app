@@ -47,8 +47,6 @@ function CalendarPiechart({ data, type }) {
                     style={{
                         position: "absolute",
                         borderRadius: 999,
-                        width: 35,
-                        height: 35,
                         zIndex: 4,
                         justifyContent: "center",
                         alignItems: "center",
