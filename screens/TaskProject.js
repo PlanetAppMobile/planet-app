@@ -1,21 +1,26 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import DeleteIcon from "../assets/icons/delete-icon.png";
 import ListCheckBoxTask from "../components/ListCheckBoxTask";
 import axios from "axios";
 import path from "../path";
+import { useState } from "react";
 
 function TaskProject({ route, navigation }) {
     const projectId = route.params.projectId
     const projectName = route.params.projectName
     const [tasks, setTasks] = useState([])
-    useEffect(() => {
-        axios.get(`${path}/task/${projectId}`).then((res) => {
-            console.log("task:", res.data)
+    const [loading, setLoading] = useState(false)
+    async function getTask() {
+        await axios.get(`${path}/task/${projectId}`).then((res) => {
             setTasks(res.data)
+            setLoading(true)
         })
+    }
+    useEffect(() => {
+        getTask()
     }, [])
     return (
         <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
@@ -25,7 +30,10 @@ function TaskProject({ route, navigation }) {
                 resizeMode="contain"
             />
             <TouchableOpacity onPress={() => {
-                navigation.navigate("Project")
+                navigation.navigate("Project", {
+                    change: true
+                })
+
             }}>
                 <Image
                     style={{ width: "100%", height: 40, left: -175 }}
@@ -50,11 +58,13 @@ function TaskProject({ route, navigation }) {
                 <Text style={{ color: "#848181", fontFamily: "Jura", fontSize: 16 }}>
                     Every notes you wrote.
                 </Text>
-                <View style={{ width: '100%', marginTop: 20 }}>
-                    <ListCheckBoxTask projectId={projectId} type={"todo"} title={"To do"} />
-                    <ListCheckBoxTask projectId={projectId} type={"inprogress"} title={"In progress"} />
-                    <ListCheckBoxTask projectId={projectId} type={"done"} title={"Done"} />
-                </View>
+                {loading && (
+                    <View style={{ width: '100%', marginTop: 20 }}>
+                        <ListCheckBoxTask data={tasks} type={"todo"} title={"To do"} />
+                        <ListCheckBoxTask data={tasks} type={"inprogress"} title={"In progress"} />
+                        <ListCheckBoxTask data={tasks} type={"done"} title={"Done"} />
+                    </View>
+                )}
                 <View>
                     <TouchableOpacity
                         style={{
