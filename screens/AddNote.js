@@ -19,6 +19,14 @@ import path from "../path";
 export default function AddNote({ route, navigation }) {
   const [topicValue, setTopicValue] = useState("")
   const [descValue, setDescValue] = useState("")
+  const numNote = addLeadingZero(route.params.numNote || 1)
+  function addLeadingZero(number) {
+    let strNumber = number.toString();
+    if (strNumber.length < 2) {
+      strNumber = '0' + strNumber;
+    }
+    return strNumber;
+  }
   function formatDate(inputDate) {
     const options = { year: "numeric", month: "short", day: "numeric" };
     const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
@@ -99,7 +107,7 @@ export default function AddNote({ route, navigation }) {
                       color: "#8A97A0",
                     }}
                   >
-                    01
+                    {numNote}
                   </Text>
 
                   <TextInput

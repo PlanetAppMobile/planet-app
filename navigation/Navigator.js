@@ -1,5 +1,5 @@
 import { PUBLIC_ASSET_ICONS_URL } from '@env'
-import React from "react";
+import React, { useState } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -47,7 +47,7 @@ function MenuNavigator() {
                 position: 'absolute',
                 width:'100%',
                 height:100,
-                paddingTop:10,
+                paddingTop:0,
                 paddingHorizontal:5,
                 elevation: 0,
                 borderTopWidth: 0,

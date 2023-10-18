@@ -4,13 +4,17 @@ import HeaderPic from "../assets/header-page.png";
 import BoxNote from "../components/BoxNote";
 import axios from "axios";
 import path from "../path";
+import { useIsFocused } from "@react-navigation/native";
 function AllNote({ route, navigation }) {
-  useEffect(() => {
+  async function getNote(){
     axios.get(`${path}/note/1`).then((res) => {
-      console.log(res.data);
       setNote(res.data);
     });
-  }, []);
+  }
+  const isFocused = useIsFocused()
+    useEffect(() => {
+        getNote()
+    },[isFocused])
   const [note, setNote] = useState([]);
   
   return (
@@ -36,7 +40,9 @@ function AllNote({ route, navigation }) {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("AddNote");
+              navigation.navigate("AddNote", {
+                numNote: note.length+1
+              });
             }}
             style={{
               backgroundColor: "#F08D6E",

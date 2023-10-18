@@ -6,48 +6,53 @@ import Checkboxs from "expo-checkbox";
 import path from "../path"
 
 
-function ListCheckBox({ data, type, title }) {
-    const [tasks, setTasks] = useState(data);
+function ListCheckBox({ data, type, title, projectId, getTask }) {
+    const [tasks, setTasks] = useState();
     const [addChecked, setAddChecked] = useState(false)
     const [input, setInput] = useState('')
-    console.log("data:", data)
+    useEffect(()=>{
+        setTasks(data)
+    })
     function handleCheckboxChange(taskId, taskStatus) {
         const updatedTasks = tasks.map((task) => {
             if (task.task_id === taskId) {
                 axios.put(`${path}/task/${task.task_id}`, {
                     task_status: taskStatus
-                }).then((res) => {
-                    console.log("result:", res.data)
+                }).then(() => {
+                    getTask()
                 })
                 return false
             }
             return task;
         });
+        getTask()
         setTasks(updatedTasks);
     };
-    async function handleRemove(todoId) {
+    async function handleRemove(taskId) {
         try {
-            await axios.delete(`${path}/todolist/${todoId}`);
-            setTasks((prevTasks) => prevTasks.filter((todo) => todo.todo_id !== todoId));
+            await axios.delete(`${path}/task/${taskId}`);
+            setTasks((prevTasks) => prevTasks.filter((task) => task.task_id !== taskId));
         } catch (error) {
             console.error("Error removing task:", error);
         }
+        getTask()
     }
     async function onPressCreateTask() {
         if (addChecked && input != '') {
             try {
-                let data = {
+                let datas = {
                     task_name: input,
                     task_status: "todo",
                     project_id: projectId,
                 }
-                await axios.post(`${path}/task`, data).then((res) => {
+                await axios.post(`${path}/task`, datas).then((res) => {
                     setTasks((prevTasks) => [...prevTasks, res.data]);
                 })
             } catch (error) {
                 console.log(error)
             }
         }
+        getTask()
         setInput('')
         setAddChecked(!addChecked)
     }
@@ -65,7 +70,7 @@ function ListCheckBox({ data, type, title }) {
 
                 )}
             </View>
-            {tasks
+            {tasks && tasks
                 .filter((item) => item.task_status === type)
                 .map((item, _) => (
                     <CheckboxTask
@@ -73,7 +78,7 @@ function ListCheckBox({ data, type, title }) {
                         item={item}
                         type={"done"}
                         onValueChange={() => handleCheckboxChange(item.task_id, item.task_status)}
-                        onRemove={() => handleRemove(todoItem.project_id)}
+                        onRemove={() => handleRemove(item.task_id)}
                     />
                 ))}
             {

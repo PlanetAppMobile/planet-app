@@ -3,21 +3,15 @@ import { View, Text, ScrollView, Image, TouchableOpacity, Animated } from "react
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderPic from "../assets/header-page.png";
 import BoxProject from "../components/BoxProject";
+import { useIsFocused } from "@react-navigation/native";
 import path from "../path";
 import axios from "axios";
-import { useIsFocused } from "@react-navigation/native";
 
 function Project({ route, navigation }) {
     const [project, setProject] = useState([])
-    const [isChange, setIsChange] = useState(false)
     const scrollY = useRef(new Animated.Value(0)).current;
     const headerHeight = 65;
 
-    const headerTranslateY = scrollY.interpolate({
-        inputRange: [0, headerHeight],
-        outputRange: [0, -headerHeight],
-        extrapolate: "clamp",
-    });
     async function getProject() {
         await axios.get(`${path}/project`, {
             user_id: 1,
@@ -35,10 +29,9 @@ function Project({ route, navigation }) {
             <Image
                 style={{
                     width: "100%",
-                    height: headerHeight,
                     position: "absolute",
                     zIndex: 10,
-                    transform: [{ translateY: headerTranslateY }],
+                    backgroundColor:'#FBF7F0'
                 }}
                 source={HeaderPic}
                 resizeMode="contain"
