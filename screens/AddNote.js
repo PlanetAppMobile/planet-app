@@ -6,13 +6,43 @@ import {
   TouchableOpacity,
   TextInput,
   TextArea,
+  Alert
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import DeleteIcon from "../assets/icons/delete-icon.png";
 import Textarea from "react-native-textarea";
-export default function AddNote({route, navigation}) {
+import axios from "axios";
+import path from "../path";
+
+export default function AddNote({ route, navigation }) {
+  const [topicValue, setTopicValue] = useState("")
+  const [descValue, setDescValue] = useState("")
+  function formatDate(inputDate) {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
+    return formattedDate;
+  }
+  function onSubmitCreateNote() {
+    if (topicValue != '') {
+      axios.post(`${path}/note`, {
+        topic: topicValue,
+        description: descValue,
+        created_at: new Date(),
+        updated_at: new Date(),
+        user_id: 1
+      }).then((res) => {
+        console.log(res.data)
+        navigation.navigate("Note")
+      })
+    }
+    else {
+      Alert.alert(
+        'Please Input Topic or description Project',
+      )
+    }
+  }
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
       <Image
@@ -20,8 +50,8 @@ export default function AddNote({route, navigation}) {
         source={HeaderPic}
         resizeMode="contain"
       />
-      <TouchableOpacity onPress={()=>{navigation.navigate("Note")}}>
-        
+      <TouchableOpacity onPress={() => { navigation.navigate("Note") }}>
+
         <Image
           style={{ width: "100%", height: 40, left: -155 }}
           source={BackIcon}
@@ -73,6 +103,8 @@ export default function AddNote({route, navigation}) {
                   </Text>
 
                   <TextInput
+                    onChangeText={(value) => { setTopicValue(value) }}
+                    value={topicValue}
                     style={{
                       padding: 3,
                       outline: "none",
@@ -86,7 +118,7 @@ export default function AddNote({route, navigation}) {
                   ></TextInput>
                 </View>
 
-                <TouchableOpacity style={{ padding: 10 }}>
+                <TouchableOpacity style={{ padding: 10 }} onPress={onSubmitCreateNote}>
                   <Text style={{ color: "#E5725D", fontFamily: "Copper" }}>
                     DONE
                   </Text>
@@ -95,7 +127,8 @@ export default function AddNote({route, navigation}) {
             </View>
             <View style={{ padding: 15 }}>
               <Textarea
-                
+                onChangeText={(value) => { setDescValue(value) }}
+                value={descValue}
                 containerStyle={{
                   height: 350,
                 }}
@@ -108,7 +141,7 @@ export default function AddNote({route, navigation}) {
                   fontFamily: "Jura",
                   height: 570,
                 }}
-                placeholder="Enter your topic here..."
+                placeholder="Enter your description here..."
                 maxLength={500}
                 placeholderTextColor={"#B5B7B9"}
               ></Textarea>
@@ -121,7 +154,7 @@ export default function AddNote({route, navigation}) {
                   fontFamily: "Jura",
                 }}
               >
-                26 Feb, 2022
+                {formatDate(new Date())}
               </Text>
             </View>
           </View>

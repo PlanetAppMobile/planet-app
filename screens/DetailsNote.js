@@ -1,13 +1,34 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import DeleteIcon from "../assets/icons/delete-icon.png";
-
+import axios from "axios";
+import path from "../path";
+import Textarea from "react-native-textarea/src/Textarea";
 function DetailsNote({route, navigation}) {
   const [onEdit, setOnEdit] = useState(false);
   const {noteId} = route.params
+  useEffect(() => {
+    axios.get(`${path}/note/1/${noteId}`).then((res) => {
+      console.log(res.data);
+      setNote(res.data);
+    });
+  }, []);
+  const [note, setNote] = useState([]);
   // console.log(noteId)
+  function addLeadingZero(number) {
+    let strNumber = number.toString();
+    if (strNumber.length < 2) {
+      strNumber = '0' + strNumber;
+    }
+    return strNumber;
+  }
+  function formatDate(inputDate) {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
+    return formattedDate;
+  }
   function handleEdit() {
     setOnEdit(!onEdit);
   }
@@ -92,7 +113,7 @@ function DetailsNote({route, navigation}) {
                       color: "#8A97A0",
                     }}
                   >
-                    01
+                    {addLeadingZero(noteId-1)}
                   </Text>
                   <Text
                     style={{
@@ -102,7 +123,7 @@ function DetailsNote({route, navigation}) {
                       fontWeight: "bold",
                     }}
                   >
-                    Send email to ijon&igae.
+                    {note.topic}
                   </Text>
                 </View>
 
@@ -116,7 +137,7 @@ function DetailsNote({route, navigation}) {
               </View>
             </View>
             <View style={{ padding: 15 }}>
-              <Text
+              <Textarea value={note.description}
                 style={{
                   color: "#768592",
                   fontSize: 16,
@@ -125,11 +146,8 @@ function DetailsNote({route, navigation}) {
                   lineHeight: 23,
                 }}
               >
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
-              </Text>
+                {note.description}
+              </Textarea>
               <Text
                 style={{
                   marginTop: 45,
@@ -139,7 +157,7 @@ function DetailsNote({route, navigation}) {
                   fontFamily: "Jura",
                 }}
               >
-                26 Feb, 2022
+                {formatDate(note.updated_at)}
               </Text>
             </View>
           </View>
