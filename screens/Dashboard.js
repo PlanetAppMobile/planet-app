@@ -5,17 +5,15 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  TextInput,
-  useWindowDimensions,
-  Dimensions,
-  FlatList,
   LogBox,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import path from "../path"
+import Checkbox from "expo-checkbox";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import TaskStatusItem from "../components/TaskStatusItem";
 import CalendarPiechart from "../components/PiechartDashboard";
-import Checkbox from "expo-checkbox";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HeaderPic from "../assets/header-page.png";
@@ -70,22 +68,32 @@ function GenerateCheckBox(props) {
 }
 
 function Dashboard({ route, navigation }) {
-  const series = [14, 12, 18];
-  const [items, setItem] = useState([])
+  const [task, setTask] = useState([])
+  const [todoTask, setTodoTask] = useState(0)
+  const [inprogressTask, setInprogressTask] = useState(0)
+  const [doneTask, setDoneTask] = useState(0)
+  const [activeProject, setActiveProject] = useState()
   const getItemFromStorage = async () => {
     try {
       const value = await AsyncStorage.getItem('@ProjectLatest:active');
       if (value !== null) {
-        setItem([JSON.parse(value)]);
-        console.log(JSON.parse(value))
+        setActiveProject(JSON.parse(value))
+        let projectId = JSON.parse(value).project_id
+        await axios.get(`${path}/task/${projectId}`).then((res) => {
+          setTodoTask(res.data.filter((task) => task.task_status === "todo").length)
+          setInprogressTask(res.data.filter((task) => task.task_status === "inprogress").length)
+          setDoneTask(res.data.filter((task) => task.task_status === "done").length)
+          setTask(res.data)
+        })
       }
     } catch (error) {
       console.error('Error retrieving data from AsyncStorage:', error);
     }
   };
+  const isFocused = useIsFocused()
   useEffect(() => {
     getItemFromStorage()
-  }, [])
+  }, [isFocused])
   return (
     <ScrollView
       bounces={false}
@@ -146,19 +154,19 @@ function Dashboard({ route, navigation }) {
             paddingTop: 30,
           }}
         >
-          <CalendarPiechart type={"Dashboard"} data={items} />
+          <CalendarPiechart type={"Dashboard"} task={task} navigation={navigation} project={activeProject} />
           <View>
-            <TaskStatusItem color="#FFAA9B" title="TODO" count={series[0]} />
+            <TaskStatusItem color="#FFAA9B" title="TODO" count={todoTask} />
             <TaskStatusItem
               color="#CFCFAB"
               title="IN PROGRESS"
-              count={series[1]}
+              count={inprogressTask}
             />
             <TaskStatusItem
               color="#75C9A8"
               title="DONE"
               stage={true}
-              count={series[2]}
+              count={doneTask}
             />
           </View>
         </View>

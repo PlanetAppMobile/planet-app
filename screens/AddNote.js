@@ -11,7 +11,6 @@ import {
 import React, { useEffect, useState } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
-import DeleteIcon from "../assets/icons/delete-icon.png";
 import Textarea from "react-native-textarea";
 import axios from "axios";
 import path from "../path";

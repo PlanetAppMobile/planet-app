@@ -22,16 +22,17 @@ function Project({ route, navigation }) {
     const isFocused = useIsFocused()
     useEffect(() => {
         getProject()
-    },[isFocused])
+    }, [isFocused])
 
     return (
         <View style={{ flex: 1 }}>
             <Image
                 style={{
                     width: "100%",
+                    height: 65,
                     position: "absolute",
                     zIndex: 10,
-                    backgroundColor:'#FBF7F0'
+                    backgroundColor: '#FBF7F0'
                 }}
                 source={HeaderPic}
                 resizeMode="contain"
@@ -42,6 +43,26 @@ function Project({ route, navigation }) {
                     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                     { useNativeDriver: false }
                 )}
+                onScrollEndDrag={(event) => {
+                    let offsetY = event.nativeEvent.velocity.y;
+                    if (offsetY > 0) {
+                        navigation.setOptions({ tabBarStyle: { display: "none" }, });
+                    } else {
+                        navigation.setOptions({
+                            tabBarStyle: {
+                                display: 'block',
+                                position: 'absolute',
+                                width: '100%',
+                                height: 100,
+                                paddingTop: 0,
+                                paddingHorizontal: 5,
+                                elevation: 0,
+                                borderTopWidth: 0,
+                                backgroundColor: '#FBF7F0'
+                            }
+                        });
+                    }
+                }}
             >
                 <View style={{ paddingVertical: 24, paddingHorizontal: 25 }}>
                     <View
