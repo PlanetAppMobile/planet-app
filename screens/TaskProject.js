@@ -11,6 +11,7 @@ import { useState } from "react";
 function TaskProject({ route, navigation }) {
     const projectId = route.params.projectId
     const projectName = route.params.projectName
+    const previousNavigate = route.params.previous || "Project"
     const [tasks, setTasks] = useState()
     async function getTask() {
         await axios.get(`${path}/task/${projectId}`).then((res) => {
@@ -33,7 +34,7 @@ function TaskProject({ route, navigation }) {
                 resizeMode="contain"
             />
             <TouchableOpacity onPress={() => {
-                navigation.navigate("Project")
+                navigation.navigate(previousNavigate)
                 
             }}>
                 <Image

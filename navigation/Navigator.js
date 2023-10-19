@@ -23,6 +23,7 @@ import Profile from "../screens/Profile"
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
+const NoteStackNavigator = createNativeStackNavigator();
 
 function MainNavigator() {
     return (
@@ -38,6 +39,15 @@ function MainNavigator() {
         </MNavigator.Navigator>
     )
 }
+function NoteNavigator() {
+    return (
+        <NoteStackNavigator.Navigator initialRouteName='Note' screenOptions={{headerShown:false}}>
+            <NoteStackNavigator.Screen name="Note" component={AllNote} />
+            <NoteStackNavigator.Screen name="DetailNote" component={DetailsNote} />
+            <NoteStackNavigator.Screen name="AddNote" component={AddNote} />
+        </NoteStackNavigator.Navigator>
+    );
+}
 function MenuNavigator() {
     return (
         <BottomTabNavigator.Navigator initialRouteName="Project" screenOptions={{
@@ -45,16 +55,16 @@ function MenuNavigator() {
             tabBarShowLabel: false,
             tabBarStyle: {
                 position: 'absolute',
-                width:'100%',
-                height:100,
-                paddingTop:0,
-                paddingHorizontal:5,
+                width: '100%',
+                height: 100,
+                paddingTop: 0,
+                paddingHorizontal: 5,
                 elevation: 0,
                 borderTopWidth: 0,
                 backgroundColor: '#FBF7F0'
             }
         }}>
-            <BottomTabNavigator.Screen name="Dashboard" component={Dashboard} options={{
+            <BottomTabNavigator.Screen name="Dashboard" component={Dashboard}  options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/home-icon.png`)} />
                 )
@@ -69,7 +79,7 @@ function MenuNavigator() {
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/project-icon.png`)} />
                 ),
             }} />
-            <BottomTabNavigator.Screen name="Note" component={AllNote} options={{
+            <BottomTabNavigator.Screen name="Note" component={NoteNavigator} options={{
                 tabBarIcon: ({ focused }) => (
                     <MenuTab focused={focused} iconSource={require(`${PUBLIC_ASSET_ICONS_URL}/note-icon.png`)} />
                 )
