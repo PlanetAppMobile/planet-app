@@ -16,22 +16,18 @@ import DeleteIcon from "../assets/icons/delete-icon.png";
 import axios from "axios";
 import path from "../path";
 import Textarea from "react-native-textarea/src/Textarea";
+import { useIsFocused } from "@react-navigation/native";
 
 function DetailsNote({ route, navigation }) {
   const [onEdit, setOnEdit] = useState(true);
-  const { noteId } = route.params;
+  const { noteId, noNote } = route.params;
   const [newTopic, setNewTopic] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const isFocused = useIsFocused();
+  const [newDate, setNewDate] = useState("");
 
-  useEffect(() => {
-    axios.get(`${path}/note/1/${noteId}`).then((res) => {
-      console.log(res.data);
-      setNote(res.data);
-      setNewTopic(res.data.topic);
-      setNewDesc(res.data.description);
-    });
-  }, []);
+  useEffect(() => {getNote()}, [isFocused]);
   const [note, setNote] = useState([]);
   // console.log(noteId)
   function addLeadingZero(number) {
@@ -40,6 +36,15 @@ function DetailsNote({ route, navigation }) {
       strNumber = "0" + strNumber;
     }
     return strNumber;
+  }
+  async function getNote() {
+    await axios.get(`${path}/note/1/${noteId}`).then((res) => {
+      console.log(res.data);
+      setNote(res.data);
+      setNewTopic(res.data.topic);
+      setNewDesc(res.data.description);
+      setNewDate(res.data.updated_at);
+    });
   }
   function formatDate(inputDate) {
     const options = { year: "numeric", month: "short", day: "numeric" };
@@ -253,7 +258,7 @@ function DetailsNote({ route, navigation }) {
                       color: "#8A97A0",
                     }}
                   >
-                    {addLeadingZero(noteId - 1)}
+                    {addLeadingZero(noNote + 1)}
                   </Text>
                   <TextInput
                     onChangeText={(value) => {
@@ -308,7 +313,7 @@ function DetailsNote({ route, navigation }) {
                   fontFamily: "Jura",
                 }}
               >
-                {formatDate(note.updated_at)}
+                {formatDate(newDate)}
               </Text>
             </View>
           </View>
