@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
+  TextInput,
+  Alert
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import HeaderPic from "../assets/header-page.png";
@@ -14,15 +16,18 @@ import DeleteIcon from "../assets/icons/delete-icon.png";
 import axios from "axios";
 import path from "../path";
 import Textarea from "react-native-textarea/src/Textarea";
-function DetailsNote({ route, navigation }) {
-  const [onEdit, setOnEdit] = useState(false);
-  const { noteId } = route.params;
-  const [modalVisible, setModalVisible] = useState(false);
 
+function DetailsNote({ route, navigation }) {
+  const [onEdit, setOnEdit] = useState(true);
+  const { noteId } = route.params;
+  const [newTopic, setNewTopic] = useState("");
+  const [newDesc, setNewDesc] = useState("");
   useEffect(() => {
     axios.get(`${path}/note/1/${noteId}`).then((res) => {
       console.log(res.data);
       setNote(res.data);
+      setNewTopic(res.data.topic);
+      setNewDesc(res.data.description);
     });
   }, []);
   const [note, setNote] = useState([]);
@@ -43,7 +48,24 @@ function DetailsNote({ route, navigation }) {
     return formattedDate;
   }
   function handleEdit() {
+    if(onEdit == false){
+      axios.put(`${path}/note/1/${note.note_id}`, {
+        topic: newTopic,
+        description: newDesc,
+        updated_at: new Date(),
+        user_id: 1
+      }).then((res) => {
+        console.log(res.data)
+      })
+    }else {
+      Alert.alert(
+        'Please Input Topic or description Project',
+      )
+    }
     setOnEdit(!onEdit);
+  }
+  function deleteNote(){
+    axios.delete(`${path}/note/${note.note_id}`)
   }
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
@@ -185,7 +207,7 @@ function DetailsNote({ route, navigation }) {
                 fontFamily: "Copper",
               }}
             >
-              {onEdit ? "DONE" : "EDIT"}
+              {!onEdit ? "DONE" : "EDIT"}
             </Text>
           </TouchableOpacity>
         </View>
@@ -221,19 +243,23 @@ function DetailsNote({ route, navigation }) {
                   >
                     {addLeadingZero(noteId - 1)}
                   </Text>
-                  <Text
+                  <TextInput
+                    onChangeText={(value) => {
+                      setNewTopic(value);
+                    }}
                     style={{
                       fontSize: 17,
                       color: "#00213F",
                       fontFamily: "Jura",
                       fontWeight: "bold",
                     }}
-                  >
-                    {note.topic}
-                  </Text>
+                    value={newTopic}
+                    disabled={onEdit}
+                  ></TextInput>
                 </View>
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={deleteNote}>
                   <Image
                     style={{ width: 40, height: 55 }}
                     source={DeleteIcon}
@@ -244,17 +270,20 @@ function DetailsNote({ route, navigation }) {
             </View>
             <View style={{ padding: 15 }}>
               <Textarea
-                value={note.description}
+                onChangeText={(value)=>{
+                  setNewDesc(value)
+                }}
+                value={newDesc}
                 style={{
                   color: "#768592",
                   fontSize: 16,
                   fontFamily: "Jura",
                   letterSpacing: 1,
                   lineHeight: 23,
+                  height: 350
                 }}
-              >
-                {note.description}
-              </Textarea>
+                disabled={onEdit}
+              ></Textarea>
               <Text
                 style={{
                   marginTop: 45,
