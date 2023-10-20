@@ -19,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderPic from "../assets/header-page.png";
 import NotificationIcon from "../assets/icons/notification-icon.png";
 import UserIcon from "../assets/icons/user-icon.png";
+import ListCheckBox from "../components/ListCheckBox";
 
 LogBox.ignoreAllLogs();
 function GenerateEdit(props) {
@@ -34,38 +35,19 @@ function GenerateEdit(props) {
       }}
     >
       <Text style={{ marginLeft: 15, color: "#B7BBBB" }}>{props.text}</Text>
-      <Image
-        style={{ width: 30, height: 30, marginLeft: 20 }}
-        source={require("../assets/edit.png")}
-      />
+      <TouchableOpacity onPress={() => props.navigation.navigate("DetailNote", {
+        noteId: props.noteId
+      })}>
+        <Image
+          style={{ width: 30, height: 30, marginLeft: 20 }}
+          source={require("../assets/edit.png")}
+        />
+
+      </TouchableOpacity>
     </View>
   );
 }
 
-function GenerateCheckBox(props) {
-  const [isChecked, setChecked] = useState(false);
-  return (
-    <View
-      style={{
-        borderColor: "#D9DADA",
-        borderTopWidth: 1,
-        padding: 24,
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-    >
-      <Checkbox
-        style={{}}
-        value={isChecked}
-        onValueChange={setChecked}
-        color={isChecked ? props.color : undefined}
-      />
-      <Text style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura" }}>
-        {props.text}
-      </Text>
-    </View>
-  );
-}
 
 function Dashboard({ route, navigation }) {
   const [task, setTask] = useState([])
@@ -91,9 +73,22 @@ function Dashboard({ route, navigation }) {
     }
   };
   const isFocused = useIsFocused()
+  const currentDate = new Date()
+  const currentMonth = currentDate.getMonth() + 1
+  const currentDay = currentDate.getDate()
+
+
+  async function getNote() {
+    await axios.get(`${path}/note/1`).then((res) => {
+      console.log(res.data);
+      setNote(res.data);
+    });
+  }
   useEffect(() => {
+    getNote()
     getItemFromStorage()
   }, [isFocused])
+  const [note, setNote] = useState()
   return (
     <ScrollView
       bounces={false}
@@ -173,42 +168,32 @@ function Dashboard({ route, navigation }) {
       </View>
       {/* todo list container */}
 
-      <View style={styles.containerBox}>
-        <View style={styles.headerBox}>
-          <Text style={styles.headerText}>Today</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Todolist");
-            }}
-          >
-            <Image
-              style={{ width: 25, height: 25 }}
-              source={require("../assets/button.png")}
-            />
-          </TouchableOpacity>
-        </View>
-        <GenerateCheckBox color={"#4630EB"} text={"Send email to meaw."} />
-        <GenerateCheckBox color={"#4630EB"} text={"Clean the room."} />
-        <GenerateCheckBox color={"#4630EB"} text={"Order new dress."} />
-        <GenerateCheckBox color={"#4630EB"} text={"Call manager."} />
+      <View style={{ marginHorizontal: 25, }}>
+        <ListCheckBox numDay={currentDay} numMonth={currentMonth} numYear={'2023'} />
       </View>
-      <View style={{ marginTop: 30, ...styles.containerBox }}>
-        <View style={styles.headerBox}>
-          <Text style={styles.headerText}>Note</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Note");
-            }}
-          >
-            <Image
-              style={{ width: 25, height: 25 }}
-              source={require("../assets/button.png")}
-            />
-          </TouchableOpacity>
+      {note && (
+        <View style={{ marginTop: 30, ...styles.containerBox }}>
+          {console.log("ds", note)}
+          <View style={styles.headerBox}>
+            <Text style={styles.headerText}>Note</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("AddNote");
+              }}
+            >
+              <Image
+                style={{ width: 25, height: 25 }}
+                source={require("../assets/button.png")}
+              />
+            </TouchableOpacity>
+          </View>
+          {note?.map((item, index) => (
+            <GenerateEdit color={"#4630EB"} text={item.topic} noteId={item.note_id} key={index} navigation={navigation} />
+
+          ))}
         </View>
-        <GenerateEdit color={"#4630EB"} text={"I burb foodie."} />
-        <GenerateEdit color={"#4630EB"} text={"Chun rak mama."} />
-      </View>
+
+      )}
     </ScrollView>
   );
 }

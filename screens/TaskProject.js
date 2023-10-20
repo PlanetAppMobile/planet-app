@@ -16,6 +16,7 @@ function TaskProject({ route, navigation }) {
     const [tasks, setTasks] = useState()
     const [rating, setRating] = useState(0)
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
     async function getTask() {
         await axios.get(`${path}/task/${projectId}`).then((res) => {
             setTasks(res.data)
@@ -31,14 +32,111 @@ function TaskProject({ route, navigation }) {
             navigation.navigate('Project')
         })
     }
-    async function handleDeleteProject(){
-        await axios.delete(`${path}/project/${projectId}`).then((res)=>{
+    async function handleDeleteProject() {
+        setModalDeleteVisible(false)
+        await axios.delete(`${path}/project/${projectId}`).then((res) => {
             getTask()
             navigation.navigate('Project')
         })
     }
     return (
         <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalDeleteVisible}
+                onRequestClose={() => {
+                    setModalDeleteVisible(!modalDeleteVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView2}>
+                        <Image
+                            style={{ width: "100%", height: 55 }}
+                            source={HeaderPic}
+                            resizeMode="contain"
+                        />
+                        <View
+                            style={{
+                                padding: 0,
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Text style={styles.modalText2}>
+                                Are you sure you want to delete?
+                            </Text>
+                            <Text
+                                style={{
+                                    fontFamily: "Jura",
+                                    fontSize: 24,
+                                    textAlign: "center",
+                                    color: "#00213F",
+                                }}
+                            ></Text>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                width: "80%",
+                                justifyContent: "space-between",
+                                marginTop: 20,
+                            }}
+                        >
+                            <View style={{ width: "50%" }}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        setModalDeleteVisible(false);
+                                    }}
+                                    style={{
+                                        borderRadius: 5,
+                                        height: 35,
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        borderWidth: 2,
+                                        borderColor: "#F08D6E",
+                                        backgroundColor: "transparent",
+                                        marginLeft: 5,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 15,
+                                            color: "#F08D6E",
+                                            fontFamily: "Copper",
+                                        }}
+                                    >
+                                        CANCEL
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ width: "50%", marginLeft: 5 }}>
+                                <TouchableOpacity
+                                    onPress={handleDeleteProject}
+                                    style={{
+                                        borderRadius: 5,
+                                        height: 35,
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        backgroundColor: "#F08D6E",
+                                        marginRight: 5,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            fontSize: 15,
+                                            color: "white",
+                                            fontFamily: "Copper",
+                                        }}
+                                    >
+                                        DELETE
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -136,7 +234,7 @@ function TaskProject({ route, navigation }) {
                         {projectName}
                     </Text>
                     <TouchableOpacity
-                        onPress={handleDeleteProject}
+                        onPress={() => { setModalDeleteVisible(true) }}
                         style={{
                             borderWidth: 2,
                             borderColor: "#F08D6E",
@@ -161,11 +259,11 @@ function TaskProject({ route, navigation }) {
                 </View>
 
                 <Text style={{ color: "#848181", fontFamily: "Jura", fontSize: 16 }}>
-                    Every notes you wrote.
+                    For managing your project.
                 </Text>
                 {tasks && (
                     <View style={{ width: '100%', marginTop: 20 }}>
-                        <ListCheckBoxTask data={tasks} projectId={projectId} getTask={getTask} type={"todo"} title={"To do"} />
+                        <ListCheckBoxTask data={tasks} projectId={projectId} projectStatus={projectStatus} getTask={getTask} type={"todo"} title={"To do"} />
                         <ListCheckBoxTask data={tasks} projectId={projectId} getTask={getTask} type={"inprogress"} title={"In progress"} />
                         <ListCheckBoxTask data={tasks} projectId={projectId} getTask={getTask} type={"done"} title={"Done"} />
                     </View>
@@ -229,6 +327,22 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontFamily: 'JockeyOne',
         letterSpacing: 3
+    },
+    modalView2: {
+        backgroundColor: "#FBF7F0",
+        width: 330,
+        height: 230,
+        borderRadius: 20,
+        alignItems: "center",
+        overflow: "hidden",
+    },
+    modalText2: {
+        width: "80%",
+        marginTop: 10,
+        textAlign: "center",
+        fontSize: 28,
+        fontFamily: "JockeyOne",
+        letterSpacing: 2,
     },
 });
 export default TaskProject;

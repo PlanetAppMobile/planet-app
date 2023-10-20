@@ -6,7 +6,7 @@ import Checkboxs from "expo-checkbox";
 import path from "../path"
 
 
-function ListCheckBox({ data, type, title, projectId, getTask }) {
+function ListCheckBox({ data, type, title, projectId, getTask, projectStatus }) {
     const [tasks, setTasks] = useState();
     const [addChecked, setAddChecked] = useState(false)
     const [input, setInput] = useState('')
@@ -60,7 +60,7 @@ function ListCheckBox({ data, type, title, projectId, getTask }) {
         <View style={styles.containerBox}>
             <View style={styles.headerBox}>
                 <Text style={styles.headerText}>{title}</Text>
-                {type == "todo" && (
+                {type == "todo" && projectStatus != "Done" && (
                     <TouchableOpacity onPress={onPressCreateTask}>
                         {!addChecked ? (<Image
                             style={{ width: 30, height: 30 }}
