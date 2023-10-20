@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   ScrollView,
   LogBox,
+  Animated
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import path from "../path"
 import Checkbox from "expo-checkbox";
@@ -36,7 +37,8 @@ function GenerateEdit(props) {
     >
       <Text style={{ marginLeft: 15, color: "#B7BBBB" }}>{props.text}</Text>
       <TouchableOpacity onPress={() => props.navigation.navigate("DetailNote", {
-        noteId: props.noteId
+        noteId: props.noteId,
+        noNote: props.noo
       })}>
         <Image
           style={{ width: 30, height: 30, marginLeft: 20 }}
@@ -55,6 +57,9 @@ function Dashboard({ route, navigation }) {
   const [inprogressTask, setInprogressTask] = useState(0)
   const [doneTask, setDoneTask] = useState(0)
   const [activeProject, setActiveProject] = useState()
+
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const headerHeight = 65;
   const getItemFromStorage = async () => {
     try {
       const value = await AsyncStorage.getItem('@ProjectLatest:active');
@@ -90,111 +95,142 @@ function Dashboard({ route, navigation }) {
   }, [isFocused])
   const [note, setNote] = useState()
   return (
-    <ScrollView
-      bounces={false}
-      contentContainerStyle={{ flexGrow: 1 }}
-      style={{
-        backgroundColor: "#FBF7F0",
-      }}
-    >
-      {/* profile container */}
+    <View style={{ flex: 1 }}>
       <Image
-        style={{ width: "100%", height: 65 }}
+        style={{
+          width: "100%",
+          height: 65,
+          position: "absolute",
+          zIndex: 10,
+          backgroundColor: '#FBF7F0'
+        }}
         source={HeaderPic}
         resizeMode="contain"
       />
-      <View style={{ paddingVertical: 24, paddingHorizontal: 25 }}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <View>
-            <Text
-              style={{
-                fontSize: 28,
-                letterSpacing: 3,
-                fontFamily: "JockeyOne",
-              }}
-            >
-              Hi, Soksak
-            </Text>
-            <Text style={{ fontSize: 18, marginTop: 5, fontFamily: "Jura" }}>
-              What's Up Today?
-            </Text>
-          </View>
-          <View style={{ alignItems: "center", flexDirection: "row" }}>
-            <Image
-              style={{ width: 35, height: 35 }}
-              source={NotificationIcon}
-              resizeMode="contain"
-            />
-            <TouchableOpacity onPress={() => { navigation.navigate("Profile") }}>
+      <ScrollView
+        style={{ backgroundColor: "#FBF7F0", marginTop: headerHeight }}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+        onScrollEndDrag={(event) => {
+          let offsetY = event.nativeEvent.velocity.y;
+          if (offsetY > 0) {
+            navigation.setOptions({ tabBarStyle: { display: "none" }, });
+          } else {
+            navigation.setOptions({
+              tabBarStyle: {
+                display: 'block',
+                position: 'absolute',
+                width: '100%',
+                height: 100,
+                paddingTop: 0,
+                paddingHorizontal: 5,
+                elevation: 0,
+                borderTopWidth: 0,
+                backgroundColor: '#FBF7F0'
+              }
+            });
+          }
+        }}
+      >
+        {/* profile container */}
+        <View style={{ paddingVertical: 24, paddingHorizontal: 25 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <View>
+              <Text
+                style={{
+                  fontSize: 28,
+                  letterSpacing: 3,
+                  fontFamily: "JockeyOne",
+                }}
+              >
+                Hi, Soksak
+              </Text>
+              <Text style={{ fontSize: 18, marginTop: 5, fontFamily: "Jura" }}>
+                What's Up Today?
+              </Text>
+            </View>
+            <View style={{ alignItems: "center", flexDirection: "row" }}>
               <Image
-                style={{ width: 45, height: 45, marginLeft: 15 }}
-                source={UserIcon}
+                style={{ width: 35, height: 35 }}
+                source={NotificationIcon}
                 resizeMode="contain"
               />
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => { navigation.navigate("Profile") }}>
+                <Image
+                  style={{ width: 45, height: 45, marginLeft: 15 }}
+                  source={UserIcon}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-        {/* Chart Container */}
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            paddingTop: 30,
-          }}
-        >
-          <CalendarPiechart type={"Dashboard"} task={task} navigation={navigation} project={activeProject} />
-          <View>
-            <TaskStatusItem color="#FFAA9B" title="TODO" count={todoTask} />
-            <TaskStatusItem
-              color="#CFCFAB"
-              title="IN PROGRESS"
-              count={inprogressTask}
-            />
-            <TaskStatusItem
-              color="#75C9A8"
-              title="DONE"
-              stage={true}
-              count={doneTask}
-            />
-          </View>
-        </View>
-      </View>
-      {/* todo list container */}
-
-      <View style={{ marginHorizontal: 25, }}>
-        <ListCheckBox numDay={currentDay} numMonth={currentMonth} numYear={'2023'} />
-      </View>
-      {note && (
-        <View style={{ marginTop: 30, ...styles.containerBox }}>
-          {console.log("ds", note)}
-          <View style={styles.headerBox}>
-            <Text style={styles.headerText}>Note</Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("AddNote");
-              }}
-            >
-              <Image
-                style={{ width: 25, height: 25 }}
-                source={require("../assets/button.png")}
+          {/* Chart Container */}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              paddingTop: 30,
+            }}
+          >
+            <CalendarPiechart type={"Dashboard"} task={task} navigation={navigation} project={activeProject} />
+            <View>
+              <TaskStatusItem color="#FFAA9B" title="TODO" count={todoTask} />
+              <TaskStatusItem
+                color="#CFCFAB"
+                title="IN PROGRESS"
+                count={inprogressTask}
               />
-            </TouchableOpacity>
+              <TaskStatusItem
+                color="#75C9A8"
+                title="DONE"
+                stage={true}
+                count={doneTask}
+              />
+            </View>
           </View>
-          {note?.map((item, index) => (
-            <GenerateEdit color={"#4630EB"} text={item.topic} noteId={item.note_id} key={index} navigation={navigation} />
-
-          ))}
         </View>
+        {/* todo list container */}
 
-      )}
-    </ScrollView>
+        <View style={{ marginHorizontal: 25, }}>
+          <ListCheckBox numDay={currentDay} numMonth={currentMonth} numYear={'2023'} />
+        </View>
+        {note && (
+          <View style={{ marginTop: 30, ...styles.containerBox }}>
+            {console.log("ds", note)}
+            <View style={styles.headerBox}>
+              <Text style={styles.headerText}>Note</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("AddNote", {
+                    numNote: note.length + 1
+                  });
+                }}
+              >
+                <Image
+                  style={{ width: 25, height: 25 }}
+                  source={require("../assets/button.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            {note?.map((item, index) => (
+              <GenerateEdit color={"#4630EB"} text={item.topic} noteId={item.note_id} key={index} noo={index} navigation={navigation} />
+
+            ))}
+          </View>
+
+        )}
+      </ScrollView>
+
+    </View>
   );
 }
 

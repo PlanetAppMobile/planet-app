@@ -42,6 +42,8 @@ export default function AddNote({ route, navigation }) {
       }).then((res) => {
         console.log(res.data)
         navigation.navigate("Note")
+        setTopicValue('')
+        setDescValue('')
       })
     }
     else {
