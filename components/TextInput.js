@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 
-function FormInput({ labelText, handleChange, value, valid }) {
+function FormInput({ labelText, handleChange, value, valid, disabled }) {
   const regex = /password/i;
+  var disable = false
+  if(disabled){
+    disable = true
+  }
   var rulePassword = false
   if (regex.test(labelText)) {
     rulePassword = true
@@ -31,6 +35,7 @@ function FormInput({ labelText, handleChange, value, valid }) {
           fontFamily: 'Jura',
           color: "#768592",
         }}
+        disabled={disable}
         value={value} // Pass the value to the TextInput
         onChangeText={(value) => handleChange(labelText, value)} // Capture changes and call handleChange
       ></TextInput>

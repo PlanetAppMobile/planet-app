@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import HeaderPic from "../assets/header-page.png";
 import Profile from "../assets/profile.png";
@@ -12,18 +19,42 @@ function CreateProject({ route, navigation }) {
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPhone, setNewPhone] = useState("");
-
+  const handleInputChange = (labelText, value) => {
+    if (labelText == "Full name") {
+      setNewName(value);
+    }
+    if (labelText == "Email") {
+      setNewEmail(value);
+    }
+    if (labelText == "Phone number") {
+      setNewPhone(value);
+    }
+  };
   useEffect(() => {
     axios.get(`${path}/user/1`).then((res) => {
       console.log(res.data);
-      setProfile(res.data);
-      setNewName(res.data.user_fullname);
-      setNewPhone(res.data.phoneNumber);
-      setNewEmail(res.data.user_email);
+      setProfile(res.data.users);
+      setNewName(res.data.users.user_fullname);
+      setNewPhone(res.data.users.user_phoneNumber);
+      setNewEmail(res.data.users.user_email);
     });
   }, []);
   const [profile, setProfile] = useState([]);
   function handleEdit() {
+    if (onEdit == false) {
+      axios
+        .put(`${path}/user`, {
+          fullName: newName,
+          email: newEmail,
+          phoneNumber: newPhone,
+          userId: profile.user_id,
+        })
+        .then((res) => {
+          console.log(res.data);
+        });
+    } else {
+      Alert.alert("Please Input Topic or description Project");
+    }
     setOnEdit(!onEdit);
   }
   return (
@@ -57,19 +88,34 @@ function CreateProject({ route, navigation }) {
         <Text
           style={{
             fontSize: 18,
-            letterSpacing: 2,
+            letterSpacing: 1,
             fontFamily: "Jura",
             color: "#00213F",
             marginTop: 10,
           }}
         >
-          Somsak #8484
+          {newName} #00{profile.user_id}
         </Text>
       </View>
       <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
-        <FormInput labelText={"Full name"} />
-        <FormInput labelText={"Email"} />
-        <FormInput labelText={"Phone number"} />
+        <FormInput
+          labelText={"Full name"}
+          handleChange={handleInputChange}
+          value={newName}
+          disabled={onEdit}
+        />
+        <FormInput
+          labelText={"Email"}
+          handleChange={handleInputChange}
+          value={newEmail}
+          disabled={onEdit}
+        />
+        <FormInput
+          labelText={"Phone number"}
+          handleChange={handleInputChange}
+          value={newPhone}
+          disabled={onEdit}
+        />
         <TouchableOpacity
           onPress={handleEdit}
           style={{
@@ -77,7 +123,7 @@ function CreateProject({ route, navigation }) {
             borderWidth: 1,
             borderRadius: 3,
             marginTop: 12,
-            backgroundColor: onEdit ?  "transparent":"#F08D6E",
+            backgroundColor: onEdit ? "transparent" : "#F08D6E",
           }}
         >
           <Text
@@ -91,18 +137,24 @@ function CreateProject({ route, navigation }) {
             {!onEdit ? "DONE" : "EDIT PROFILE"}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            borderRadius: 5,
-            height: 35,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#F08D6E",
-            marginTop: 15,
-          }}
-        >
-          <Text style={{ fontSize: 15, color: "white", fontFamily:'Copper' }}>LOGOUT</Text>
-        </TouchableOpacity>
+        {onEdit && (
+          <TouchableOpacity
+            style={{
+              borderRadius: 5,
+              height: 35,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#F08D6E",
+              marginTop: 15,
+            }}
+          >
+            <Text
+              style={{ fontSize: 15, color: "white", fontFamily: "Copper" }}
+            >
+              LOGOUT
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

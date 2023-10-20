@@ -84,7 +84,8 @@ function AllNote({ route, navigation }) {
                   style={{ marginBottom: 20 }}
                   onPress={() => {
                     navigation.navigate("DetailNote", {
-                      noteId: item.note_id
+                      noteId: item.note_id,
+                      noNote: index
                     });
                   }}
                 >
