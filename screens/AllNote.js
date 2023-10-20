@@ -8,7 +8,7 @@ import { useIsFocused } from "@react-navigation/native";
 function AllNote({ route, navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
   async function getNote() {
-    axios.get(`${path}/note/1`).then((res) => {
+    await axios.get(`${path}/note/1`).then((res) => {
       setNote(res.data);
     });
   }
