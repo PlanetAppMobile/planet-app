@@ -16,8 +16,9 @@ const DatePicker = (props) => {
 
     const [date, setDate] = useState(new Date(defaultDate))
     const [show, setShow] = useState(false)
-    const maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear() + 100);
+    const [maxDate, setMaxDate] = useState(new Date());
+    // setMaxDate(maxDate.setFullYear(maxDate.getFullYear() + 100))
+    // maxDate.setFullYear(maxDate.getFullYear() + 100);
 
     const onChange = (e, selectedDate) => {
         setDate(new Date(selectedDate))

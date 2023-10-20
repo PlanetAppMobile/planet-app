@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity, Animated } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity, Animated, Modal } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HeaderPic from "../assets/header-page.png";
 import BoxProject from "../components/BoxProject";
@@ -17,6 +17,7 @@ function Project({ route, navigation }) {
             user_id: 1,
         }).then((res) => {
             setProject(res.data)
+            console.log(res.data);
         })
     }
     const isFocused = useIsFocused()
@@ -26,6 +27,7 @@ function Project({ route, navigation }) {
 
     return (
         <View style={{ flex: 1 }}>
+            
             <Image
                 style={{
                     width: "100%",
