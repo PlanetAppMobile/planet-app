@@ -5,6 +5,7 @@ import HeaderPic from "../assets/header-page.png"
 import TextField from "../components/TextInput";
 import BackIcon from "../assets/icons/back-icon.png";
 import DatePicker from '../components/DatePicker';
+import CalendarIcon from "../assets/icons/calendar-icon.png"
 import axios from "axios";
 import path from "../path";
 
@@ -14,25 +15,25 @@ function CreateProject({ route, navigation }) {
     const [description, setDescription] = useState('')
     const [deadline, setDeadline] = useState(new Date())
     const handleInputChange = (labelText, value) => {
-        if (labelText == "Title"){
+        if (labelText == "Title") {
             setInputValue(value)
         }
     };
     function onSubmitCreateProject() {
         if (inputValue != '') {
             console.log(deadline);
-            // axios.post(`${path}/project`, {
-            //     name: inputValue,
-            //     description: description,
-            //     deadline: date,
-            //     start_date: date,
-            //     end_date: date,
-            //     status: "On going",
-            //     assigned_to: 1,
-            // }).then((res) => {
-            //     console.log(res.data)
-            //     navigation.navigate("Project")
-            // })
+            axios.post(`${path}/project`, {
+                name: inputValue,
+                description: description,
+                deadline: date,
+                start_date: date,
+                end_date: date,
+                status: "On going",
+                assigned_to: 1,
+            }).then((res) => {
+                console.log(res.data)
+                navigation.navigate("Project")
+            })
         }
         else {
             Alert.alert(
@@ -90,7 +91,7 @@ function CreateProject({ route, navigation }) {
                         }}
                         style={{
                             color: "#768592",
-                            fontSize: 17,
+                            fontSize: 14,
                             fontFamily: "Jura",
                             height: 370,
                         }}
@@ -108,10 +109,17 @@ function CreateProject({ route, navigation }) {
                     >
                         Deadline
                     </Text>
-                    <DatePicker
-                        defaultDate={Date.now()}
-                        onDateChange={(value) => setDeadline(value)}
-                    />
+                    <View style={{ position: 'relative', }}>
+                        <DatePicker
+                            defaultDate={Date.now()}
+                            onDateChange={(value) => setDeadline(value)}
+                        />
+                        <Image
+                            style={{ width: 20, height: 20, right:5, top:8, position:'absolute' }}
+                            source={CalendarIcon}
+                            resizeMode="contain"
+                        />
+                    </View>
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <View style={{ width: '50%' }}>

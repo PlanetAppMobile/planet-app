@@ -2,9 +2,8 @@ import { View, Text, ScrollView, Image, TouchableOpacity, Modal, Pressable, Styl
 import React, { useEffect } from "react";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
-import DeleteIcon from "../assets/icons/delete-icon.png";
 import ListCheckBoxTask from "../components/ListCheckBoxTask";
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 import axios from "axios";
 import path from "../path";
 import { useState } from "react";
@@ -12,9 +11,10 @@ import { useState } from "react";
 function TaskProject({ route, navigation }) {
     const projectId = route.params.projectId
     const projectName = route.params.projectName
-    const WATER_IMAGE = require('../assets/rateing_icon.png')
     const previousNavigate = route.params.previous || "Project"
+    const projectStatus = route.params.projectStatus || "On going"
     const [tasks, setTasks] = useState()
+    const [rating, setRating] = useState(0)
     const [modalVisible, setModalVisible] = useState(false);
     async function getTask() {
         await axios.get(`${path}/task/${projectId}`).then((res) => {
@@ -24,14 +24,18 @@ function TaskProject({ route, navigation }) {
     useEffect(() => {
         getTask()
     }, [])
-    function onRatingProject(value) {
-        console.log(value);
-    }
     async function handleEndTask() {
         setModalVisible(false)
-        // await axios.put(`${path}/endTask/${projectId}`).then((res) => {
-        //     getTask()
-        // })
+        await axios.put(`${path}/endTask/${projectId}/${rating}`).then((res) => {
+            getTask()
+            navigation.navigate('Project')
+        })
+    }
+    async function handleDeleteProject(){
+        await axios.delete(`${path}/project/${projectId}`).then((res)=>{
+            getTask()
+            navigation.navigate('Project')
+        })
     }
     return (
         <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
@@ -54,23 +58,13 @@ function TaskProject({ route, navigation }) {
                             <Text style={styles.modalText}>RATE YOUR PROJECT</Text>
                             <Text style={{ fontFamily: 'Jura', fontSize: 24, textAlign: 'center', color: '#00213F' }}>{projectName}</Text>
                             <AirbnbRating
+                                ratingContainerStyle={{ marginVertical: 10 }}
                                 count={5}
-                                reviews={["Terrible", "Bad", "Meh", "OK", "Good", "Hmm...", "Very Good", "Wow", "Amazing", "Unbelievable", "Jesus"]}
+                                onFinishRating={(value) => { setRating(value) }}
                                 defaultRating={0}
                                 size={20}
                                 showRating={false}
                             />
-                            {/* <Rating
-                                type='star'
-                                // ratingImage={WATER_IMAGE}
-                                // ratingColor='#CCCCCC'
-                                ratingBackgroundColor='transparent'
-                                ratingCount={5}
-                                imageSize={40}
-                                ratingContainerStyle={{ marginHorizontal: 10, marginTop: 20, }}
-                                onFinishRating={onRatingProject}
-                                style={{ paddingVertical: 10, }}
-                            /> */}
 
                         </View>
                         <View style={{ flexDirection: "row", width: '80%', justifyContent: "space-between", marginTop: 20 }}>
@@ -92,8 +86,9 @@ function TaskProject({ route, navigation }) {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ width: '50%', marginLeft: 5 }}>
+
                                 <TouchableOpacity
-                                onPress={handleEndTask}
+                                    onPress={handleEndTask}
                                     style={{
                                         borderRadius: 5,
                                         height: 35,
@@ -106,6 +101,7 @@ function TaskProject({ route, navigation }) {
                                 >
                                     <Text style={{ fontSize: 15, color: "white", fontFamily: 'Copper' }}>SUBMIT</Text>
                                 </TouchableOpacity>
+
                             </View>
                         </View>
                     </View>
@@ -139,7 +135,31 @@ function TaskProject({ route, navigation }) {
                     >
                         {projectName}
                     </Text>
+                    <TouchableOpacity
+                        onPress={handleDeleteProject}
+                        style={{
+                            borderWidth: 2,
+                            borderColor: "#F08D6E",
+                            width: 100,
+                            height: 27,
+                            borderRadius: 3,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color: '#F08D6E',
+                                textAlign: "center",
+                                fontFamily: "Copper",
+                            }}
+                        >
+                            DELETE
+                        </Text>
+                    </TouchableOpacity>
                 </View>
+
                 <Text style={{ color: "#848181", fontFamily: "Jura", fontSize: 16 }}>
                     Every notes you wrote.
                 </Text>
@@ -150,23 +170,23 @@ function TaskProject({ route, navigation }) {
                         <ListCheckBoxTask data={tasks} projectId={projectId} getTask={getTask} type={"done"} title={"Done"} />
                     </View>
                 )}
-                <View>
-                    <TouchableOpacity
-                        onPress={()=>{setModalVisible(true)}}
-                        style={{
-                            borderRadius: 5,
-                            height: 35,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderWidth: 2,
-                            borderColor: '#F08D6E',
-                            backgroundColor: "transaprent",
-                            marginTop: 15,
-                        }}
-                    >
-                        <Text style={{ fontSize: 15, color: "#F08D6E", fontFamily: 'Copper' }}>END PROJECT</Text>
-                    </TouchableOpacity>
-                </View>
+                {projectStatus == "On going" && (
+                    <View>
+                        <TouchableOpacity
+                            onPress={() => { setModalVisible(true) }}
+                            style={{
+                                borderRadius: 5,
+                                height: 35,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor: "#F08D6E",
+                                marginTop: 15,
+                            }}
+                        >
+                            <Text style={{ fontSize: 15, color: "white", fontFamily: 'Copper' }}>END PROJECT</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
         </ScrollView>
     );

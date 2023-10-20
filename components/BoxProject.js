@@ -1,6 +1,7 @@
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import CalendarPiechart from "./CalendarPiechart";
+import { AirbnbRating } from 'react-native-ratings';
 import axios from "axios";
 import path from "../path";
 
@@ -24,12 +25,14 @@ function BoxProject({ data }) {
         project_name,
         project_description,
         project_end_date,
+        project_rating,
+        project_deadline,
         project_status,
         assigned_to
     } = data
-    useEffect(()=>{
+    useEffect(() => {
         getTaskInProject()
-    },[])
+    }, [])
     return (
         <View style={{ flexDirection: "row", marginBottom: 20 }}>
             <View
@@ -71,7 +74,19 @@ function BoxProject({ data }) {
                             </Text>
 
                         </View>
-                        <View style={{ position: "absolute", bottom: 0 }}><Text style={{ color: "#E5725D", fontFamily: "Jura", }}>{formatDate(project_end_date)}</Text></View>
+                        <AirbnbRating
+                            starContainerStyle={{ margin: 0, padding: 0 }}
+                            ratingContainerStyle={{ marginVertical: 10, marginHorizontal: 0, padding: 0, alignItems: 'flex-start' }}
+                            count={5}
+                            onFinishRating={(value) => { setRating(value) }}
+                            defaultRating={project_rating || 0}
+                            size={20}
+                            showRating={false}
+                            isDisabled={true}
+
+                        />
+                        <View style={{ position: "absolute", bottom: 0 }}><Text style={{ color: "#E5725D", fontFamily: "Jura", }}>{formatDate(project_deadline)}</Text></View>
+                        {/* <View style={{ position: "absolute", bottom: 0 }}><Text style={{ color: "#E5725D", fontFamily: "Jura", }}>End {formatDate(project_end_date)}</Text></View> */}
                     </View>
                     <CalendarPiechart data={taskProject} type={"Project"} />
                 </View>
