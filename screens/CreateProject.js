@@ -12,24 +12,27 @@ function CreateProject({ route, navigation }) {
     const [date, setDate] = useState(new Date())
     const [inputValue, setInputValue] = useState("")
     const [description, setDescription] = useState('')
-
-    const handleInputChange = (text) => {
-        setInputValue(text);
+    const [deadline, setDeadline] = useState(new Date())
+    const handleInputChange = (labelText, value) => {
+        if (labelText == "Title"){
+            setInputValue(value)
+        }
     };
     function onSubmitCreateProject() {
         if (inputValue != '') {
-            axios.post(`${path}/project`, {
-                name: inputValue,
-                description: description,
-                deadline: date,
-                start_date: date,
-                end_date: date,
-                status: "On going",
-                assigned_to: 1,
-            }).then((res) => {
-                console.log(res.data)
-                navigation.navigate("Project")
-            })
+            console.log(deadline);
+            // axios.post(`${path}/project`, {
+            //     name: inputValue,
+            //     description: description,
+            //     deadline: date,
+            //     start_date: date,
+            //     end_date: date,
+            //     status: "On going",
+            //     assigned_to: 1,
+            // }).then((res) => {
+            //     console.log(res.data)
+            //     navigation.navigate("Project")
+            // })
         }
         else {
             Alert.alert(
@@ -107,7 +110,7 @@ function CreateProject({ route, navigation }) {
                     </Text>
                     <DatePicker
                         defaultDate={Date.now()}
-                        onDateChange={(value) => console.log(value)}
+                        onDateChange={(value) => setDeadline(value)}
                     />
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
