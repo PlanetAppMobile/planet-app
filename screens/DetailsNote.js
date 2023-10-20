@@ -7,7 +7,7 @@ import {
   Modal,
   StyleSheet,
   TextInput,
-  Alert
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import HeaderPic from "../assets/header-page.png";
@@ -22,6 +22,8 @@ function DetailsNote({ route, navigation }) {
   const { noteId } = route.params;
   const [newTopic, setNewTopic] = useState("");
   const [newDesc, setNewDesc] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     axios.get(`${path}/note/1/${noteId}`).then((res) => {
       console.log(res.data);
@@ -48,24 +50,27 @@ function DetailsNote({ route, navigation }) {
     return formattedDate;
   }
   function handleEdit() {
-    if(onEdit == false){
-      axios.put(`${path}/note/1/${note.note_id}`, {
-        topic: newTopic,
-        description: newDesc,
-        updated_at: new Date(),
-        user_id: 1
-      }).then((res) => {
-        console.log(res.data)
-      })
-    }else {
-      Alert.alert(
-        'Please Input Topic or description Project',
-      )
+    if (onEdit == false) {
+      axios
+        .put(`${path}/note/1/${note.note_id}`, {
+          topic: newTopic,
+          description: newDesc,
+          updated_at: new Date(),
+          user_id: 1,
+        })
+        .then((res) => {
+          console.log(res.data);
+        });
+    } else {
+      Alert.alert("Please Input Topic or description Project");
     }
     setOnEdit(!onEdit);
   }
-  function deleteNote(){
-    axios.delete(`${path}/note/${note.note_id}`)
+  async function deleteNote() {
+    await axios.delete(`${path}/note/${note.note_id}`).then(() => {
+      setModalVisible(false);
+      navigation.navigate("Note");
+    });
   }
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
@@ -85,8 +90,16 @@ function DetailsNote({ route, navigation }) {
               source={HeaderPic}
               resizeMode="contain"
             />
-            <View style={{ padding: 0, justifyContent: "center" }}>
-              <Text style={styles.modalText}>RATE YOUR PROJECT</Text>
+            <View
+              style={{
+                padding: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={styles.modalText}>
+                Are you sure you want to delete?
+              </Text>
               <Text
                 style={{
                   fontFamily: "Jura",
@@ -117,7 +130,6 @@ function DetailsNote({ route, navigation }) {
                     borderWidth: 2,
                     borderColor: "#F08D6E",
                     backgroundColor: "transparent",
-                    marginTop: 15,
                     marginLeft: 5,
                   }}
                 >
@@ -134,13 +146,13 @@ function DetailsNote({ route, navigation }) {
               </View>
               <View style={{ width: "50%", marginLeft: 5 }}>
                 <TouchableOpacity
+                  onPress={deleteNote}
                   style={{
                     borderRadius: 5,
                     height: 35,
                     justifyContent: "center",
                     alignItems: "center",
                     backgroundColor: "#F08D6E",
-                    marginTop: 15,
                     marginRight: 5,
                   }}
                 >
@@ -151,7 +163,7 @@ function DetailsNote({ route, navigation }) {
                       fontFamily: "Copper",
                     }}
                   >
-                    SUBMIT
+                    DELETE
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -259,7 +271,10 @@ function DetailsNote({ route, navigation }) {
                 </View>
 
                 <TouchableOpacity
-                onPress={deleteNote}>
+                  onPress={() => {
+                    setModalVisible(true);
+                  }}
+                >
                   <Image
                     style={{ width: 40, height: 55 }}
                     source={DeleteIcon}
@@ -270,8 +285,8 @@ function DetailsNote({ route, navigation }) {
             </View>
             <View style={{ padding: 15 }}>
               <Textarea
-                onChangeText={(value)=>{
-                  setNewDesc(value)
+                onChangeText={(value) => {
+                  setNewDesc(value);
                 }}
                 value={newDesc}
                 style={{
@@ -280,7 +295,7 @@ function DetailsNote({ route, navigation }) {
                   fontFamily: "Jura",
                   letterSpacing: 1,
                   lineHeight: 23,
-                  height: 350
+                  height: 350,
                 }}
                 disabled={onEdit}
               ></Textarea>
@@ -312,7 +327,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "#FBF7F0",
     width: 330,
-    height: 300,
+    height: 230,
     borderRadius: 20,
     alignItems: "center",
     overflow: "hidden",
@@ -335,11 +350,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalText: {
+    width: "80%",
     marginTop: 10,
     textAlign: "center",
     fontSize: 28,
     fontFamily: "JockeyOne",
-    letterSpacing: 3,
+    letterSpacing: 2,
   },
 });
 export default DetailsNote;
