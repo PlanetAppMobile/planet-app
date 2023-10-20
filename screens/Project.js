@@ -116,7 +116,8 @@ function Project({ route, navigation }) {
                                     }
                                     navigation.navigate("TaskProject", {
                                         projectId: item.project_id,
-                                        projectName: item.project_name
+                                        projectName: item.project_name,
+                                        projectStatus: item.project_status
                                     })
                                 }}>
                                     <BoxProject data={item} />

@@ -50,7 +50,7 @@ function NoteNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Note" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Project" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {

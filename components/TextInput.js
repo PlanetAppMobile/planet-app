@@ -2,6 +2,12 @@ import React from "react";
 import { View, Text, TextInput } from "react-native";
 
 function FormInput({ labelText, handleChange, value, valid }) {
+  const regex = /password/i;
+  var rulePassword = false
+  if (regex.test(labelText)) {
+    rulePassword = true
+  }
+
   return (
     <View>
       <Text
@@ -15,12 +21,15 @@ function FormInput({ labelText, handleChange, value, valid }) {
         {labelText}
       </Text>
       <TextInput
+        secureTextEntry={rulePassword}
         style={{
           borderWidth: 1,
           padding: 6,
           borderColor: "#768592",
           borderRadius: 3,
           marginBottom: 5,
+          fontFamily: 'Jura',
+          color: "#768592",
         }}
         value={value} // Pass the value to the TextInput
         onChangeText={(value) => handleChange(labelText, value)} // Capture changes and call handleChange
