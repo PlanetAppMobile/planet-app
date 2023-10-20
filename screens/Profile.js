@@ -1,12 +1,28 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderPic from "../assets/header-page.png";
 import Profile from "../assets/profile.png";
 import FormInput from "../components/TextInput";
+import axios from "axios";
+import path from "../path";
 
 function CreateProject({ route, navigation }) {
   const [date, setDate] = useState(new Date());
-  const [onEdit, setOnEdit] = useState(false);
+  const [onEdit, setOnEdit] = useState(true);
+  const [newName, setNewName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPhone, setNewPhone] = useState("");
+
+  useEffect(() => {
+    axios.get(`${path}/user/1`).then((res) => {
+      console.log(res.data);
+      setProfile(res.data);
+      setNewName(res.data.user_fullname);
+      setNewPhone(res.data.phoneNumber);
+      setNewEmail(res.data.user_email);
+    });
+  }, []);
+  const [profile, setProfile] = useState([]);
   function handleEdit() {
     setOnEdit(!onEdit);
   }
@@ -61,19 +77,31 @@ function CreateProject({ route, navigation }) {
             borderWidth: 1,
             borderRadius: 3,
             marginTop: 12,
-            backgroundColor: onEdit ? "#F08D6E" : "transparent",
+            backgroundColor: onEdit ?  "transparent":"#F08D6E",
           }}
         >
           <Text
             style={{
-              color: onEdit ? "#FBF7F0" : "#F08D6E",
+              color: onEdit ? "#F08D6E" : "#FBF7F0",
               fontFamily: "Copper",
               textAlign: "center",
               padding: 7,
             }}
           >
-            {onEdit ? "DONE" : "EDIT PROFILE"}
+            {!onEdit ? "DONE" : "EDIT PROFILE"}
           </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            borderRadius: 5,
+            height: 35,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F08D6E",
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "white", fontFamily:'Copper' }}>LOGOUT</Text>
         </TouchableOpacity>
       </View>
     </View>
