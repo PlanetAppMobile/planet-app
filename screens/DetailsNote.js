@@ -4,6 +4,8 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Modal,
+  StyleSheet,
   TextInput,
   Alert
 } from "react-native";
@@ -67,6 +69,96 @@ function DetailsNote({ route, navigation }) {
   }
   return (
     <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Image
+              style={{ width: "100%", height: 55 }}
+              source={HeaderPic}
+              resizeMode="contain"
+            />
+            <View style={{ padding: 0, justifyContent: "center" }}>
+              <Text style={styles.modalText}>RATE YOUR PROJECT</Text>
+              <Text
+                style={{
+                  fontFamily: "Jura",
+                  fontSize: 24,
+                  textAlign: "center",
+                  color: "#00213F",
+                }}
+              ></Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                width: "80%",
+                justifyContent: "space-between",
+                marginTop: 20,
+              }}
+            >
+              <View style={{ width: "50%" }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisible(false);
+                  }}
+                  style={{
+                    borderRadius: 5,
+                    height: 35,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderWidth: 2,
+                    borderColor: "#F08D6E",
+                    backgroundColor: "transparent",
+                    marginTop: 15,
+                    marginLeft: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "#F08D6E",
+                      fontFamily: "Copper",
+                    }}
+                  >
+                    CANCEL
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ width: "50%", marginLeft: 5 }}>
+                <TouchableOpacity
+                  style={{
+                    borderRadius: 5,
+                    height: 35,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#F08D6E",
+                    marginTop: 15,
+                    marginRight: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "white",
+                      fontFamily: "Copper",
+                    }}
+                  >
+                    SUBMIT
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Image
         style={{ width: "100%", height: 65 }}
         source={HeaderPic}
@@ -210,4 +302,44 @@ function DetailsNote({ route, navigation }) {
     </ScrollView>
   );
 }
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(109, 109, 104, 0.5)",
+  },
+  modalView: {
+    backgroundColor: "#FBF7F0",
+    width: 330,
+    height: 300,
+    borderRadius: 20,
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  button: {
+    fontFamily: "Copper",
+    borderRadius: "0.1875rem",
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginTop: 10,
+    textAlign: "center",
+    fontSize: 28,
+    fontFamily: "JockeyOne",
+    letterSpacing: 3,
+  },
+});
 export default DetailsNote;
