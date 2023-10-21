@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React, { useState } from 'react'
 import Checkbox from "expo-checkbox";
-// import Swipeout from 'react-native-swipeout';
+import Swipeout from 'react-native-swipeout';
 
 function CustomCheckbox({ item, onValueChange, onRemove }) {
     var swipeoutBtns = [
@@ -12,7 +12,7 @@ function CustomCheckbox({ item, onValueChange, onRemove }) {
         }
     ]
     return (
-        // <Swipeout style={{backgroundColor:'transparent'}} right={swipeoutBtns}>
+        <Swipeout style={{backgroundColor:'transparent'}} right={swipeoutBtns}>
         <View
             style={{
                 borderColor: "#D9DADA",
@@ -33,7 +33,7 @@ function CustomCheckbox({ item, onValueChange, onRemove }) {
                 {item.todo_desc}
             </Text>
         </View>
-        // </Swipeout>
+        </Swipeout>
     );
 }
 export default CustomCheckbox;

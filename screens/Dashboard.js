@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   LogBox,
-  Animated
+  Animated,
+  Modal
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -76,6 +77,17 @@ function Dashboard({ route, navigation }) {
       console.error('Error retrieving data from AsyncStorage:', error);
     }
   };
+  async function getUserIdFromStorage() {
+    try {
+      const value = await AsyncStorage.getItem('@UserId');
+      if (value != null) {
+        return parseInt(JSON.parse(value))
+      }
+      console.log(value);
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
   const isFocused = useIsFocused()
   const currentDate = new Date()
   const currentMonth = currentDate.getMonth() + 1
@@ -83,14 +95,13 @@ function Dashboard({ route, navigation }) {
 
 
   async function getNote() {
-    await axios.get(`${path}/note/1`).then((res) => {
-      console.log(res.data);
+    await axios.get(`${path}/note/${await getUserIdFromStorage()}`).then((res) => {
       setNote(res.data);
     });
   }
   useEffect(() => {
-    getNote()
     getItemFromStorage()
+    getNote()
   }, [isFocused])
   const [note, setNote] = useState()
   return (
@@ -207,7 +218,6 @@ function Dashboard({ route, navigation }) {
         </View>
         {note && (
           <View style={{ marginTop: 30, ...styles.containerBox }}>
-            {console.log("ds", note)}
             <View style={styles.headerBox}>
               <Text style={styles.headerText}>Note</Text>
               <TouchableOpacity

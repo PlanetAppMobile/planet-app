@@ -7,17 +7,18 @@ import {
     Modal,
     TouchableHighlight,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import DateTimePicker from '@react-native-community/datetimepicker'
 
 const DatePicker = (props) => {
     const { defaultDate, onDateChange } = props
-
-    const [date, setDate] = useState(new Date(props.defaultDate))
+    const [date, setDate] = useState(new Date(defaultDate))
     const [show, setShow] = useState(false)
-    const [maxDate, setMaxDate] = useState(new Date(2099-12-30));
-
+    const [maxDate, setMaxDate] = useState(new Date("2050-01-01"));
+    useEffect(() => {
+        onChange("",new Date(props.defaultDate))
+    }, [defaultDate])
     const onChange = (e, selectedDate) => {
         setDate(new Date(selectedDate))
     }
@@ -43,11 +44,11 @@ const DatePicker = (props) => {
             <>
                 <DateTimePicker
                     display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                    timeZoneOffsetInMinutes={0}
-                    value={new Date(date)}
+                    value={date}
                     mode='date'
-                    minimumDate={new Date()}
-                    maximumDate={maxDate}  
+                    timeZoneOffsetInMinutes={0}
+                    minimumDate={new Date('2000-01-01')}
+                    maximumDate={maxDate}
                     onChange={Platform.OS === 'ios' ? onChange : onAndroidChange}
                 />
             </>
@@ -78,7 +79,7 @@ const DatePicker = (props) => {
                                 style={styles.pickerContainer}
                             >
                                 <View style={{ backgroundColor: '#fff' }}>
-                                    <View style={{ marginTop: 20 }}>{ renderDatePicker()}</View>
+                                    <View style={{ marginTop: 20 }}>{renderDatePicker()}</View>
                                     <TouchableHighlight
                                         underlayColor={'transparent'}
                                         onPress={onCancelPress}
@@ -146,5 +147,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         paddingHorizontal: 10,
         paddingVertical: 5,
+        color: 'blue'
     },
 })

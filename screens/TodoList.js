@@ -83,7 +83,6 @@ function TodoList() {
                                     setYear(new Date(value).getFullYear())
                                     setCurrentDay(new Date(value).getDate())
                                     setDayList(getDayObjects(new Date(value).getMonth()+1, new Date(value).getFullYear()))
-                                    // console.log("date", new Date(value).getMonth());
                                     setDeadline(value)
                                 }}
                             />)

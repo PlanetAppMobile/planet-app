@@ -7,17 +7,19 @@ import {
     Modal,
     TouchableHighlight,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import DateTimePicker from '@react-native-community/datetimepicker'
 
 const DatePicker = (props) => {
     const { defaultDate, onDateChange } = props
-
     const [date, setDate] = useState(new Date(defaultDate))
     const [show, setShow] = useState(false)
-    const [maxDate, setMaxDate] = useState(new Date(2099-12-30));
-
+    const [maxDate, setMaxDate] = useState(new Date("2050-01-01"));
+    console.log(maxDate);
+    useEffect(() => {
+        // onChange("",new Date(props.defaultDate))
+    }, [defaultDate])
     const onChange = (e, selectedDate) => {
         setDate(new Date(selectedDate))
     }
@@ -43,11 +45,11 @@ const DatePicker = (props) => {
             <>
                 <DateTimePicker
                     display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                    timeZoneOffsetInMinutes={0}
-                    value={new Date(date)}
+                    value={date}
                     mode='date'
+                    timeZoneOffsetInMinutes={0}
                     minimumDate={new Date()}
-                    maximumDate={maxDate}  
+                    maximumDate={maxDate}
                     onChange={Platform.OS === 'ios' ? onChange : onAndroidChange}
                 />
             </>

@@ -6,6 +6,7 @@ import TextField from "../components/TextInput";
 import BackIcon from "../assets/icons/back-icon.png";
 import DatePicker from '../components/DatePicker';
 import CalendarIcon from "../assets/icons/calendar-icon.png"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import path from "../path";
 
@@ -19,7 +20,18 @@ function CreateProject({ route, navigation }) {
             setInputValue(value)
         }
     };
-    function onSubmitCreateProject() {
+    async function getUserIdFromStorage() {
+        try {
+            const value = await AsyncStorage.getItem('@UserId');
+            if (value != null) {
+                return parseInt(JSON.parse(value))
+            }
+            console.log(value);
+        } catch (error) {
+            console.error('Error retrieving data from AsyncStorage:', error);
+        }
+    };
+    async function onSubmitCreateProject() {
         if (inputValue != '') {
             console.log(deadline);
             axios.post(`${path}/project`, {
@@ -29,7 +41,7 @@ function CreateProject({ route, navigation }) {
                 start_date: date,
                 end_date: date,
                 status: "On going",
-                assigned_to: 1,
+                assigned_to: await getUserIdFromStorage(),
             }).then((res) => {
                 console.log(res.data)
                 navigation.navigate("Project")
@@ -115,7 +127,7 @@ function CreateProject({ route, navigation }) {
                             onDateChange={(value) => setDeadline(value)}
                         />
                         <Image
-                            style={{ width: 20, height: 20, right:5, top:8, position:'absolute' }}
+                            style={{ width: 20, height: 20, right: 5, top: 8, position: 'absolute' }}
                             source={CalendarIcon}
                             resizeMode="contain"
                         />

@@ -12,6 +12,7 @@ import { useState, useEffect, useRef } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import axios from "axios";
 import path from "../path"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
@@ -29,10 +30,19 @@ export default function Notification({ route, navigation }) {
     const [project, setProject] = useState([])
     const scrollY = useRef(new Animated.Value(0)).current;
     const headerHeight = 65;
-
+    async function getUserIdFromStorage() {
+        try {
+            const value = await AsyncStorage.getItem('@UserId');
+            if (value != null) {
+                return parseInt(JSON.parse(value))
+            }
+            console.log(value);
+        } catch (error) {
+            console.error('Error retrieving data from AsyncStorage:', error);
+        }
+    };
     async function getProject() {
-        await axios.get(`${path}/project`, {
-            user_id: 1,
+        await axios.get(`${path}/project/${await getUserIdFromStorage()}`, {
         }).then((res) => {
             setProject(res.data)
             console.log(res.data);
@@ -104,7 +114,7 @@ export default function Notification({ route, navigation }) {
                         </Text>
                     </View>
                     {project && (<Text style={{ color: "#848181", fontFamily: "Jura", fontSize: 16 }}>
-                        You have {project.length} notifications Today.
+                        You have {project.filter((item) => item.project_status == "On going").length} notifications Today.
                     </Text>)
                     }
                     <View style={{ marginTop: 25 }}>
@@ -113,7 +123,7 @@ export default function Notification({ route, navigation }) {
                             const deadlineDateB = new Date(b.project_deadline);
 
                             return deadlineDateA - deadlineDateB;
-                        })
+                        }).filter((item) => item.project_status == "On going")
                             .map((item, index) => {
                                 return (
                                     <View key={index} style={{ width: "100%", borderColor: "#DDD", borderWidth: 1, marginTop: 10, padding: 15 }}>

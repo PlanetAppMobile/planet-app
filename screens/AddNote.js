@@ -9,6 +9,7 @@ import {
   Alert
 } from "react-native";
 import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import HeaderPic from "../assets/header-page.png";
 import BackIcon from "../assets/icons/back-icon.png";
 import Textarea from "react-native-textarea";
@@ -31,16 +32,26 @@ export default function AddNote({ route, navigation }) {
     const formattedDate = new Date(inputDate).toLocaleDateString(undefined, options);
     return formattedDate;
   }
-  function onSubmitCreateNote() {
+  async function getUserIdFromStorage() {
+    try {
+      const value = await AsyncStorage.getItem('@UserId');
+      if (value != null) {
+        return parseInt(JSON.parse(value))
+      }
+      console.log(value);
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
+  async function onSubmitCreateNote() {
     if (topicValue != '') {
       axios.post(`${path}/note`, {
         topic: topicValue,
         description: descValue,
         created_at: new Date(),
         updated_at: new Date(),
-        user_id: 1
+        user_id: await getUserIdFromStorage()
       }).then((res) => {
-        console.log(res.data)
         navigation.navigate("Note")
         setTopicValue('')
         setDescValue('')

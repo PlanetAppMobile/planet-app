@@ -4,6 +4,7 @@ import axios from 'axios';
 import Checkbox from '../components/CheckboxTodo';
 import Checkboxs from "expo-checkbox";
 import path from "../path"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function addLeadingZero(number) {
     let strNumber = number.toString();
@@ -18,14 +19,26 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
     const [addChecked, setAddChecked] = useState(false)
     const [input, setInput] = useState('')
     useEffect(() => {
+        getTodoList()
+    }, [numDay, numMonth, numYear])
+    async function getTodoList() {
         axios.post(`${path}/todolist/searchByDate`, {
             todo_date: `${numYear}-${addLeadingZero(numMonth)}-${addLeadingZero(numDay)}`,
-            user_id: 1,
+            user_id: await getUserIdFromStorage(),
         }).then((res) => {
-            console.log(res.data)
             setTasks(res.data)
         })
-    }, [numDay, numMonth, numYear])
+    }
+    async function getUserIdFromStorage() {
+        try {
+            const value = await AsyncStorage.getItem('@UserId');
+            if (value !== null) {
+                return parseInt(value)
+            }
+        } catch (error) {
+            console.error('Error retrieving data from AsyncStorage:', error);
+        }
+    };
     function handleCheckboxChange(taskId) {
         const updatedTasks = tasks.map((task) => {
             if (task.todo_id === taskId) {
@@ -41,7 +54,6 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
         setTasks(updatedTasks);
     };
     async function handleRemove(todoId) {
-        console.log(todoId, "test")
         try {
             await axios.delete(`${path}/todolist/${todoId}`);
             setTasks((prevTasks) => prevTasks.filter((todo) => todo.todo_id !== todoId));
@@ -55,7 +67,7 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
                 let data = {
                     todo_desc: input,
                     todo_date: `${numYear}-${addLeadingZero(numMonth)}-${addLeadingZero(numDay)}`,
-                    user_id: 1,
+                    user_id: await getUserIdFromStorage(),
                 }
                 await axios.post(`${path}/todolist`, data).then((res) => {
                     setTasks((prevTasks) => [...prevTasks, res.data]);
@@ -83,7 +95,7 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
                     key={todoItem.todo_id}
                     item={todoItem}
                     onValueChange={() => handleCheckboxChange(todoItem.todo_id)}
-                    onRemove={()=> handleRemove(todoItem.todo_id)}
+                    onRemove={() => handleRemove(todoItem.todo_id)}
                 />
             ))}
             {

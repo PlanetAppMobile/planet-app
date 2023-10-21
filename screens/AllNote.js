@@ -5,10 +5,22 @@ import BoxNote from "../components/BoxNote";
 import axios from "axios";
 import path from "../path";
 import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function AllNote({ route, navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
+  async function getUserIdFromStorage() {
+    try {
+      const value = await AsyncStorage.getItem('@UserId');
+      if (value != null) {
+        return parseInt(JSON.parse(value))
+      }
+      console.log(value);
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
   async function getNote() {
-    await axios.get(`${path}/note/1`).then((res) => {
+    await axios.get(`${path}/note/${await getUserIdFromStorage()}`).then((res) => {
       setNote(res.data);
     });
   }
@@ -23,17 +35,17 @@ function AllNote({ route, navigation }) {
       [{ nativeEvent: { contentOffset: { y: scrollY } } }],
       { useNativeDriver: false }
     )}>
-        <Image
-          style={{
-            width: "100%",
-            height: 65,
-            zIndex: 10,
-            backgroundColor: '#FBF7F0'
-          }}
-          source={HeaderPic}
-          resizeMode="contain"
+      <Image
+        style={{
+          width: "100%",
+          height: 65,
+          zIndex: 10,
+          backgroundColor: '#FBF7F0'
+        }}
+        source={HeaderPic}
+        resizeMode="contain"
 
-        />
+      />
       <ScrollView style={{ backgroundColor: "#FBF7F0" }}>
         <View style={{ paddingVertical: 24, paddingHorizontal: 25 }} >
           <View

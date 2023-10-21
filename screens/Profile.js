@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import HeaderPic from "../assets/header-page.png";
 import Profile from "../assets/profile.png";
 import FormInput from "../components/TextInput";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import path from "../path";
 
@@ -30,15 +32,29 @@ function CreateProject({ route, navigation }) {
       setNewPhone(value);
     }
   };
-  useEffect(() => {
-    axios.get(`${path}/user/1`).then((res) => {
-      console.log(res.data);
+  async function getUserIdFromStorage() {
+    try {
+      const value = await AsyncStorage.getItem('@UserId');
+      if (value != null) {
+        return parseInt(JSON.parse(value))
+      }
+      console.log(value);
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
+  const isFocused = useIsFocused()
+  async function getUser() {
+    await axios.get(`${path}/user/${await getUserIdFromStorage()}`).then((res) => {
       setProfile(res.data.users);
       setNewName(res.data.users.user_fullname);
       setNewPhone(res.data.users.user_phoneNumber);
       setNewEmail(res.data.users.user_email);
     });
-  }, []);
+  }
+  useEffect(() => {
+    getUser()
+  }, [isFocused]);
   const [profile, setProfile] = useState([]);
   function handleEdit() {
     if (onEdit == false) {
@@ -52,8 +68,6 @@ function CreateProject({ route, navigation }) {
         .then((res) => {
           console.log(res.data);
         });
-    } else {
-      Alert.alert("Please Input Topic or description Project");
     }
     setOnEdit(!onEdit);
   }
@@ -139,6 +153,10 @@ function CreateProject({ route, navigation }) {
         </TouchableOpacity>
         {onEdit && (
           <TouchableOpacity
+            onPress={() => {
+              AsyncStorage.removeItem('@ProjectLatest:active');
+              navigation.navigate("Login")
+            }}
             style={{
               borderRadius: 5,
               height: 35,

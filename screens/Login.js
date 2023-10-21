@@ -2,7 +2,7 @@ import { View, TextInput, Text, Image, TouchableOpacity, Alert } from "react-nat
 import React, { useState } from "react";
 import BgLogin from "../assets/bg-login.png";
 import FormInput from "../components/TextInput";
-import ButtonText from "../components/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import path from "../path";
 
@@ -48,10 +48,11 @@ function Login({ route, navigation }) {
         email,
         password,
       })
-      .then((res) => {
-        console.log(res.data)
+      .then(async(res) => {
         if(res.data.message == "Login successful"){
-          navigation.navigate("System");
+          await AsyncStorage.setItem('@UserId',JSON.stringify(res.data.userId)).then(()=>{
+            navigation.navigate("System");
+          })
         }else{
           Alert.alert("Your email or Password is invalid")
         }

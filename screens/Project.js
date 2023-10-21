@@ -8,13 +8,22 @@ import path from "../path";
 import axios from "axios";
 
 function Project({ route, navigation }) {
-    const [project, setProject] = useState([])
+    const [project, setProject] = useState()
     const scrollY = useRef(new Animated.Value(0)).current;
     const headerHeight = 65;
-
+    async function getUserIdFromStorage() {
+        try {
+            const value = await AsyncStorage.getItem('@UserId');
+            if (value != null) {
+                return parseInt(JSON.parse(value))
+            }
+            console.log(value);
+        } catch (error) {
+            console.error('Error retrieving data from AsyncStorage:', error);
+        }
+    };
     async function getProject() {
-        await axios.get(`${path}/project`, {
-            user_id: 1,
+        await axios.get(`${path}/project/${await getUserIdFromStorage()}`, {
         }).then((res) => {
             setProject(res.data)
             console.log(res.data);
@@ -100,30 +109,35 @@ function Project({ route, navigation }) {
                     <Text style={{ color: "#848181", fontFamily: "Jura", fontSize: 16 }}>
                         For managing your projects.
                     </Text>
-                    <View style={{ marginTop: 25 }}>
-                        {isFocused && project?.map((item, index) => {
-                            return (
-                                <TouchableOpacity key={index} onPress={() => {
-                                    try {
-                                        const itemString = JSON.stringify(item);
-                                        AsyncStorage.setItem(
-                                            '@ProjectLatest:active',
-                                            itemString,
-                                        );
-                                    } catch (error) {
-                                        console.log(error)
-                                    }
-                                    navigation.navigate("TaskProject", {
-                                        projectId: item.project_id,
-                                        projectName: item.project_name,
-                                        projectStatus: item.project_status
-                                    })
-                                }}>
-                                    <BoxProject data={item} />
-                                </TouchableOpacity>
-                            )
-                        })}
-                    </View>
+                    {
+                        project && project.length > 0 && (
+                            <View style={{ marginTop: 25 }}>
+                                {isFocused && project.map((item, index) => {
+                                    return (
+                                        <TouchableOpacity key={index} onPress={() => {
+                                            try {
+                                                const itemString = JSON.stringify(item);
+                                                AsyncStorage.setItem(
+                                                    '@ProjectLatest:active',
+                                                    itemString,
+                                                );
+                                            } catch (error) {
+                                                console.log(error)
+                                            }
+                                            navigation.navigate("TaskProject", {
+                                                projectId: item.project_id,
+                                                projectName: item.project_name,
+                                                projectStatus: item.project_status
+                                            })
+                                        }}>
+                                            <BoxProject data={item} />
+                                        </TouchableOpacity>
+                                    )
+                                })}
+                            </View>
+                        )
+
+                    }
                 </View>
             </ScrollView>
         </View>

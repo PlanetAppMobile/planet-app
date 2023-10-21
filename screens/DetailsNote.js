@@ -17,6 +17,7 @@ import axios from "axios";
 import path from "../path";
 import Textarea from "react-native-textarea/src/Textarea";
 import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function DetailsNote({ route, navigation }) {
   const [onEdit, setOnEdit] = useState(true);
@@ -27,7 +28,7 @@ function DetailsNote({ route, navigation }) {
   const isFocused = useIsFocused();
   const [newDate, setNewDate] = useState("");
 
-  useEffect(() => {getNote()}, [isFocused]);
+  useEffect(() => { getNote() }, [isFocused]);
   const [note, setNote] = useState([]);
   // console.log(noteId)
   function addLeadingZero(number) {
@@ -38,7 +39,7 @@ function DetailsNote({ route, navigation }) {
     return strNumber;
   }
   async function getNote() {
-    await axios.get(`${path}/note/1/${noteId}`).then((res) => {
+    await axios.get(`${path}/note/${await getUserIdFromStorage()}/${noteId}`).then((res) => {
       console.log(res.data);
       setNote(res.data);
       setNewTopic(res.data.topic);
@@ -54,20 +55,29 @@ function DetailsNote({ route, navigation }) {
     );
     return formattedDate;
   }
-  function handleEdit() {
+  async function getUserIdFromStorage() {
+    try {
+      const value = await AsyncStorage.getItem('@UserId');
+      if (value != null) {
+        return parseInt(JSON.parse(value))
+      }
+      console.log(value);
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
+  async function handleEdit() {
     if (onEdit == false) {
       axios
-        .put(`${path}/note/1/${note.note_id}`, {
+        .put(`${path}/note/${await getUserIdFromStorage()}/${note.note_id}`, {
           topic: newTopic,
           description: newDesc,
           updated_at: new Date(),
-          user_id: 1,
+          user_id: await getUserIdFromStorage(),
         })
         .then((res) => {
           console.log(res.data);
         });
-    } else {
-      Alert.alert("Please Input Topic or description Project");
     }
     setOnEdit(!onEdit);
   }
@@ -84,7 +94,6 @@ function DetailsNote({ route, navigation }) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -100,6 +109,7 @@ function DetailsNote({ route, navigation }) {
                 padding: 0,
                 justifyContent: "center",
                 alignItems: "center",
+                flexDirection:"row"
               }}
             >
               <Text style={styles.modalText}>
@@ -359,6 +369,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
     fontSize: 28,
+    flexShrink:1,
     fontFamily: "JockeyOne",
     letterSpacing: 2,
   },
