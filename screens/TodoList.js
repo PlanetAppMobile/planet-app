@@ -5,6 +5,9 @@ import HeaderPic from "../assets/header-page.png"
 import CalendarItem from '../components/CalendarItem'
 import ListCheckBox from '../components/ListCheckBox'
 
+import DatePicker from '../components/DatePickerTodoList'
+import { useIsFocused } from '@react-navigation/native'
+
 
 
 function daysInMonth(month, year) {
@@ -27,25 +30,27 @@ function getDayObjects(year, month) {
     return dayObjects;
 }
 function TodoList() {
-    // let date = new Date('2023-09-01');
-    let date = new Date();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
+    const [date, setDate] = useState(new Date())
+    const [deadline, setDeadline] = useState(new Date())
+    const [month, setMonth] = useState(date.getMonth()+1)
+    const [year, setYear] = useState(date.getFullYear())
 
     const scrollViewRef = useRef(null);
-
+    const isFocused = useIsFocused()
     useEffect(() => {
         setTimeout(() => {
             if (scrollViewRef.current) {
                 scrollViewRef.current.scrollTo({ x: 75 * (currentDay - 2), animated: true });
             }
         });
-    }, []);
+    }, [isFocused]);
     const [currentDay, setCurrentDay] = useState(date.getDate())
-    const dayList = getDayObjects(year, month);
-
+    const [dayList, setDayList] = useState(getDayObjects(year,month))
+    
     const [focusedItemIndex, setFocusedItemIndex] = useState(null);
     const handleCalendarItemPress = (index) => {
+        console.log("deadklds" , deadline , `${year}-${month}-${index+1}`);
+        setDeadline(`${year}-${month}-${index+1}`)
         setCurrentDay(index + 1)
         if (focusedItemIndex === index) {
             setFocusedItemIndex(null);
@@ -64,12 +69,25 @@ function TodoList() {
                 <View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
                         <View>
-                            <Text style={{ fontSize: 28, letterSpacing: 3, fontFamily: "JockeyOne", }}>
+                            <Text style={{ fontSize: 32, letterSpacing: 3, fontFamily: "JockeyOne", }}>
                                 TO DO LIST
                             </Text>
                         </View>
                         <View >
-                            <Text style={{ fontFamily: 'Jura' }}>Feb,2023</Text>
+                            {
+                                isFocused &&
+                            (<DatePicker
+                                defaultDate={deadline}
+                                onDateChange={(value) => {
+                                    setMonth(new Date(value).getMonth()+1)
+                                    setYear(new Date(value).getFullYear())
+                                    setCurrentDay(new Date(value).getDate())
+                                    setDayList(getDayObjects(new Date(value).getMonth()+1, new Date(value).getFullYear()))
+                                    // console.log("date", new Date(value).getMonth());
+                                    setDeadline(value)
+                                }}
+                            />)
+                            }
                         </View>
                     </View>
                 </View>
@@ -82,7 +100,7 @@ function TodoList() {
                         flexDirection: "row",
                         overflow: "scroll",
                     }}>
-                    {dayList.map((item, index) => (
+                    {isFocused && dayList.map((item, index) => (
                         <CalendarItem
                             isChecked={currentDay}
                             key={index}

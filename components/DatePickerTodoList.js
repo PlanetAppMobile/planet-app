@@ -14,7 +14,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 const DatePicker = (props) => {
     const { defaultDate, onDateChange } = props
 
-    const [date, setDate] = useState(new Date(defaultDate))
+    const [date, setDate] = useState(new Date(props.defaultDate))
     const [show, setShow] = useState(false)
     const [maxDate, setMaxDate] = useState(new Date(2099-12-30));
 
@@ -78,7 +78,7 @@ const DatePicker = (props) => {
                                 style={styles.pickerContainer}
                             >
                                 <View style={{ backgroundColor: '#fff' }}>
-                                    <View style={{ marginTop: 20 }}>{renderDatePicker()}</View>
+                                    <View style={{ marginTop: 20 }}>{ renderDatePicker()}</View>
                                     <TouchableHighlight
                                         underlayColor={'transparent'}
                                         onPress={onCancelPress}
@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
         bottom: 0,
     },
     box: {
-        borderWidth: 1,
         padding: 6,
         borderColor: "#768592",
         borderRadius: 3,

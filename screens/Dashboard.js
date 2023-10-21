@@ -11,7 +11,6 @@ import {
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import path from "../path"
-import Checkbox from "expo-checkbox";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import TaskStatusItem from "../components/TaskStatusItem";
 import CalendarPiechart from "../components/PiechartDashboard";
@@ -146,7 +145,7 @@ function Dashboard({ route, navigation }) {
             <View>
               <Text
                 style={{
-                  fontSize: 28,
+                  fontSize: 32,
                   letterSpacing: 3,
                   fontFamily: "JockeyOne",
                 }}
@@ -158,11 +157,14 @@ function Dashboard({ route, navigation }) {
               </Text>
             </View>
             <View style={{ alignItems: "center", flexDirection: "row" }}>
-              <Image
-                style={{ width: 35, height: 35 }}
-                source={NotificationIcon}
-                resizeMode="contain"
-              />
+              <TouchableOpacity onPress={() => { navigation.navigate("Notification") }}>
+                <Image
+                  style={{ width: 35, height: 35 }}
+                  source={NotificationIcon}
+                  resizeMode="contain"
+                />
+
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => { navigation.navigate("Profile") }}>
                 <Image
                   style={{ width: 45, height: 45, marginLeft: 15 }}

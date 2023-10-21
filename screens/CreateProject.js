@@ -25,7 +25,7 @@ function CreateProject({ route, navigation }) {
             axios.post(`${path}/project`, {
                 name: inputValue,
                 description: description,
-                deadline: date,
+                deadline: deadline,
                 start_date: date,
                 end_date: date,
                 status: "On going",

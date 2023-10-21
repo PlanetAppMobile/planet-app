@@ -27,7 +27,6 @@ function Project({ route, navigation }) {
 
     return (
         <View style={{ flex: 1 }}>
-            
             <Image
                 style={{
                     width: "100%",

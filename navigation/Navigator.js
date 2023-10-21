@@ -20,6 +20,7 @@ import CreateProject from "../screens/CreateProject"
 import TaskProject from "../screens/TaskProject"
 import Loading from "../screens/Loading"
 import Profile from "../screens/Profile"
+import Notification from '../screens/Notification';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
@@ -32,6 +33,7 @@ function MainNavigator() {
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
             <MNavigator.Screen name="Register" component={Register} />
+            <MNavigator.Screen name="Notification" component={Notification} />
             <MNavigator.Screen name="CreateProject" component={CreateProject} />
             <MNavigator.Screen name="ResetPassword" component={ResetPassword} />
             <MNavigator.Screen name="TaskProject" component={TaskProject} />
@@ -50,7 +52,7 @@ function NoteNavigator() {
 }
 function MenuNavigator() {
     return (
-        <BottomTabNavigator.Navigator initialRouteName="Dashboard" screenOptions={{
+        <BottomTabNavigator.Navigator initialRouteName="Todolist" screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
             tabBarStyle: {
