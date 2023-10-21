@@ -20,6 +20,7 @@ import CreateProject from "../screens/CreateProject"
 import TaskProject from "../screens/TaskProject"
 import Loading from "../screens/Loading"
 import Profile from "../screens/Profile"
+import Notification from '../screens/Notification';
 
 const MNavigator = createNativeStackNavigator();
 const BottomTabNavigator = createBottomTabNavigator();
@@ -27,11 +28,12 @@ const NoteStackNavigator = createNativeStackNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="System" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="Homepage" screenOptions={{ headerShown: false }}>
             <MNavigator.Screen name="Loading" component={Loading} />
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />
             <MNavigator.Screen name="Register" component={Register} />
+            <MNavigator.Screen name="Notification" component={Notification} />
             <MNavigator.Screen name="CreateProject" component={CreateProject} />
             <MNavigator.Screen name="ResetPassword" component={ResetPassword} />
             <MNavigator.Screen name="TaskProject" component={TaskProject} />

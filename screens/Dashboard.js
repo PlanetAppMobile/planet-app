@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
   ScrollView,
   LogBox,
-  Animated
+  Animated,
+  Modal
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import path from "../path"
-import Checkbox from "expo-checkbox";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import TaskStatusItem from "../components/TaskStatusItem";
 import CalendarPiechart from "../components/PiechartDashboard";
@@ -77,6 +77,17 @@ function Dashboard({ route, navigation }) {
       console.error('Error retrieving data from AsyncStorage:', error);
     }
   };
+  async function getUserIdFromStorage() {
+    try {
+      const value = await AsyncStorage.getItem('@UserId');
+      if (value != null) {
+        return parseInt(JSON.parse(value))
+      }
+      console.log(value);
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
   const isFocused = useIsFocused()
   const currentDate = new Date()
   const currentMonth = currentDate.getMonth() + 1
@@ -84,14 +95,13 @@ function Dashboard({ route, navigation }) {
 
 
   async function getNote() {
-    await axios.get(`${path}/note/1`).then((res) => {
-      console.log(res.data);
+    await axios.get(`${path}/note/${await getUserIdFromStorage()}`).then((res) => {
       setNote(res.data);
     });
   }
   useEffect(() => {
-    getNote()
     getItemFromStorage()
+    getNote()
   }, [isFocused])
   const [note, setNote] = useState()
   return (
@@ -146,7 +156,7 @@ function Dashboard({ route, navigation }) {
             <View>
               <Text
                 style={{
-                  fontSize: 28,
+                  fontSize: 32,
                   letterSpacing: 3,
                   fontFamily: "JockeyOne",
                 }}
@@ -158,11 +168,14 @@ function Dashboard({ route, navigation }) {
               </Text>
             </View>
             <View style={{ alignItems: "center", flexDirection: "row" }}>
-              <Image
-                style={{ width: 35, height: 35 }}
-                source={NotificationIcon}
-                resizeMode="contain"
-              />
+              <TouchableOpacity onPress={() => { navigation.navigate("Notification") }}>
+                <Image
+                  style={{ width: 35, height: 35 }}
+                  source={NotificationIcon}
+                  resizeMode="contain"
+                />
+
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => { navigation.navigate("Profile") }}>
                 <Image
                   style={{ width: 45, height: 45, marginLeft: 15 }}
@@ -205,7 +218,6 @@ function Dashboard({ route, navigation }) {
         </View>
         {note && (
           <View style={{ marginTop: 30, ...styles.containerBox }}>
-            {console.log("ds", note)}
             <View style={styles.headerBox}>
               <Text style={styles.headerText}>Note</Text>
               <TouchableOpacity

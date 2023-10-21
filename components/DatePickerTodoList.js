@@ -16,9 +16,8 @@ const DatePicker = (props) => {
     const [date, setDate] = useState(new Date(defaultDate))
     const [show, setShow] = useState(false)
     const [maxDate, setMaxDate] = useState(new Date("2050-01-01"));
-    console.log(maxDate);
     useEffect(() => {
-        // onChange("",new Date(props.defaultDate))
+        onChange("",new Date(props.defaultDate))
     }, [defaultDate])
     const onChange = (e, selectedDate) => {
         setDate(new Date(selectedDate))
@@ -48,7 +47,7 @@ const DatePicker = (props) => {
                     value={date}
                     mode='date'
                     timeZoneOffsetInMinutes={0}
-                    minimumDate={new Date()}
+                    minimumDate={new Date('2000-01-01')}
                     maximumDate={maxDate}
                     onChange={Platform.OS === 'ios' ? onChange : onAndroidChange}
                 />
@@ -116,7 +115,6 @@ const styles = StyleSheet.create({
         bottom: 0,
     },
     box: {
-        borderWidth: 1,
         padding: 6,
         borderColor: "#768592",
         borderRadius: 3,
@@ -149,5 +147,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         paddingHorizontal: 10,
         paddingVertical: 5,
+        color: 'blue'
     },
 })
