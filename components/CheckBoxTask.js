@@ -30,7 +30,7 @@ function CustomCheckbox({ item, onValueChange, onRemove, type }) {
                     }}
                     color={item.task_status == "done" ? "#FFAA9B" : undefined}
                 />
-                <Text style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura", textDecorationLine: item.task_status == "done" ? 'line-through' : 'none' }}>
+                <Text style={{ fontSize:16, marginLeft: 15, color: "#768592", fontFamily: "Jura", textDecorationLine: item.task_status == "done" ? 'line-through' : 'none' }}>
                     {item.task_name}
                 </Text>
             </View>

@@ -20,6 +20,7 @@ export default function BoxNote({ data, index }) {
         style={{
           borderColor: "#D9DADA",
           width: 170,
+          height: 190,
           borderWidth: 2,
           paddingHorizontal: 5,
           paddingVertical: 8,
@@ -27,7 +28,7 @@ export default function BoxNote({ data, index }) {
           justifyContent: "space-between",
         }}
       >
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: 10}}>
           <View>
             <Text
               style={{ fontSize: 50, fontFamily: "Jura", color: "#8A97A0" }}
@@ -45,17 +46,20 @@ export default function BoxNote({ data, index }) {
               {data.topic}
             </Text>
           </View>
+        </View>
           <Text
             style={{
               fontSize: 15,
               color: "#B5B7B9",
               fontFamily: "Jura",
               marginTop: 26,
+              bottom:20,
+              left:15,
+              position:'absolute'
             }}
           >
             {formatDate(data.updated_at)}
           </Text>
-        </View>
       </View>
     </View>
   );

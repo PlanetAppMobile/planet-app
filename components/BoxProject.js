@@ -56,6 +56,7 @@ function BoxProject({ data }) {
                                     color: "#00213F",
                                     fontFamily: "Jura",
                                     fontWeight: "bold",
+                                    textDecorationLine: project_status == 'Done' ? 'line-through' : 'none'
                                 }}
                             >
                                 {project_name}

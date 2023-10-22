@@ -87,7 +87,7 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
                     {!addChecked ? (<Image
                         style={{ width: 30, height: 30 }}
                         source={require("../assets/button.png")}
-                    />) : <Text style={{ fontFamily: 'copper', color: "#E5725D" }}>Done</Text>}
+                    />) : <Text style={{ fontSize:14, fontFamily: 'copper', color: "#E5725D", fontFamily:"Copper" }}>DONE</Text>}
                 </TouchableOpacity>
             </View>
             {tasks?.map((todoItem, _) => (
@@ -115,7 +115,7 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
                             value={input}
                             onChangeText={(val) => setInput(val)}
                             placeholder='Enter Your task here...'
-                            style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura", padding: '4px 10px', }}>
+                            style={{fontSize:16,  marginLeft: 15, color: "#768592", fontFamily: "Jura", padding: '4px 10px', }}>
                         </TextInput>
 
                     </View>
