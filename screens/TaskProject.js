@@ -61,6 +61,7 @@ function TaskProject({ route, navigation }) {
                                 padding: 0,
                                 justifyContent: "center",
                                 alignItems: "center",
+                                flexDirection: "row"
                             }}
                         >
                             <Text style={styles.modalText2}>

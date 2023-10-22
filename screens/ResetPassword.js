@@ -19,7 +19,7 @@ function ResetPassword({route, navigation}) {
       ></Image>
       <TouchableOpacity onPress={()=>{navigation.navigate("Login")}}>
         <Image
-          style={{ width: "100%", height: 40, left: -155, marginTop: 15 }}
+          style={{ width: "100%", height: 40, left: -165, marginTop: 15 }}
           source={BackIcon}
           resizeMode="contain"
         ></Image>

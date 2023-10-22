@@ -143,7 +143,7 @@ function Login({ route, navigation }) {
               navigation.navigate("Register");
             }}
           >
-            <Text style={{ color: "#E5725D", fontWeight: 500 }}>SIGN UP</Text>
+            <Text style={{ color: "#E5725D", fontSize: 16, fontFamily:"Jura" }}>SIGN UP</Text>
           </TouchableOpacity>
         </Text>
       </View>

@@ -121,6 +121,7 @@ export default function Register({ route, navigation }) {
             fontFamily: "JockeyOne",
             letterSpacing: 5,
             color: "#00213F",
+            marginBottom: 10
           }}
         >
           REGISTER
@@ -186,7 +187,7 @@ export default function Register({ route, navigation }) {
               navigation.navigate("Login");
             }}
           >
-            <Text style={{ color: "#E5725D", fontWeight: 500 }}>SIGN IN</Text>
+            <Text style={{ color: "#E5725D", fontSize: 16, fontFamily: "Jura" }}>SIGN IN</Text>
           </TouchableOpacity>
         </Text>
       </View>
