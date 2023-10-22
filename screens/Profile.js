@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect } from "react";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import HeaderPic from "../assets/header-page.png";
 import Profile from "../assets/profile.png";
@@ -34,26 +34,28 @@ function CreateProject({ route, navigation }) {
   };
   async function getUserIdFromStorage() {
     try {
-      const value = await AsyncStorage.getItem('@UserId');
+      const value = await AsyncStorage.getItem("@UserId");
       if (value != null) {
-        return parseInt(JSON.parse(value))
+        return parseInt(JSON.parse(value));
       }
       console.log(value);
     } catch (error) {
-      console.error('Error retrieving data from AsyncStorage:', error);
+      console.error("Error retrieving data from AsyncStorage:", error);
     }
-  };
-  const isFocused = useIsFocused()
+  }
+  const isFocused = useIsFocused();
   async function getUser() {
-    await axios.get(`${path}/user/${await getUserIdFromStorage()}`).then((res) => {
-      setProfile(res.data.users);
-      setNewName(res.data.users.user_fullname);
-      setNewPhone(res.data.users.user_phoneNumber);
-      setNewEmail(res.data.users.user_email);
-    });
+    await axios
+      .get(`${path}/user/${await getUserIdFromStorage()}`)
+      .then((res) => {
+        setProfile(res.data.users);
+        setNewName(res.data.users.user_fullname);
+        setNewPhone(res.data.users.user_phoneNumber);
+        setNewEmail(res.data.users.user_email);
+      });
   }
   useEffect(() => {
-    getUser()
+    getUser();
   }, [isFocused]);
   const [profile, setProfile] = useState([]);
   function handleEdit() {
@@ -154,8 +156,8 @@ function CreateProject({ route, navigation }) {
         {onEdit && (
           <TouchableOpacity
             onPress={() => {
-              AsyncStorage.removeItem('@ProjectLatest:active');
-              navigation.navigate("Login")
+              AsyncStorage.removeItem("@ProjectLatest:active");
+              navigation.navigate("Login");
             }}
             style={{
               borderRadius: 5,

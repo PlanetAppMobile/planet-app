@@ -65,7 +65,7 @@ function ListCheckBox({ data, type, title, projectId, getTask, projectStatus }) 
                         {!addChecked ? (<Image
                             style={{ width: 30, height: 30 }}
                             source={require("../assets/button.png")}
-                        />) : <Text style={{ fontFamily: 'copper', color: "#E5725D" }}>Done</Text>}
+                        />) : <Text style={{ fontFamily: 'Copper', color: "#E5725D", fontSize:15 }}>DONE</Text>}
                     </TouchableOpacity>
 
                 )}
@@ -98,7 +98,7 @@ function ListCheckBox({ data, type, title, projectId, getTask, projectStatus }) 
                             value={input}
                             onChangeText={(val) => setInput(val)}
                             placeholder='Enter Your task here...'
-                            style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura", padding: '4px 10px', }}>
+                            style={{ fontSize:16,marginLeft: 15, color: "#768592", fontFamily: "Jura", padding: '4px 10px', }}>
                         </TextInput>
 
                     </View>

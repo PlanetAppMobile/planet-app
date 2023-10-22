@@ -29,7 +29,7 @@ function CustomCheckbox({ item, onValueChange, onRemove }) {
                 }}
                 color={item.todo_checked ? "#FFAA9B" : undefined}
             />
-            <Text style={{ marginLeft: 15, color: "#B7BBBB", fontFamily: "Jura", textDecorationLine: item.todo_checked ? 'line-through' : 'none' }}>
+            <Text style={{ fontSize:16 , marginLeft: 15, color: "#768592", fontFamily: "Jura", textDecorationLine: item.todo_checked ? 'line-through' : 'none' }}>
                 {item.todo_desc}
             </Text>
         </View>

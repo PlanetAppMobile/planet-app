@@ -228,7 +228,7 @@ function Dashboard({ route, navigation }) {
                 }}
               >
                 <Image
-                  style={{ width: 25, height: 25 }}
+                  style={{ width:30, height: 30 }}
                   source={require("../assets/button.png")}
                 />
               </TouchableOpacity>

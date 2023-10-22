@@ -31,9 +31,10 @@ function FormInput({ labelText, handleChange, value, valid, disabled }) {
           padding: 6,
           borderColor: "#768592",
           borderRadius: 3,
-          marginBottom: 5,
+          marginBottom: 15,
           fontFamily: 'Jura',
           color: "#768592",
+          fontSize:16
         }}
         disabled={disable}
         value={value} // Pass the value to the TextInput
