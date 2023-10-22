@@ -73,7 +73,7 @@ export default function AddNote({ route, navigation }) {
       <TouchableOpacity onPress={() => { navigation.navigate("Note") }}>
 
         <Image
-          style={{ width: "100%", height: 40, left: -155 }}
+          style={{ width: "100%", height: 40, left: -165 }}
           source={BackIcon}
           resizeMode="contain"
         ></Image>

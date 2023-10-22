@@ -96,7 +96,7 @@ export default function Notification({ route, navigation }) {
                     navigation.navigate("System")
                 }}>
                     <Image
-                        style={{ width: "100%", height: 40, left: -175 }}
+                        style={{ width: "100%", height: 40, left: -165 }}
                         source={BackIcon}
                         resizeMode="contain"
                     ></Image>

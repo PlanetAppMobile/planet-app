@@ -37,6 +37,7 @@ function FormInput({ labelText, handleChange, value, valid, disabled }) {
           fontSize:16
         }}
         disabled={disable}
+        editable={!disable}
         value={value} // Pass the value to the TextInput
         onChangeText={(value) => handleChange(labelText, value)} // Capture changes and call handleChange
       ></TextInput>

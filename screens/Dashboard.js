@@ -29,19 +29,19 @@ function GenerateEdit(props) {
       style={{
         borderColor: "#D9DADA",
         borderTopWidth: 1,
-        padding: 24,
+        padding: 18,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
       }}
     >
-      <Text style={{ marginLeft: 15, color: "#B7BBBB" }}>{props.text}</Text>
+      <Text style={{color: "#768592", fontSize :16, fontFamily: "Jura" }}>{props.text}</Text>
       <TouchableOpacity onPress={() => props.navigation.navigate("DetailNote", {
         noteId: props.noteId,
         noNote: props.noo
       })}>
         <Image
-          style={{ width: 30, height: 30, marginLeft: 20 }}
+          style={{ width: 25, height: 25, marginLeft: 20 }}
           source={require("../assets/edit.png")}
         />
 

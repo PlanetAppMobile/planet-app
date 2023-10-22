@@ -282,6 +282,7 @@ function DetailsNote({ route, navigation }) {
                     }}
                     value={newTopic}
                     disabled={onEdit}
+                    editable={!onEdit}
                   ></TextInput>
                 </View>
 
@@ -313,6 +314,7 @@ function DetailsNote({ route, navigation }) {
                   height: 350,
                 }}
                 disabled={onEdit}
+                editable={!onEdit}
               ></Textarea>
               <Text
                 style={{
