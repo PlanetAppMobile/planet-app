@@ -173,7 +173,7 @@ function Dashboard({ route, navigation }) {
                   fontFamily: "JockeyOne",
                 }}
               >
-                Hi, {fullname}
+                Hi, {fullname?.split(' ')[0]}
               </Text>
               <Text style={{ fontSize: 18, marginTop: 5, fontFamily: "Jura" }}>
                 What's Up Today?

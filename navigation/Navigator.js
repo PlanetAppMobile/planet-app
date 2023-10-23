@@ -28,7 +28,7 @@ const NoteStackNavigator = createNativeStackNavigator();
 
 function MainNavigator() {
     return (
-        <MNavigator.Navigator initialRouteName="Homepage" screenOptions={{ headerShown: false }}>
+        <MNavigator.Navigator initialRouteName="System" screenOptions={{ headerShown: false }}>
             <MNavigator.Screen name="Loading" component={Loading} />
             <MNavigator.Screen name="Homepage" component={Homepage} />
             <MNavigator.Screen name="Login" component={Login} />

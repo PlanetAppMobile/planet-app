@@ -58,8 +58,9 @@ function CreateProject({ route, navigation }) {
     getUser();
   }, [isFocused]);
   const [profile, setProfile] = useState([]);
-  function handleEdit() {
+  async function handleEdit() {
     if (onEdit == false) {
+      await AsyncStorage.setItem('@Username', JSON.stringify(newName))
       axios
         .put(`${path}/user`, {
           fullName: newName,
