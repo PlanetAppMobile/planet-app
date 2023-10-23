@@ -49,10 +49,12 @@ function Login({ route, navigation }) {
         password,
       })
       .then(async(res) => {
-        if(res.data.message == "Login successful"){
-          await AsyncStorage.setItem('@UserId',JSON.stringify(res.data.userId)).then(()=>{
-            navigation.navigate("System");
-          })
+        if (res.data.message == "Login successful") {
+          await AsyncStorage.setItem('@UserId', JSON.stringify(res.data.userId)).then(async () => {
+            await AsyncStorage.setItem('@Username', JSON.stringify(res.data.username)).then(() => {
+              navigation.navigate("System");
+            })
+        })
         }else{
           Alert.alert("Your email or Password is invalid")
         }
