@@ -93,8 +93,20 @@ function Dashboard({ route, navigation }) {
   const currentMonth = currentDate.getMonth() + 1
   const currentDay = currentDate.getDate()
 
-
+  async function getUsernameFromStorage() {
+    try {
+      const value = await AsyncStorage.getItem('@Username');
+      if (value != null) {
+        return JSON.parse(value)
+      }
+      console.log(value);
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
+  const [fullname, setFullname] = useState()
   async function getNote() {
+    setFullname(await getUsernameFromStorage())
     await axios.get(`${path}/note/${await getUserIdFromStorage()}`).then((res) => {
       setNote(res.data);
     });
@@ -161,7 +173,7 @@ function Dashboard({ route, navigation }) {
                   fontFamily: "JockeyOne",
                 }}
               >
-                Hi, Soksak
+                Hi, {fullname}
               </Text>
               <Text style={{ fontSize: 18, marginTop: 5, fontFamily: "Jura" }}>
                 What's Up Today?
