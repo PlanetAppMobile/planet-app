@@ -1,10 +1,53 @@
-import { View, TextInput, Text, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, TextInput, Text, Image, TouchableOpacity, Alert } from "react-native";
+import React, { useState } from "react";
 import BgLogin from "../assets/bg-login.png";
 import FormInput from "../components/TextInput";
 import ButtonText from "../components/Button"
 import BackIcon from "../assets/icons/back-icon.png";
-function ResetPassword({route, navigation}) {
+import axios from "axios";
+import path from "../path";
+function ResetPassword({ route, navigation }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [cpassword, setCPassword] = useState('')
+  const [validConfirm, setValidConfirm] = useState(false)
+  const handleInputChange = (labelText, value) => {
+    if (labelText == "Username or email") {
+      setEmail(value);
+    }
+    if (labelText == "Password") {
+      setPassword(value);
+    }
+    if (labelText == "Confirm New Password") {
+      if (value == password) {
+        setValidConfirm(false)
+      } else {
+        setValidConfirm(true)
+      }
+      setCPassword(value);
+    }
+  };
+  function onSubmitChange() {
+    if (email != '' && password != '' && cpassword != '' && validConfirm == false) {
+      console.log(2);
+      try {
+        axios
+          .put(`${path}/user/changepassword`, {
+            email,
+            password,
+          })
+          .then((res) => {
+            if (res.data.message != undefined && res.data.message != null) {
+              navigation.navigate("Login");
+            } else {
+              Alert.alert('User not found')
+            }
+          });
+      } catch (er) {
+        Alert.alert('User not found')
+      }
+    }
+  }
   return (
     <View
       style={{
@@ -17,7 +60,7 @@ function ResetPassword({route, navigation}) {
         source={BgLogin}
         resizeMode="contain"
       ></Image>
-      <TouchableOpacity onPress={()=>{navigation.navigate("Login")}}>
+      <TouchableOpacity onPress={() => { navigation.navigate("Login") }}>
         <Image
           style={{ width: "100%", height: 40, left: -165, marginTop: 15 }}
           source={BackIcon}
@@ -36,10 +79,23 @@ function ResetPassword({route, navigation}) {
         >
           Reset Password
         </Text>
-        <FormInput labelText={"Username or email"}/>
-        <FormInput labelText={"Password"}/>
-        <FormInput labelText={"Confirm New Password"}/>
-        <TouchableOpacity onPress={()=>{navigation.navigate("Login")}}
+        <FormInput
+          handleChange={handleInputChange}
+          value={email}
+          labelText={"Username or email"}
+        />
+        <FormInput
+          handleChange={handleInputChange}
+          value={password}
+          labelText={"Password"}
+        />
+        <FormInput
+          handleChange={handleInputChange}
+          value={cpassword}
+          labelText={"Confirm New Password"}
+          valid={validConfirm}
+        />
+        <TouchableOpacity onPress={onSubmitChange}
           style={{
             borderRadius: 5,
             height: 35,
@@ -49,9 +105,9 @@ function ResetPassword({route, navigation}) {
             marginTop: 15,
           }}
         >
-          <Text style={{ fontSize: 15, color: "white", fontFamily:'Copper' }}>RESET PASSWORD</Text>
+          <Text style={{ fontSize: 15, color: "white", fontFamily: 'Copper' }}>RESET PASSWORD</Text>
         </TouchableOpacity>
-        
+
       </View>
     </View>
   );

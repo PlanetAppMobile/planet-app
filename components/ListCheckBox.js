@@ -12,6 +12,7 @@ import Checkbox from "../components/CheckboxTodo";
 import Checkboxs from "expo-checkbox";
 import path from "../path";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 function addLeadingZero(number) {
   let strNumber = number.toString();
@@ -26,9 +27,10 @@ function ListCheckBox({ numDay, numMonth, numYear }) {
   const [tasks, setTasks] = useState([]);
   const [addChecked, setAddChecked] = useState(false);
   const [input, setInput] = useState("");
+  const isFocused = useIsFocused()
   useEffect(() => {
     getTodoList();
-  }, [numDay, numMonth, numYear]);
+  }, [numDay, numMonth, numYear, isFocused]);
 
   function checkToday() {
     if (
